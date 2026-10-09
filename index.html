@@ -1,0 +1,1328 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>RF 공학계산기</title>
+<meta name="description" content="광고 없는 오프라인 공학계산기">
+<meta name="theme-color" content="#e3e7ed" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1116" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RF계산기">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/jbm-400.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:swap;src:url(fonts/jbm-500.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:600;font-style:normal;font-display:swap;src:url(fonts/jbm-600.woff2) format("woff2")}
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{overscroll-behavior:none}
+body{margin:0;font-size:14px}
+img{max-width:100%}
+[hidden]{display:none!important}
+.install{flex:none;display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:8px 8px 8px 12px;background:var(--surface);border:1px solid var(--accent);border-radius:12px}
+.install-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--ink-soft);line-height:1.4}
+.install-t strong{font-size:13px;color:var(--ink);font-weight:600}
+.install-go{flex:none;border:0;background:var(--accent);color:var(--on-accent);border-radius:8px;padding:8px 12px;font:600 13px var(--font-ui);cursor:pointer}
+.install-x{flex:none;border:0;background:transparent;color:var(--ink-soft);font:500 16px var(--font-ui);padding:6px 8px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<style>
+/* Layout: one-screen bench instrument — dark readout screen over a 5-column keypad; RF and history tabs scroll inside the same frame */
+:root{
+  --ground:#e3e7ed; --surface:#f2f4f7; --key:#fbfcfd; --key-fn:#d7dde6; --key-op:#c9d6e8;
+  --ink:#141d28; --ink-soft:#5a6677; --line:#c2cad5; --press:rgba(20,40,70,.12);
+  --accent:#1f5aa6; --on-accent:#ffffff; --shift:#b0560e; --on-shift:#ffffff;
+  --screen:#17212c; --screen-ink:#eef3f9; --screen-soft:#8798ae; --screen-line:#2c3948;
+  --danger:#b42318; --danger-screen:#ff8f7d;
+  --font-ui:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --font-num:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0d1116; --surface:#151b22; --key:#232b35; --key-fn:#1a2129; --key-op:#1f2f45;
+    --ink:#e5ebf2; --ink-soft:#91a0b2; --line:#2b3440; --press:rgba(255,255,255,.09);
+    --accent:#3f82da; --on-accent:#ffffff; --shift:#efa04f; --on-shift:#10141a;
+    --screen:#06090d; --screen-ink:#f1f5fa; --screen-soft:#7b8b9f; --screen-line:#1e2833;
+    --danger:#f08070; --danger-screen:#ff8f7d; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0d1116; --surface:#151b22; --key:#232b35; --key-fn:#1a2129; --key-op:#1f2f45;
+  --ink:#e5ebf2; --ink-soft:#91a0b2; --line:#2b3440; --press:rgba(255,255,255,.09);
+  --accent:#3f82da; --on-accent:#ffffff; --shift:#efa04f; --on-shift:#10141a;
+  --screen:#06090d; --screen-ink:#f1f5fa; --screen-soft:#7b8b9f; --screen-line:#1e2833;
+  --danger:#f08070; --danger-screen:#ff8f7d; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;box-sizing:border-box}
+body{height:100%;background:var(--ground);color:var(--ink);font-family:var(--font-ui);-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.app{height:100%;max-width:460px;margin:0 auto;display:flex;flex-direction:column;padding-inline:16px;padding-block:10px 12px}
+
+/* tabs */
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;flex:none}
+.tab{border:0;background:transparent;border-radius:8px;padding:8px 4px;font:500 14px var(--font-ui);color:var(--ink-soft);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--key);color:var(--ink);box-shadow:0 1px 0 var(--line),0 0 0 1px var(--line)}
+
+.panel{flex:1;min-height:0;display:flex;flex-direction:column}
+.panel.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+/* screen */
+.screen{flex:1 1 auto;min-height:136px;margin-block:10px;background:var(--screen);color:var(--screen-ink);border:1px solid var(--screen-line);border-radius:16px;padding:10px 14px 12px;display:flex;flex-direction:column;gap:4px;overflow:hidden}
+.status{display:flex;align-items:center;gap:6px;flex:none}
+.chip{font:600 11px/1 var(--font-num);letter-spacing:.08em;padding:6px 9px;border-radius:6px;border:1px solid var(--screen-line);background:transparent;color:var(--screen-ink);cursor:pointer}
+.chip .alt{color:var(--screen-soft)}
+.shift-ind{font:600 11px/1 var(--font-num);letter-spacing:.08em;color:var(--on-shift);background:var(--shift);padding:5px 7px;border-radius:5px}
+.ans-ro{margin-left:auto;font:400 12px var(--font-num);color:var(--screen-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.expr{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;justify-content:flex-end;scrollbar-width:none}
+.expr::-webkit-scrollbar{display:none}
+.expr-text{font:400 19px/1.4 var(--font-num);text-align:right;word-break:break-all;color:var(--screen-ink)}
+.expr-text.done{color:var(--screen-soft);font-size:16px}
+.caret{display:inline-block;width:2px;height:1.05em;margin-left:1px;background:var(--shift);vertical-align:-.17em;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.result{flex:none;font:500 40px/1.15 var(--font-num);text-align:right;white-space:nowrap;overflow-x:auto;overflow-y:hidden;min-height:48px;scrollbar-width:none;font-variant-numeric:tabular-nums;cursor:copy;background:none;border:0;padding:0;color:var(--screen-ink);width:100%}
+.result::-webkit-scrollbar{display:none}
+.result.preview{color:var(--screen-soft)}
+.result.err{color:var(--danger-screen);font:500 20px/2.3 var(--font-ui);cursor:default}
+.result .x10{font-size:.62em;margin-left:.15em;color:inherit}
+.result sup{font-size:.62em;vertical-align:.75em;line-height:0}
+.pfx{display:inline-block;margin-left:.35em;font:600 .42em/1 var(--font-ui);padding:.28em .45em;border:1px solid currentColor;border-radius:.35em;vertical-align:.5em}
+
+/* keypad */
+.keys{flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:clamp(46px,7.2vh,62px);gap:7px}
+@supports (height:1dvh){.keys{grid-auto-rows:clamp(46px,7.2dvh,62px)}}
+.key{position:relative;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--key);color:var(--ink);border-radius:10px;font:500 22px var(--font-num);cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;box-shadow:0 1px 0 var(--line);padding:0}
+.key:active{box-shadow:inset 0 0 0 100px var(--press);transform:translateY(1px)}
+.key.fn{background:var(--key-fn);font-size:16px}
+.key.op{background:var(--key-op);font-size:24px}
+.key.ac{color:var(--danger);font-size:17px;font-weight:600}
+.key.bs{font-size:26px;font-family:var(--font-ui)}
+.key.ansk{font-size:16px}
+.key.eq{background:var(--accent);color:var(--on-accent);border-color:transparent;font-size:28px}
+.key sup{font-size:.62em;vertical-align:.55em;line-height:0}
+.key .lg{position:absolute;top:4px;left:0;right:0;font:600 10px/1 var(--font-num);color:var(--shift);text-align:center;pointer-events:none}
+.key .lg sup{font-size:.8em;vertical-align:.35em}
+.key.has-lg .main{transform:translateY(5px)}
+.key.armed .main{color:var(--shift)}
+.key.shift-key{font-size:15px;font-weight:600}
+.key.shift-key.on{background:var(--shift);color:var(--on-shift);border-color:transparent}
+
+/* RF */
+.rf{display:flex;flex-direction:column;gap:12px;padding-block:12px 24px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:12px}
+.card-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.card h2{margin:0;font:600 15px/1.3 var(--font-ui);text-wrap:balance}
+.card .sub{font-size:12px;color:var(--ink-soft)}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px}
+.field{min-width:0}
+.field label{display:block;font:500 12px/16px var(--font-ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink-soft);margin-bottom:5px}
+.inwrap{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:8px;background:var(--key);overflow:hidden;min-width:0}
+.inwrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.inwrap.bad{border-color:var(--danger)}
+.inwrap input{flex:1;min-width:0;width:100%;border:0;background:transparent;color:var(--ink);font:500 16px var(--font-num);padding:9px 10px;font-variant-numeric:tabular-nums}
+.inwrap input:focus{outline:none}
+.unit{flex:none;display:flex;align-items:center;padding:0 9px;border:0;border-left:1px solid var(--line);background:transparent;color:var(--ink-soft);font:500 13px var(--font-ui)}
+select.unit{cursor:pointer;appearance:none;-webkit-appearance:none;padding-right:20px;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 11px) 52%,calc(100% - 7px) 52%;background-size:4px 4px;background-repeat:no-repeat}
+.pm{flex:none;border:0;border-right:1px solid var(--line);background:transparent;color:var(--ink-soft);font:500 15px var(--font-num);padding:0 10px;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.preset{border:1px solid var(--line);background:var(--key);border-radius:999px;padding:5px 11px;font:500 12px var(--font-ui);color:var(--ink);cursor:pointer}
+.preset[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.preset b{font:600 12px var(--font-num)}
+.ro-grid{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:7px 16px;border-top:1px dashed var(--line);padding-top:11px}
+.ro{display:flex;justify-content:space-between;align-items:baseline;gap:8px;min-width:0}
+.ro dt{font-size:12px;color:var(--ink-soft);white-space:nowrap}
+.ro dd{margin:0;font:500 14px var(--font-num);text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.hint{font-size:12px;color:var(--danger)}
+.hint:empty{display:none}
+.field.wide{grid-column:1/-1}
+select.sel{flex:1;min-width:0;width:100%;border:0;background-color:transparent;color:var(--ink);font:500 15px var(--font-ui);padding:9px 28px 9px 10px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);background-position:calc(100% - 15px) 52%,calc(100% - 11px) 52%;background-size:4px 4px;background-repeat:no-repeat}
+select.sel:focus{outline:none}
+span.unit{pointer-events:none}
+
+/* power */
+.sum{position:sticky;top:0;z-index:2;margin-top:10px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--screen);color:var(--screen-ink);border:1px solid var(--screen-line);border-radius:14px;padding:10px 4px 11px}
+.sum-cell{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;padding-inline:4px}
+.sum-cell + .sum-cell{border-left:1px solid var(--screen-line)}
+.sum-k{font:500 11px var(--font-ui);color:var(--screen-soft);white-space:nowrap}
+.sum-v{font:600 21px/1.15 var(--font-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sum-s{font:400 10px var(--font-num);color:var(--screen-soft);white-space:nowrap}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--key)}
+.seg button{border:0;background:transparent;border-radius:7px;padding:8px 6px;font:500 14px var(--font-ui);color:var(--ink-soft);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.ro.wide{grid-column:1/-1}
+.ro.key-ro dd{font-weight:600;color:var(--accent)}
+.note{margin:0;font-size:12px;line-height:1.55;color:var(--ink-soft)}
+details.card{gap:0}
+details.card summary{font:600 14px var(--font-ui);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary::after{content:"+";font:500 18px var(--font-num);color:var(--ink-soft)}
+details.card[open] summary::after{content:"−"}
+.formula{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:12.5px;line-height:1.55;color:var(--ink-soft)}
+.formula b{color:var(--ink);font-weight:600}
+.formula code{font:500 12px var(--font-num);color:var(--ink)}
+
+/* history */
+.hist-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-block:14px 6px}
+.hist-head h2{margin:0;font:600 15px var(--font-ui)}
+.hist-head .count{font:400 12px var(--font-num);color:var(--ink-soft);margin-left:6px}
+.clear{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;font:500 12px var(--font-ui);cursor:pointer;color:var(--ink)}
+.clear.confirm{border-color:var(--danger);color:var(--danger)}
+.hist-list{list-style:none;margin:0;padding:0 0 20px}
+.hist-item{width:100%;display:flex;flex-direction:column;align-items:flex-end;gap:3px;text-align:right;background:transparent;border:0;border-bottom:1px solid var(--line);padding:11px 2px;cursor:pointer}
+.hist-item:active{background:var(--press)}
+.he{font:400 13px/1.4 var(--font-num);color:var(--ink-soft);word-break:break-all;max-width:100%}
+.he .mode{font:600 10px var(--font-num);letter-spacing:.06em;border:1px solid var(--line);border-radius:4px;padding:1px 4px;margin-right:6px;vertical-align:1px}
+.hv{font:500 20px/1.3 var(--font-num);color:var(--ink);font-variant-numeric:tabular-nums;max-width:100%;overflow-wrap:anywhere}
+.hv sup{font-size:.62em;vertical-align:.6em;line-height:0}
+.hv .pfx{font-size:.55em}
+.empty{margin-top:28px;padding:22px 18px;border:1px dashed var(--line);border-radius:14px;color:var(--ink-soft);font-size:14px;line-height:1.6;text-align:center}
+.empty strong{color:var(--ink);font-weight:600}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--ground);font:500 13px var(--font-ui);padding:8px 14px;border-radius:999px;pointer-events:none;opacity:0;transition:opacity .18s;max-width:calc(100% - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion: reduce){.caret{animation:none}.toast{transition:none}.key:active{transform:none}}
+@media (max-height:600px){.screen{min-height:112px}.result{font-size:32px}}
+</style>
+
+<div class="app">
+  <div class="tabs" role="tablist" aria-label="화면 선택">
+    <button class="tab" role="tab" id="tab-calc" data-tab="calc" aria-controls="p-calc">계산</button>
+    <button class="tab" role="tab" id="tab-rf" data-tab="rf" aria-controls="p-rf">RF</button>
+    <button class="tab" role="tab" id="tab-pwr" data-tab="pwr" aria-controls="p-pwr">전원</button>
+    <button class="tab" role="tab" id="tab-hist" data-tab="hist" aria-controls="p-hist">기록</button>
+  </div>
+
+  <section class="panel" id="p-calc" role="tabpanel" aria-labelledby="tab-calc">
+    <div class="screen">
+      <div class="status">
+        <button class="chip" id="angle-btn" aria-label="각도 단위 바꾸기">DEG</button>
+        <button class="chip" id="fmt-btn" aria-label="표시 형식 바꾸기">NORM</button>
+        <span class="shift-ind" id="shift-ind" hidden>2nd</span>
+        <span class="ans-ro" id="ans-ro"></span>
+      </div>
+      <div class="expr" id="expr-box"><div class="expr-text" id="expr" aria-live="off"></div></div>
+      <button class="result" id="result" aria-live="polite" aria-label="결과, 누르면 복사"></button>
+    </div>
+    <div class="keys" id="keys"></div>
+  </section>
+
+  <section class="panel scroll" id="p-rf" role="tabpanel" aria-labelledby="tab-rf" hidden>
+    <div class="rf">
+      <div class="card">
+        <div class="card-h"><h2>전력 dBm ⇄ W</h2><span class="sub">50 Ω 기준 전압</span></div>
+        <div class="fields">
+          <div class="field"><label for="p-dbm">전력 (dBm)</label>
+            <div class="inwrap"><button class="pm" data-for="p-dbm" aria-label="부호 바꾸기">±</button><input id="p-dbm" inputmode="decimal" autocomplete="off" value="60"></div></div>
+          <div class="field"><label for="p-val">전력</label>
+            <div class="inwrap"><input id="p-val" inputmode="decimal" autocomplete="off"><select class="unit" id="p-unit" aria-label="전력 단위"><option value="0.001">mW</option><option value="1">W</option><option value="1000" selected>kW</option></select></div></div>
+        </div>
+        <dl class="ro-grid">
+          <div class="ro"><dt>dBW</dt><dd id="p-dbw">—</dd></div>
+          <div class="ro"><dt>전력</dt><dd id="p-w">—</dd></div>
+          <div class="ro"><dt>V<sub>rms</sub></dt><dd id="p-vrms">—</dd></div>
+          <div class="ro"><dt>V<sub>peak</sub></dt><dd id="p-vpk">—</dd></div>
+        </dl>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h2>주파수 → 파장</h2><span class="sub">자유공간 기준</span></div>
+        <div class="presets" id="w-presets">
+          <button class="preset" data-f="81.25">QWR <b>81.25</b> MHz</button>
+          <button class="preset" data-f="162.5">HWR <b>162.5</b> MHz</button>
+        </div>
+        <div class="fields">
+          <div class="field"><label for="w-f">주파수</label>
+            <div class="inwrap"><input id="w-f" inputmode="decimal" autocomplete="off" value="162.5"><select class="unit" id="w-unit" aria-label="주파수 단위"><option value="1000">kHz</option><option value="1000000" selected>MHz</option><option value="1000000000">GHz</option></select></div></div>
+        </div>
+        <dl class="ro-grid">
+          <div class="ro"><dt>λ</dt><dd id="w-l">—</dd></div>
+          <div class="ro"><dt>λ/2</dt><dd id="w-l2">—</dd></div>
+          <div class="ro"><dt>λ/4</dt><dd id="w-l4">—</dd></div>
+          <div class="ro"><dt>주기 T</dt><dd id="w-t">—</dd></div>
+        </dl>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h2>스킨 깊이 δ</h2><span class="sub">비자성체 (μ<sub>r</sub> = 1) 기준</span></div>
+        <div class="presets" id="k-presets">
+          <button class="preset" data-f="81.25">QWR <b>81.25</b> MHz</button>
+          <button class="preset" data-f="162.5">HWR <b>162.5</b> MHz</button>
+        </div>
+        <div class="fields">
+          <div class="field wide"><label for="k-mat">재질</label>
+            <div class="inwrap"><select class="sel" id="k-mat">
+              <option value="5.8e7" selected>구리 (Cu)</option>
+              <option value="6.3e7">은 (Ag)</option>
+              <option value="4.1e7">금 (Au)</option>
+              <option value="3.5e7">알루미늄 (Al)</option>
+              <option value="1.5e7">황동</option>
+              <option value="6.6e6">니오븀 (상온)</option>
+              <option value="1.4e6">스테인리스 304</option>
+              <option value="custom">직접 입력</option>
+            </select></div></div>
+          <div class="field"><label for="k-sig">도전율 σ</label>
+            <div class="inwrap"><input id="k-sig" inputmode="decimal" autocomplete="off" value="5.8e7"><span class="unit">S/m</span></div></div>
+          <div class="field"><label for="k-f">주파수</label>
+            <div class="inwrap"><input id="k-f" inputmode="decimal" autocomplete="off" value="162.5"><select class="unit" id="k-unit" aria-label="주파수 단위"><option value="1000">kHz</option><option value="1000000" selected>MHz</option><option value="1000000000">GHz</option></select></div></div>
+        </div>
+        <dl class="ro-grid">
+          <div class="ro key-ro"><dt>δ</dt><dd id="k-d">—</dd></div>
+          <div class="ro"><dt>표면저항 R<sub>s</sub></dt><dd id="k-rs">—</dd></div>
+          <div class="ro"><dt>3δ (전류 95%)</dt><dd id="k-3">—</dd></div>
+          <div class="ro"><dt>5δ (전류 99%)</dt><dd id="k-5">—</dd></div>
+        </dl>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h2>VSWR ⇄ 반사손실 ⇄ |Γ|</h2><span class="sub">아무 칸이나 입력</span></div>
+        <div class="fields">
+          <div class="field"><label for="v-s">VSWR</label><div class="inwrap" id="v-s-w"><input id="v-s" inputmode="decimal" autocomplete="off" value="1.5"></div></div>
+          <div class="field"><label for="v-rl">반사손실 (dB)</label><div class="inwrap" id="v-rl-w"><input id="v-rl" inputmode="decimal" autocomplete="off"></div></div>
+          <div class="field"><label for="v-g">|Γ|</label><div class="inwrap" id="v-g-w"><input id="v-g" inputmode="decimal" autocomplete="off"></div></div>
+        </div>
+        <div class="hint" id="v-hint"></div>
+        <dl class="ro-grid">
+          <div class="ro"><dt>반사 전력</dt><dd id="v-ref">—</dd></div>
+          <div class="ro"><dt>전달 전력</dt><dd id="v-tx">—</dd></div>
+          <div class="ro"><dt>부정합 손실</dt><dd id="v-ml">—</dd></div>
+        </dl>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h2>순방향 / 반사 전력 → VSWR</h2><span class="sub">방향성 결합기 읽기</span></div>
+        <div class="fields">
+          <div class="field"><label for="f-pf">순방향 P<sub>f</sub></label><div class="inwrap" id="f-pf-w"><input id="f-pf" inputmode="decimal" autocomplete="off" value="10"></div></div>
+          <div class="field"><label for="f-pr">반사 P<sub>r</sub></label><div class="inwrap" id="f-pr-w"><input id="f-pr" inputmode="decimal" autocomplete="off" value="0.2"><select class="unit" id="f-unit" aria-label="전력 단위"><option value="0.001">mW</option><option value="1">W</option><option value="1000" selected>kW</option></select></div></div>
+        </div>
+        <div class="hint" id="f-hint"></div>
+        <dl class="ro-grid">
+          <div class="ro"><dt>|Γ|</dt><dd id="f-g">—</dd></div>
+          <div class="ro"><dt>VSWR</dt><dd id="f-s">—</dd></div>
+          <div class="ro"><dt>반사손실</dt><dd id="f-rl">—</dd></div>
+          <div class="ro"><dt>부하 전달</dt><dd id="f-net">—</dd></div>
+        </dl>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h2>dB ⇄ 비율</h2><span class="sub">전력비 10log · 전압비 20log</span></div>
+        <div class="fields">
+          <div class="field"><label for="d-db">dB</label><div class="inwrap" id="d-db-w"><button class="pm" data-for="d-db" aria-label="부호 바꾸기">±</button><input id="d-db" inputmode="decimal" autocomplete="off" value="3"></div></div>
+          <div class="field"><label for="d-p">전력비</label><div class="inwrap" id="d-p-w"><input id="d-p" inputmode="decimal" autocomplete="off"></div></div>
+          <div class="field"><label for="d-v">전압비</label><div class="inwrap" id="d-v-w"><input id="d-v" inputmode="decimal" autocomplete="off"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel scroll" id="p-pwr" role="tabpanel" aria-labelledby="tab-pwr" hidden>
+    <div class="sum" aria-live="polite">
+      <div class="sum-cell"><span class="sum-k">분전반 전류</span><span class="sum-v" id="s-i">—</span><span class="sum-s" id="s-is">—</span></div>
+      <div class="sum-cell"><span class="sum-k">차단기</span><span class="sum-v" id="s-cb">—</span><span class="sum-s" id="s-cbs">—</span></div>
+      <div class="sum-cell"><span class="sum-k">케이블</span><span class="sum-v" id="s-cab">—</span><span class="sum-s" id="s-cabs">—</span></div>
+    </div>
+    <div class="rf">
+      <div class="card">
+        <div class="card-h"><h2>SSPA</h2><span class="sub">RF 출력 → DC 입력</span></div>
+        <div class="fields">
+          <div class="field"><label for="e-rf">RF 출력</label>
+            <div class="inwrap" id="e-rf-w"><input id="e-rf" inputmode="decimal" autocomplete="off" value="8"><select class="unit" id="e-rfu" aria-label="RF 출력 단위"><option value="1">W</option><option value="1000" selected>kW</option></select></div></div>
+          <div class="field"><label for="e-eff">DC 효율</label>
+            <div class="inwrap" id="e-eff-w"><input id="e-eff" inputmode="decimal" autocomplete="off" value="50"><span class="unit">%</span></div></div>
+          <div class="field"><label for="e-vdc">DC 전압</label>
+            <div class="inwrap" id="e-vdc-w"><input id="e-vdc" inputmode="decimal" autocomplete="off" value="50"><span class="unit">V</span></div></div>
+          <div class="field"><label for="e-n">대수</label>
+            <div class="inwrap" id="e-n-w"><input id="e-n" inputmode="numeric" autocomplete="off" value="1"><span class="unit">대</span></div></div>
+        </div>
+        <dl class="ro-grid">
+          <div class="ro"><dt>DC 입력 (1대)</dt><dd id="e-pdc">—</dd></div>
+          <div class="ro key-ro"><dt>DC 전류 (1대)</dt><dd id="e-idc">—</dd></div>
+          <div class="ro"><dt>DC 입력 합계</dt><dd id="e-pdct">—</dd></div>
+          <div class="ro"><dt>RF 출력 합계</dt><dd id="e-prft">—</dd></div>
+        </dl>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h2>AC 공급</h2><span class="sub">분전반 → 전원장치</span></div>
+        <div class="seg" role="group" aria-label="AC 방식">
+          <button id="ph3" aria-pressed="true">3상 380 V</button>
+          <button id="ph1" aria-pressed="false">단상 220 V</button>
+        </div>
+        <div class="fields">
+          <div class="field"><label for="e-vac" id="e-vac-l">선간 전압</label>
+            <div class="inwrap" id="e-vac-w"><input id="e-vac" inputmode="decimal" autocomplete="off" value="380"><span class="unit">V</span></div></div>
+          <div class="field"><label for="e-psu">전원장치 효율</label>
+            <div class="inwrap" id="e-psu-w"><input id="e-psu" inputmode="decimal" autocomplete="off" value="90"><span class="unit">%</span></div></div>
+          <div class="field"><label for="e-pf">역률</label>
+            <div class="inwrap" id="e-pf-w"><input id="e-pf" inputmode="decimal" autocomplete="off" value="0.95"><span class="unit">PF</span></div></div>
+        </div>
+        <dl class="ro-grid">
+          <div class="ro"><dt>AC 유효전력</dt><dd id="e-pac">—</dd></div>
+          <div class="ro"><dt>피상전력</dt><dd id="e-s">—</dd></div>
+          <div class="ro key-ro"><dt id="e-i-l">선전류</dt><dd id="e-i">—</dd></div>
+          <div class="ro"><dt>발열량</dt><dd id="e-heat">—</dd></div>
+        </dl>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h2>차단기 · 케이블</h2><span class="sub">구리 도체 기준</span></div>
+        <div class="fields">
+          <div class="field wide"><label for="e-ins">케이블 종류</label>
+            <div class="inwrap"><select class="sel" id="e-ins">
+              <option value="xlpe" selected>F-CV · HFIX 등 (XLPE 90 °C)</option>
+              <option value="pvc">VV · IV 등 (PVC 70 °C)</option>
+            </select></div></div>
+          <div class="field wide"><label for="e-meth">포설 방법</label>
+            <div class="inwrap"><select class="sel" id="e-meth">
+              <option value="B1" selected>전선관 · 덕트 안 (B1)</option>
+              <option value="C">벽 · 바닥에 직접 고정 (C)</option>
+              <option value="E">케이블 트레이 · 사다리 (E)</option>
+            </select></div></div>
+          <div class="field"><label for="e-len">케이블 길이</label>
+            <div class="inwrap" id="e-len-w"><input id="e-len" inputmode="decimal" autocomplete="off" value="30"><span class="unit">m</span></div></div>
+          <div class="field"><label for="e-vdl">전압강하 한도</label>
+            <div class="inwrap" id="e-vdl-w"><input id="e-vdl" inputmode="decimal" autocomplete="off" value="3"><span class="unit">%</span></div></div>
+          <div class="field"><label for="e-k">보정계수</label>
+            <div class="inwrap" id="e-k-w"><input id="e-k" inputmode="decimal" autocomplete="off" value="1"><span class="unit">×</span></div></div>
+        </div>
+        <div class="hint" id="e-hint"></div>
+        <dl class="ro-grid">
+          <div class="ro key-ro"><dt>차단기 정격</dt><dd id="e-cb">—</dd></div>
+          <div class="ro key-ro"><dt>케이블 굵기</dt><dd id="e-cab">—</dd></div>
+          <div class="ro"><dt>허용전류</dt><dd id="e-iz">—</dd></div>
+          <div class="ro wide"><dt>전압강하</dt><dd id="e-vd">—</dd></div>
+          <div class="ro"><dt>접지선 (PE)</dt><dd id="e-pe">—</dd></div>
+          <div class="ro"><dt>결정 기준</dt><dd id="e-why">—</dd></div>
+        </dl>
+        <p class="note">보정계수는 주위온도가 30 °C보다 높거나 여러 회로를 같이 포설할 때 1보다 작게 넣어요 (예: 40 °C XLPE 0.91, 3회로 묶음 0.70). 참고용 계산이니 실제 시공은 KEC 기준으로 전기 담당자와 확인하세요.</p>
+      </div>
+
+      <details class="card">
+        <summary>계산식과 가정</summary>
+        <ol class="formula">
+          <li><b>DC 입력</b> = RF 출력 ÷ DC 효율, <b>DC 전류</b> = DC 입력 ÷ DC 전압</li>
+          <li><b>AC 유효전력</b> = DC 입력 합계 ÷ 전원장치 효율</li>
+          <li><b>3상 전류</b> = AC 유효전력 ÷ (√3 × 선간전압 × 역률), 단상은 ÷ (전압 × 역률)</li>
+          <li><b>차단기</b>: 연속 부하로 보고 전류 × 1.25 이상인 표준 정격</li>
+          <li><b>케이블</b>: 허용전류 × 보정계수 ≥ 차단기 정격, 그리고 전압강하 ≤ 한도. 두 조건을 모두 만족하는 가장 가는 굵기</li>
+          <li><b>허용전류</b>: IEC 60364-5-52 (KEC 준용) 구리 도체, 부하 도체 3개 값. 단상도 같은 값을 써서 보수적으로 계산</li>
+          <li><b>전압강하</b>: 3상 <code>e = 30.8·L·I / (1000·A)</code>, 단상 <code>e = 35.6·L·I / (1000·A)</code></li>
+          <li><b>접지선</b>: 상도체 16 sq 이하면 같은 굵기, 35 sq 이하면 16 sq, 그 이상은 절반</li>
+          <li><b>발열량</b> = AC 유효전력 − RF 출력 합계 (부하로 나간 RF를 뺀 손실 전부)</li>
+        </ol>
+      </details>
+    </div>
+  </section>
+
+  <section class="panel scroll" id="p-hist" role="tabpanel" aria-labelledby="tab-hist" hidden>
+    <div class="hist-head">
+      <h2>최근 계산<span class="count" id="h-count"></span></h2>
+      <button class="clear" id="h-clear">기록 지우기</button>
+    </div>
+    <ul class="hist-list" id="h-list"></ul>
+    <div class="empty" id="h-empty" hidden><strong>아직 기록이 없어요.</strong><br>= 를 누르면 식과 결과가 여기 쌓이고,<br>항목을 누르면 그 값이 계산기에 입력됩니다.</div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script id="engine">
+(function (g) {
+  class CalcError extends Error {}
+  const TOKS = ['sin⁻¹(', 'cos⁻¹(', 'tan⁻¹(', 'sin(', 'cos(', 'tan(', 'abs(', 'ln(', 'log(', '√(', '∛(',
+    'Ans', '⁻¹', 'π', 'e', '(', ')', '+', '−', '×', '÷', '^', '!', '²', '³'];
+  const D2R = Math.PI / 180;
+
+  function tokenize(s) {
+    const out = [];
+    let i = 0;
+    while (i < s.length) {
+      const c = s[i];
+      if (c === ' ') { i++; continue; }
+      if (/[0-9.]/.test(c)) {
+        let j = i;
+        while (j < s.length && /[0-9.]/.test(s[j])) j++;
+        let body = s.slice(i, j);
+        if (s[j] === 'E') {
+          let k = j + 1;
+          if (s[k] === '−' || s[k] === '-' || s[k] === '+') k++;
+          let m = k;
+          while (m < s.length && /[0-9]/.test(s[m])) m++;
+          if (m === k) throw new CalcError('식 오류');
+          body = s.slice(i, m);
+          j = m;
+        }
+        if ((body.match(/\./g) || []).length > 1 || body === '.') throw new CalcError('식 오류');
+        const v = Number(body.replace('E−', 'E-').replace('E', 'e'));
+        if (Number.isNaN(v)) throw new CalcError('식 오류');
+        out.push({ t: 'num', v });
+        i = j;
+        continue;
+      }
+      let hit = null;
+      for (const tk of TOKS) if (s.startsWith(tk, i)) { hit = tk; break; }
+      if (!hit) throw new CalcError('식 오류');
+      i += hit.length;
+      if (hit.endsWith('(') && hit.length > 1) out.push({ t: 'func', name: hit.slice(0, -1) });
+      else if (hit === '(') out.push({ t: 'lp' });
+      else if (hit === ')') out.push({ t: 'rp' });
+      else if (hit === 'π') out.push({ t: 'num', v: Math.PI });
+      else if (hit === 'e') out.push({ t: 'num', v: Math.E });
+      else if (hit === 'Ans') out.push({ t: 'ans' });
+      else if ('+−×÷^'.includes(hit)) out.push({ t: 'op', v: hit });
+      else out.push({ t: 'post', v: hit });
+    }
+    return out;
+  }
+
+  function sinD(x) {
+    const r = ((x % 360) + 360) % 360;
+    if (r === 0 || r === 180) return 0;
+    if (r === 90) return 1;
+    if (r === 270) return -1;
+    return Math.sin(x * D2R);
+  }
+  function tanD(x) {
+    const r = ((x % 180) + 180) % 180;
+    if (r === 0) return 0;
+    if (r === 90) throw new CalcError('정의되지 않음');
+    return Math.tan(x * D2R);
+  }
+
+  function applyFunc(name, x, deg) {
+    switch (name) {
+      case 'sin': return deg ? sinD(x) : Math.sin(x);
+      case 'cos': return deg ? sinD(x + 90) : Math.cos(x);
+      case 'tan': return deg ? tanD(x) : Math.tan(x);
+      case 'sin⁻¹': if (x < -1 || x > 1) throw new CalcError('정의되지 않음'); return deg ? Math.asin(x) / D2R : Math.asin(x);
+      case 'cos⁻¹': if (x < -1 || x > 1) throw new CalcError('정의되지 않음'); return deg ? Math.acos(x) / D2R : Math.acos(x);
+      case 'tan⁻¹': return deg ? Math.atan(x) / D2R : Math.atan(x);
+      case 'ln': if (x <= 0) throw new CalcError('정의되지 않음'); return Math.log(x);
+      case 'log': if (x <= 0) throw new CalcError('정의되지 않음'); return Math.log10(x);
+      case '√': if (x < 0) throw new CalcError('정의되지 않음'); return Math.sqrt(x);
+      case '∛': return Math.cbrt(x);
+      case 'abs': return Math.abs(x);
+    }
+    throw new CalcError('식 오류');
+  }
+
+  function applyPost(op, x) {
+    if (op === '²') return x * x;
+    if (op === '³') return x * x * x;
+    if (op === '⁻¹') { if (x === 0) throw new CalcError('0으로 나눌 수 없음'); return 1 / x; }
+    if (op === '!') {
+      if (x < 0 || !Number.isInteger(x)) throw new CalcError('0 이상 정수만 가능');
+      if (x > 170) throw new CalcError('범위 초과');
+      let r = 1;
+      for (let i = 2; i <= x; i++) r *= i;
+      return r;
+    }
+    throw new CalcError('식 오류');
+  }
+
+  function parse(tokens, ctx) {
+    let p = 0;
+    const deg = ctx.angle === 'DEG';
+    const peek = () => tokens[p];
+    const isOp = (tk, set) => tk && tk.t === 'op' && set.includes(tk.v);
+    const startsPrimary = tk => tk && (tk.t === 'num' || tk.t === 'ans' || tk.t === 'func' || tk.t === 'lp');
+
+    function expr() {
+      let v = term();
+      while (isOp(peek(), '+−')) {
+        const o = tokens[p++].v;
+        const r = term();
+        v = o === '+' ? v + r : v - r;
+      }
+      return v;
+    }
+    function term() {
+      let v = unary();
+      for (;;) {
+        const tk = peek();
+        if (isOp(tk, '×÷')) {
+          p++;
+          const r = unary();
+          if (tk.v === '÷') { if (r === 0) throw new CalcError('0으로 나눌 수 없음'); v /= r; }
+          else v *= r;
+        } else if (startsPrimary(tk)) {
+          v *= power();
+        } else break;
+      }
+      return v;
+    }
+    function unary() {
+      const tk = peek();
+      if (isOp(tk, '+−')) { p++; const v = unary(); return tk.v === '−' ? -v : v; }
+      return power();
+    }
+    function power() {
+      const b = postfix();
+      if (isOp(peek(), '^')) {
+        p++;
+        const e = unary();
+        const r = Math.pow(b, e);
+        if (Number.isNaN(r)) throw new CalcError('정의되지 않음');
+        return r;
+      }
+      return b;
+    }
+    function postfix() {
+      let v = primary();
+      while (peek() && peek().t === 'post') v = applyPost(tokens[p++].v, v);
+      return v;
+    }
+    function primary() {
+      const tk = tokens[p++];
+      if (!tk) throw new CalcError('식 오류');
+      if (tk.t === 'num') return tk.v;
+      if (tk.t === 'ans') return ctx.ans || 0;
+      if (tk.t === 'lp' || tk.t === 'func') {
+        const v = expr();
+        const r = tokens[p++];
+        if (!r || r.t !== 'rp') throw new CalcError('괄호 오류');
+        return tk.t === 'func' ? applyFunc(tk.name, v, deg) : v;
+      }
+      throw new CalcError('식 오류');
+    }
+    const v = expr();
+    if (p < tokens.length) throw new CalcError(tokens[p].t === 'rp' ? '괄호 오류' : '식 오류');
+    return v;
+  }
+
+  function openParens(s) {
+    return (s.match(/\(/g) || []).length - (s.match(/\)/g) || []).length;
+  }
+
+  function evaluate(src, ctx) {
+    const toks = tokenize(src);
+    if (!toks.length) throw new CalcError('식 오류');
+    let depth = 0;
+    for (const t of toks) {
+      if (t.t === 'lp' || t.t === 'func') depth++;
+      else if (t.t === 'rp' && --depth < 0) throw new CalcError('괄호 오류');
+    }
+    while (depth-- > 0) toks.push({ t: 'rp' });
+    const v = parse(toks, ctx || {});
+    if (Number.isNaN(v)) throw new CalcError('정의되지 않음');
+    if (!Number.isFinite(v)) throw new CalcError('범위 초과');
+    return v;
+  }
+
+  const PFX = { '-15': 'f', '-12': 'p', '-9': 'n', '-6': 'µ', '-3': 'm', '3': 'k', '6': 'M', '9': 'G', '12': 'T', '15': 'P' };
+  const trimM = s => s.includes('.') ? s.replace(/0+$/, '').replace(/\.$/, '') : s;
+  function group(s) {
+    let neg = false;
+    if (s[0] === '-') { neg = true; s = s.slice(1); }
+    const [i, f] = s.split('.');
+    return (neg ? '−' : '') + i.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (f !== undefined ? '.' + f : '');
+  }
+
+  // returns {main, exp?, prefix?}
+  function format(v, mode) {
+    if (v === 0) return { main: '0' };
+    const a = Math.abs(v);
+    if (mode === 'NORM') {
+      if (a < 1e12 && a >= 1e-4) {
+        const s = v.toPrecision(12);
+        if (!s.includes('e')) return { main: group(trimM(s)) };
+      }
+      mode = 'SCI';
+    }
+    const [m, e] = v.toExponential(9).split('e');
+    let ex = parseInt(e, 10);
+    if (mode === 'SCI') return { main: trimM(m).replace('-', '−'), exp: ex };
+    const sh = ((ex % 3) + 3) % 3;
+    ex -= sh;
+    const mm = parseFloat((parseFloat(m) * Math.pow(10, sh)).toPrecision(10));
+    return { main: trimM(String(mm)).replace('-', '−'), exp: ex, prefix: PFX[ex] || '' };
+  }
+
+  function canon(v) {
+    return String(parseFloat(v.toPrecision(12))).replace('e+', 'E').replace('e-', 'E-');
+  }
+  // string safe to append to an expression
+  function toInsert(v) {
+    const s = canon(v).replace(/-/g, '−');
+    return v < 0 ? '(' + s + ')' : s;
+  }
+
+  g.CalcEngine = { evaluate, format, canon, toInsert, openParens, CalcError };
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+
+<script>
+(function () {
+  const E = window.CalcEngine;
+  const $ = s => document.getElementById(s);
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem('rfcalc.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem('rfcalc.' + k, JSON.stringify(v)); } catch (e) {} }
+  };
+
+  const state = {
+    expr: '', done: false, err: '', shift: false,
+    ans: store.get('ans', 0), last: null,
+    angle: store.get('angle', 'DEG'), fmt: store.get('fmt', 'NORM'),
+    tab: store.get('tab', 'calc'), history: store.get('history', [])
+  };
+  if (!Array.isArray(state.history)) state.history = [];
+
+  /* ---------- keypad ---------- */
+  const KEYS = [
+    { l: '2nd', c: 'fn shift-key', a: 'shift', aria: '2nd 기능' },
+    { l: 'sin', s: 'sin<sup>−1</sup>', i: 'sin(', si: 'sin⁻¹(', c: 'fn' },
+    { l: 'cos', s: 'cos<sup>−1</sup>', i: 'cos(', si: 'cos⁻¹(', c: 'fn' },
+    { l: 'tan', s: 'tan<sup>−1</sup>', i: 'tan(', si: 'tan⁻¹(', c: 'fn' },
+    { l: 'π', i: 'π', c: 'fn' },
+    { l: 'ln', s: 'e<sup>x</sup>', i: 'ln(', si: 'e^(', c: 'fn' },
+    { l: 'log', s: '10<sup>x</sup>', i: 'log(', si: '10^(', c: 'fn' },
+    { l: '√', s: '∛', i: '√(', si: '∛(', c: 'fn' },
+    { l: 'x<sup>2</sup>', s: 'x<sup>3</sup>', i: '²', si: '³', c: 'fn', aria: '제곱' },
+    { l: 'x<sup>y</sup>', s: '1/x', i: '^', si: '⁻¹', c: 'fn', aria: '거듭제곱' },
+    { l: '(', i: '(', c: 'fn' },
+    { l: ')', i: ')', c: 'fn' },
+    { l: 'n!', s: '|x|', i: '!', si: 'abs(', c: 'fn' },
+    { l: 'e', i: 'e', c: 'fn' },
+    { l: 'EE', a: 'ee', c: 'fn', aria: '지수 입력 ×10ⁿ' },
+    { l: '7', i: '7' }, { l: '8', i: '8' }, { l: '9', i: '9' },
+    { l: '⌫', a: 'bs', c: 'op bs', aria: '한 글자 지우기' },
+    { l: 'AC', a: 'ac', c: 'op ac', aria: '모두 지우기' },
+    { l: '4', i: '4' }, { l: '5', i: '5' }, { l: '6', i: '6' },
+    { l: '×', i: '×', c: 'op' }, { l: '÷', i: '÷', c: 'op' },
+    { l: '1', i: '1' }, { l: '2', i: '2' }, { l: '3', i: '3' },
+    { l: '+', i: '+', c: 'op' }, { l: '−', i: '−', c: 'op' },
+    { l: '0', i: '0' }, { l: '.', a: 'dot' }, { l: '±', a: 'neg', aria: '부호 바꾸기' },
+    { l: 'Ans', i: 'Ans', c: 'ansk', aria: '직전 결과' }, { l: '=', a: 'eq', c: 'eq', aria: '계산' }
+  ];
+  const keysEl = $('keys');
+  KEYS.forEach((k, idx) => {
+    const b = document.createElement('button');
+    b.className = 'key ' + (k.c || '') + (k.s ? ' has-lg' : '');
+    b.dataset.idx = idx;
+    b.setAttribute('aria-label', k.aria || k.l.replace(/<[^>]+>/g, ''));
+    b.innerHTML = (k.s ? '<span class="lg">' + k.s + '</span>' : '') + '<span class="main">' + k.l + '</span>';
+    k.el = b;
+    keysEl.appendChild(b);
+  });
+  function paintShift() {
+    KEYS.forEach(k => {
+      if (k.a === 'shift') { k.el.classList.toggle('on', state.shift); return; }
+      if (!k.s) return;
+      k.el.querySelector('.main').innerHTML = state.shift ? k.s : k.l;
+      k.el.querySelector('.lg').hidden = state.shift;
+      k.el.classList.toggle('armed', state.shift);
+      k.el.classList.toggle('has-lg', !state.shift);
+    });
+    $('shift-ind').hidden = !state.shift;
+  }
+  keysEl.addEventListener('click', e => {
+    const b = e.target.closest('.key');
+    if (!b) return;
+    press(KEYS[+b.dataset.idx]);
+  });
+
+  function press(k) {
+    if (k.a === 'shift') { state.shift = !state.shift; paintShift(); return; }
+    const sh = state.shift && k.s;
+    if (state.shift) { state.shift = false; paintShift(); }
+    if (k.a) return action(k.a);
+    const s = sh ? k.si : k.i;
+    insert(s, { sepDigit: s === '10^(' });
+  }
+
+  const OP_START = /^(?:[+−×÷^!²³]|⁻¹)/;
+  function insert(s, opt) {
+    if (state.done) {
+      state.expr = OP_START.test(s) ? 'Ans' + s : s;
+      state.done = false;
+    } else {
+      if (opt && opt.sepDigit && /[0-9.E]$/.test(state.expr)) state.expr += '×';
+      state.expr += s;
+    }
+    state.err = '';
+    render();
+  }
+
+  const MULTI = ['sin⁻¹(', 'cos⁻¹(', 'tan⁻¹(', 'sin(', 'cos(', 'tan(', 'abs(', 'ln(', 'log(', '√(', '∛(', 'Ans', '⁻¹'];
+  const NUM_END = /(?:[0-9.]+(?:E[−+]?[0-9]*)?|Ans|π|e)$/;
+
+  function action(a) {
+    switch (a) {
+      case 'ac': state.expr = ''; state.done = false; state.err = ''; state.last = null; break;
+      case 'bs': {
+        state.done = false; state.err = '';
+        const m = MULTI.find(t => state.expr.endsWith(t));
+        state.expr = state.expr.slice(0, -(m ? m.length : 1));
+        break;
+      }
+      case 'dot': {
+        if (state.done) { state.expr = '0.'; state.done = false; break; }
+        const cur = (state.expr.match(/[0-9.]*(?:E[−+]?[0-9]*)?$/) || [''])[0];
+        if (cur.includes('.') || cur.includes('E')) return;
+        state.expr += /[0-9]$/.test(state.expr) ? '.' : '0.';
+        break;
+      }
+      case 'ee': {
+        if (state.done) return;
+        const cur = (state.expr.match(/[0-9.]+(?:E[−+]?[0-9]*)?$/) || [''])[0];
+        if (!cur || cur.includes('E')) return;
+        state.expr += 'E';
+        break;
+      }
+      case 'neg': negate(); break;
+      case 'eq': return equals();
+    }
+    state.err = state.err && a === 'eq' ? state.err : '';
+    render();
+  }
+
+  function negate() {
+    if (state.done) { state.expr = '−Ans'; state.done = false; return; }
+    const m = state.expr.match(NUM_END);
+    if (!m) { state.expr += '−'; return; }
+    const num = m[0];
+    const before = state.expr.slice(0, -num.length);
+    const last = before.slice(-1);
+    const pre = before.slice(0, -1);
+    const unaryCtx = x => x === '' || /[+−×÷^(E]$/.test(x);
+    if (last === '−') state.expr = unaryCtx(pre) ? pre + num : pre + '+' + num;
+    else if (last === '+') state.expr = pre + '−' + num;
+    else if (unaryCtx(before)) state.expr = before + '−' + num;
+    else state.expr = before + '(−' + num + ')';
+  }
+
+  function equals() {
+    if (state.done || !state.expr.trim()) return;
+    try {
+      const v = E.evaluate(state.expr, { angle: state.angle, ans: state.ans });
+      const closed = state.expr + ')'.repeat(Math.max(0, E.openParens(state.expr)));
+      state.history.unshift({ e: closed, v, a: /sin|cos|tan/.test(closed) ? state.angle : '' });
+      if (state.history.length > 80) state.history.length = 80;
+      store.set('history', state.history);
+      state.ans = v; store.set('ans', v);
+      state.last = v; state.expr = closed; state.done = true; state.err = '';
+    } catch (err) {
+      state.err = err.message || '식 오류';
+    }
+    render();
+  }
+
+  /* ---------- display ---------- */
+  function numHTML(v) {
+    const f = E.format(v, state.fmt);
+    let h = f.main;
+    if (f.exp !== undefined && (state.fmt !== 'ENG' || f.exp !== 0)) {
+      h += '<span class="x10">×10<sup>' + String(f.exp).replace('-', '−') + '</sup></span>';
+    }
+    if (f.prefix) h += '<span class="pfx">' + f.prefix + '</span>';
+    return h;
+  }
+  const exprEl = $('expr'), exprBox = $('expr-box'), resEl = $('result');
+
+  function fitResult() {
+    const sizes = [40, 34, 28, 23, 19];
+    const small = window.innerHeight <= 600;
+    for (const s of sizes) {
+      if (small && s > 32) continue;
+      resEl.style.fontSize = s + 'px';
+      if (resEl.scrollWidth <= resEl.clientWidth + 1) break;
+    }
+  }
+
+  function render() {
+    exprEl.textContent = state.expr + (state.done ? ' =' : '');
+    exprEl.classList.toggle('done', state.done);
+    if (!state.done) {
+      const c = document.createElement('span');
+      c.className = 'caret';
+      exprEl.appendChild(c);
+    }
+    exprBox.scrollTop = exprBox.scrollHeight;
+
+    resEl.className = 'result';
+    resEl.style.fontSize = '';
+    if (state.err) {
+      resEl.classList.add('err');
+      resEl.textContent = state.err;
+    } else if (state.done && state.last !== null) {
+      resEl.innerHTML = numHTML(state.last);
+      fitResult();
+    } else {
+      resEl.classList.add('preview');
+      let shown = false;
+      if (state.expr && !/^[0-9.]+$/.test(state.expr)) {
+        try {
+          resEl.innerHTML = numHTML(E.evaluate(state.expr, { angle: state.angle, ans: state.ans }));
+          shown = true;
+        } catch (e) {}
+      }
+      if (!shown) resEl.innerHTML = state.expr && /^[0-9.]+$/.test(state.expr) ? '' : '0';
+      fitResult();
+    }
+    $('angle-btn').textContent = state.angle;
+    $('fmt-btn').textContent = state.fmt;
+    $('ans-ro').textContent = 'Ans ' + E.canon(state.ans).replace(/-/g, '−');
+  }
+
+  $('angle-btn').addEventListener('click', () => {
+    state.angle = state.angle === 'DEG' ? 'RAD' : 'DEG';
+    store.set('angle', state.angle); render();
+  });
+  $('fmt-btn').addEventListener('click', () => {
+    state.fmt = { NORM: 'SCI', SCI: 'ENG', ENG: 'NORM' }[state.fmt];
+    store.set('fmt', state.fmt); render(); renderHist();
+  });
+
+  let toastT;
+  function toast(msg) {
+    const t = $('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1600);
+  }
+  resEl.addEventListener('click', () => {
+    if (state.err) return;
+    let v = state.done ? state.last : null;
+    if (v === null) { try { v = E.evaluate(state.expr, { angle: state.angle, ans: state.ans }); } catch (e) { return; } }
+    const s = E.canon(v);
+    const done = () => toast('복사됨 · ' + s);
+    try {
+      navigator.clipboard.writeText(s).then(done, () => selectResult());
+    } catch (e) { selectResult(); }
+  });
+  function selectResult() {
+    const r = document.createRange(); r.selectNodeContents(resEl);
+    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    toast('결과를 선택했어요. 길게 눌러 복사하세요');
+  }
+
+  /* ---------- keyboard ---------- */
+  const KB = { '*': '×', '/': '÷', '-': '−', '+': '+', '^': '^', '(': '(', ')': ')', '!': '!', 'e': 'e', 'p': 'π' };
+  document.addEventListener('keydown', e => {
+    if (state.tab !== 'calc' || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
+    const k = e.key;
+    if (/^[0-9]$/.test(k)) insert(k);
+    else if (k === '.' || k === ',') action('dot');
+    else if (KB[k]) insert(KB[k]);
+    else if (k === 'E') action('ee');
+    else if (k === 'Enter' || k === '=') action('eq');
+    else if (k === 'Backspace') action('bs');
+    else if (k === 'Escape' || k === 'Delete') action('ac');
+    else return;
+    e.preventDefault();
+  });
+
+  /* ---------- tabs ---------- */
+  function setTab(t) {
+    state.tab = t; store.set('tab', t);
+    document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === t)));
+    $('p-calc').hidden = t !== 'calc';
+    $('p-rf').hidden = t !== 'rf';
+    $('p-pwr').hidden = t !== 'pwr';
+    $('p-hist').hidden = t !== 'hist';
+    if (t === 'hist') renderHist();
+    if (t === 'calc') render();
+  }
+  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+
+  /* ---------- history ---------- */
+  let clearArmed = false, clearT;
+  function renderHist() {
+    const list = $('h-list');
+    list.innerHTML = '';
+    $('h-count').textContent = state.history.length ? state.history.length + '개' : '';
+    $('h-empty').hidden = state.history.length > 0;
+    $('h-clear').hidden = !state.history.length;
+    state.history.forEach(h => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.className = 'hist-item';
+      const he = document.createElement('div');
+      he.className = 'he';
+      if (h.a) { const m = document.createElement('span'); m.className = 'mode'; m.textContent = h.a; he.appendChild(m); }
+      he.appendChild(document.createTextNode(h.e + ' ='));
+      const hv = document.createElement('div');
+      hv.className = 'hv';
+      hv.innerHTML = numHTML(h.v);
+      b.append(he, hv);
+      b.addEventListener('click', () => { setTab('calc'); insert(E.toInsert(h.v)); toast('값을 입력했어요'); });
+      li.appendChild(b);
+      list.appendChild(li);
+    });
+  }
+  $('h-clear').addEventListener('click', () => {
+    const b = $('h-clear');
+    if (!clearArmed) {
+      clearArmed = true; b.classList.add('confirm'); b.textContent = '한 번 더 누르면 삭제';
+      clearTimeout(clearT);
+      clearT = setTimeout(() => { clearArmed = false; b.classList.remove('confirm'); b.textContent = '기록 지우기'; }, 3000);
+      return;
+    }
+    clearArmed = false; clearTimeout(clearT);
+    b.classList.remove('confirm'); b.textContent = '기록 지우기';
+    state.history = []; store.set('history', []); renderHist();
+  });
+
+  /* ---------- RF converters ---------- */
+  const C0 = 299792458;
+  const PFX = { '-15': 'f', '-12': 'p', '-9': 'n', '-6': 'µ', '-3': 'm', '0': '', '3': 'k', '6': 'M', '9': 'G', '12': 'T' };
+  const mn = s => String(s).replace(/-/g, '−');
+  function si(v, unit, p = 4) {
+    if (!Number.isFinite(v)) return '—';
+    if (v === 0) return '0 ' + unit;
+    let e = Math.floor(Math.log10(Math.abs(v)) / 3) * 3;
+    e = Math.max(-15, Math.min(12, e));
+    let m = parseFloat((v / Math.pow(10, e)).toPrecision(p));
+    if (Math.abs(m) >= 1000 && e < 12) { e += 3; m = parseFloat((m / 1000).toPrecision(p)); }
+    return mn(m) + ' ' + PFX[e] + unit;
+  }
+  const fix = (v, d) => Number.isFinite(v) ? mn(parseFloat(v.toFixed(d))) : '—';
+  function rd(id) {
+    const s = $(id).value.trim().replace(/,/g, '').replace(/−/g, '-');
+    return s === '' ? NaN : Number(s);
+  }
+  function wr(id, v, p = 6) {
+    const el = $(id);
+    if (!Number.isFinite(v)) { el.value = ''; return; }
+    if (v === 0) { el.value = '0'; return; }
+    const a = Math.abs(v);
+    if (a >= 1e9 || a < 1e-5) {
+      let [m, e] = v.toExponential(p - 1).split('e');
+      el.value = (m.includes('.') ? m.replace(/0+$/, '').replace(/\.$/, '') : m) + 'e' + parseInt(e, 10);
+    } else el.value = String(parseFloat(v.toPrecision(p)));
+  }
+  const ro = (id, t) => { $(id).textContent = t; };
+  const bad = (id, on) => { const w = $(id + '-w'); if (w) w.classList.toggle('bad', on); };
+  const on = (id, fn) => $(id).addEventListener('input', fn);
+
+  // power
+  function pwRead(P, d) {
+    ro('p-dbw', Number.isFinite(d) ? fix(d - 30, 2) + ' dBW' : '—');
+    ro('p-w', si(P, 'W'));
+    const vr = Math.sqrt(P * 50);
+    ro('p-vrms', si(vr, 'V'));
+    ro('p-vpk', si(vr * Math.SQRT2, 'V'));
+  }
+  function pwFromDbm() {
+    const d = rd('p-dbm');
+    const P = Number.isFinite(d) ? Math.pow(10, (d - 30) / 10) : NaN;
+    wr('p-val', P / Number($('p-unit').value));
+    pwRead(P, d);
+  }
+  function pwFromVal() {
+    const P = rd('p-val') * Number($('p-unit').value);
+    const d = P > 0 ? 10 * Math.log10(P) + 30 : NaN;
+    $('p-dbm').value = Number.isFinite(d) ? String(parseFloat(d.toFixed(3))) : '';
+    pwRead(P > 0 ? P : NaN, d);
+  }
+  on('p-dbm', pwFromDbm);
+  on('p-val', pwFromVal);
+  $('p-unit').addEventListener('change', pwFromDbm);
+
+  // wavelength
+  function wl() {
+    const f = rd('w-f') * Number($('w-unit').value);
+    const ok = f > 0;
+    const l = C0 / f;
+    ro('w-l', ok ? si(l, 'm') : '—');
+    ro('w-l2', ok ? si(l / 2, 'm') : '—');
+    ro('w-l4', ok ? si(l / 4, 'm') : '—');
+    ro('w-t', ok ? si(1 / f, 's') : '—');
+    const mhz = f / 1e6;
+    document.querySelectorAll('#w-presets .preset').forEach(b =>
+      b.setAttribute('aria-pressed', String(ok && Math.abs(Number(b.dataset.f) - mhz) < 1e-9)));
+  }
+  on('w-f', wl);
+  $('w-unit').addEventListener('change', wl);
+  document.querySelectorAll('#w-presets .preset').forEach(b => b.addEventListener('click', () => {
+    $('w-unit').value = '1000000'; $('w-f').value = b.dataset.f; wl();
+  }));
+
+  // VSWR / RL / Gamma
+  function vClear(msg, src) {
+    ['v-s', 'v-rl', 'v-g'].forEach(id => bad(id, id === src));
+    $('v-hint').textContent = msg;
+    ['v-ref', 'v-tx', 'v-ml'].forEach(id => ro(id, '—'));
+  }
+  function vFromG(G, src) {
+    ['v-s', 'v-rl', 'v-g'].forEach(id => bad(id, false));
+    $('v-hint').textContent = '';
+    const s = (1 + G) / (1 - G);
+    const rl = G > 0 ? -20 * Math.log10(G) : Infinity;
+    if (src !== 'v-s') wr('v-s', s, 5);
+    if (src !== 'v-rl') $('v-rl').value = Number.isFinite(rl) ? String(parseFloat(rl.toFixed(3))) : '∞';
+    if (src !== 'v-g') wr('v-g', G, 5);
+    ro('v-ref', fix(G * G * 100, 3) + ' %');
+    ro('v-tx', fix((1 - G * G) * 100, 3) + ' %');
+    ro('v-ml', fix(-10 * Math.log10(1 - G * G), 4) + ' dB');
+  }
+  on('v-s', () => { const s = rd('v-s'); s >= 1 ? vFromG((s - 1) / (s + 1), 'v-s') : vClear('VSWR은 1 이상이어야 해요.', 'v-s'); });
+  on('v-rl', () => { const r = rd('v-rl'); r > 0 ? vFromG(Math.pow(10, -r / 20), 'v-rl') : vClear('반사손실은 0 dB보다 커야 해요 (양수로 입력).', 'v-rl'); });
+  on('v-g', () => { const g = rd('v-g'); g >= 0 && g < 1 ? vFromG(g, 'v-g') : vClear('|Γ|는 0 이상 1 미만이에요.', 'v-g'); });
+
+  // forward / reflected
+  function fr() {
+    const u = Number($('f-unit').value);
+    const pf = rd('f-pf'), pr = rd('f-pr');
+    const ok = pf > 0 && pr >= 0 && pr < pf;
+    bad('f-pf', !(pf > 0) && $('f-pf').value !== '');
+    bad('f-pr', !(pr >= 0 && pr < pf) && $('f-pr').value !== '');
+    $('f-hint').textContent = ok || $('f-pr').value === '' ? '' : (pr >= pf ? '반사 전력이 순방향보다 크거나 같아요.' : '');
+    if (!ok) { ['f-g', 'f-s', 'f-rl', 'f-net'].forEach(id => ro(id, '—')); return; }
+    const G = Math.sqrt(pr / pf);
+    ro('f-g', fix(G, 4));
+    ro('f-s', fix((1 + G) / (1 - G), 3));
+    ro('f-rl', G > 0 ? fix(-20 * Math.log10(G), 2) + ' dB' : '∞');
+    ro('f-net', si((pf - pr) * u, 'W'));
+  }
+  on('f-pf', fr); on('f-pr', fr);
+  $('f-unit').addEventListener('change', fr);
+
+  // dB <-> ratio
+  function dbSet(src, d) {
+    ['d-db', 'd-p', 'd-v'].forEach(id => bad(id, false));
+    if (!Number.isFinite(d)) { bad(src, $(src).value !== ''); ['d-db', 'd-p', 'd-v'].forEach(id => { if (id !== src) $(id).value = ''; }); return; }
+    if (src !== 'd-db') $('d-db').value = String(parseFloat(d.toFixed(4)));
+    if (src !== 'd-p') wr('d-p', Math.pow(10, d / 10));
+    if (src !== 'd-v') wr('d-v', Math.pow(10, d / 20));
+  }
+  on('d-db', () => dbSet('d-db', rd('d-db')));
+  on('d-p', () => { const p = rd('d-p'); dbSet('d-p', p > 0 ? 10 * Math.log10(p) : NaN); });
+  on('d-v', () => { const v = rd('d-v'); dbSet('d-v', v > 0 ? 20 * Math.log10(v) : NaN); });
+
+  // ± buttons
+  document.querySelectorAll('.pm').forEach(b => b.addEventListener('click', () => {
+    const el = $(b.dataset.for);
+    const v = el.value.trim().replace(/−/g, '-');
+    el.value = v.startsWith('-') ? v.slice(1) : '-' + (v || '');
+    el.dispatchEvent(new Event('input'));
+  }));
+
+  // skin depth
+  const MU0 = 4e-7 * Math.PI;
+  function expStr(v) {
+    const [m, e] = v.toExponential(4).split('e');
+    return (m.includes('.') ? m.replace(/0+$/, '').replace(/\.$/, '') : m) + 'e' + parseInt(e, 10);
+  }
+  function skin() {
+    const f = rd('k-f') * Number($('k-unit').value);
+    const s = rd('k-sig');
+    const ok = f > 0 && s > 0;
+    bad('k-sig', !(s > 0) && $('k-sig').value !== '');
+    const d = 1 / Math.sqrt(Math.PI * f * MU0 * s);
+    ro('k-d', ok ? si(d, 'm') : '—');
+    ro('k-rs', ok ? si(1 / (s * d), 'Ω') : '—');
+    ro('k-3', ok ? si(3 * d, 'm') : '—');
+    ro('k-5', ok ? si(5 * d, 'm') : '—');
+    const mhz = f / 1e6;
+    document.querySelectorAll('#k-presets .preset').forEach(b =>
+      b.setAttribute('aria-pressed', String(f > 0 && Math.abs(Number(b.dataset.f) - mhz) < 1e-9)));
+  }
+  $('k-mat').addEventListener('change', () => {
+    const v = $('k-mat').value;
+    if (v !== 'custom') $('k-sig').value = expStr(Number(v));
+    else $('k-sig').focus();
+    skin(); saveFields();
+  });
+  on('k-sig', () => {
+    const s = rd('k-sig');
+    const match = [...$('k-mat').options].find(o => o.value !== 'custom' && Math.abs(Number(o.value) - s) < 1);
+    $('k-mat').value = match ? match.value : 'custom';
+    skin();
+  });
+  on('k-f', skin);
+  $('k-unit').addEventListener('change', skin);
+  document.querySelectorAll('#k-presets .preset').forEach(b => b.addEventListener('click', () => {
+    $('k-unit').value = '1000000'; $('k-f').value = b.dataset.f; skin(); saveFields();
+  }));
+
+  /* ---------- SSPA power supply ---------- */
+  const SIZES = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240];
+  // IEC 60364-5-52, copper, 3 loaded conductors (A)
+  const AMP = {
+    xlpe: {
+      B1: [20, 28, 37, 48, 66, 88, 117, 144, 175, 222, 269, 312],
+      C: [22, 30, 40, 51, 70, 94, 119, 148, 180, 232, 282, 328, 379, 434, 514],
+      E: [23, 32, 42, 54, 75, 100, 127, 158, 192, 246, 298, 346, 399, 456, 538]
+    },
+    pvc: {
+      B1: [15.5, 21, 28, 36, 50, 68, 89, 110, 134, 171, 207, 239],
+      C: [17.5, 24, 32, 41, 57, 76, 96, 119, 144, 184, 223, 259, 299, 341, 403],
+      E: [18.5, 25, 34, 43, 60, 80, 101, 126, 153, 196, 238, 276, 319, 364, 430]
+    }
+  };
+  const CB = [15, 20, 30, 40, 50, 60, 75, 100, 125, 150, 175, 200, 225, 250, 300, 350, 400, 500, 600, 700, 800];
+  let phase = store.get('phase', 3) === 1 ? 1 : 3;
+  const sq = a => a + ' sq';
+  function peSize(a) {
+    if (a <= 16) return a;
+    if (a <= 35) return 16;
+    return SIZES.find(s => s >= a / 2);
+  }
+  function setPhase(p, fromUser) {
+    phase = p; store.set('phase', p);
+    $('ph3').setAttribute('aria-pressed', String(p === 3));
+    $('ph1').setAttribute('aria-pressed', String(p === 1));
+    $('e-vac-l').textContent = p === 3 ? '선간 전압' : '전압';
+    $('e-i-l').textContent = p === 3 ? '선전류' : '전류';
+    if (fromUser) $('e-vac').value = p === 3 ? '380' : '220';
+    power();
+  }
+  $('ph3').addEventListener('click', () => { setPhase(3, true); saveFields(); });
+  $('ph1').addEventListener('click', () => { setPhase(1, true); saveFields(); });
+
+  function power() {
+    const v = {
+      rf: rd('e-rf') * Number($('e-rfu').value), eff: rd('e-eff') / 100, vdc: rd('e-vdc'), n: rd('e-n'),
+      vac: rd('e-vac'), psu: rd('e-psu') / 100, pf: rd('e-pf'),
+      len: rd('e-len'), vdl: rd('e-vdl'), k: rd('e-k')
+    };
+    const checks = {
+      'e-rf': v.rf > 0, 'e-eff': v.eff > 0 && v.eff <= 1, 'e-vdc': v.vdc > 0, 'e-n': v.n >= 1,
+      'e-vac': v.vac > 0, 'e-psu': v.psu > 0 && v.psu <= 1, 'e-pf': v.pf > 0 && v.pf <= 1,
+      'e-len': v.len >= 0, 'e-vdl': v.vdl > 0, 'e-k': v.k > 0 && v.k <= 1.5
+    };
+    let allOk = true;
+    for (const id in checks) { bad(id, !checks[id]); if (!checks[id]) allOk = false; }
+    const dash = ids => ids.forEach(id => ro(id, '—'));
+    const ALL_RO = ['e-pdc', 'e-idc', 'e-pdct', 'e-prft', 'e-pac', 'e-s', 'e-i', 'e-heat', 'e-cb', 'e-cab', 'e-iz', 'e-vd', 'e-pe', 'e-why', 's-i', 's-is', 's-cb', 's-cbs', 's-cab', 's-cabs'];
+    if (!allOk) {
+      dash(ALL_RO);
+      $('e-hint').textContent = '빨간 칸의 값을 확인하세요. 효율은 0~100 %, 역률은 0~1 사이예요.';
+      return;
+    }
+    $('e-hint').textContent = '';
+    const pdc = v.rf / v.eff, idc = pdc / v.vdc, pdcT = pdc * v.n, prfT = v.rf * v.n;
+    const pac = pdcT / v.psu, sva = pac / v.pf;
+    const I = phase === 3 ? sva / (Math.sqrt(3) * v.vac) : sva / v.vac;
+    ro('e-pdc', si(pdc, 'W'));
+    ro('e-idc', fix(idc, 1) + ' A');
+    ro('e-pdct', si(pdcT, 'W'));
+    ro('e-prft', si(prfT, 'W'));
+    ro('e-pac', si(pac, 'W'));
+    ro('e-s', si(sva, 'VA'));
+    ro('e-i', fix(I, 1) + ' A');
+    ro('e-heat', si(pac - prfT, 'W'));
+    ro('s-i', fix(I, 1) + ' A');
+    ro('s-is', (phase === 3 ? '3상 ' : '단상 ') + fix(v.vac, 0) + ' V');
+
+    const need = I * 1.25;
+    const cb = CB.find(r => r >= need);
+    ro('e-cb', cb ? cb + ' A' : '800 A 초과');
+    ro('s-cb', cb ? cb + ' A' : '—');
+    ro('s-cbs', '최소 ' + fix(need, 1) + ' A');
+    const tbl = AMP[$('e-ins').value][$('e-meth').value];
+    const kd = phase === 3 ? 30.8 : 35.6;
+    const vdrop = a => kd * v.len * I / (1000 * a);
+    let ampIdx = -1, idx = -1;
+    if (cb) {
+      for (let i = 0; i < tbl.length; i++) {
+        if (tbl[i] * v.k < cb) continue;
+        if (ampIdx < 0) ampIdx = i;
+        if (vdrop(SIZES[i]) / v.vac * 100 > v.vdl) continue;
+        idx = i; break;
+      }
+    }
+    if (idx < 0) {
+      dash(['e-iz', 'e-vd', 'e-pe', 'e-why', 's-cab']);
+      ro('e-cab', cb ? '표 범위 초과' : '—');
+      ro('s-cabs', cb ? '병렬 포설 검토' : '별도 설계');
+      $('e-hint').textContent = cb
+        ? '이 조건에 맞는 단일 케이블이 표에 없어요. 병렬 포설, 트레이(E) 포설, 짧은 경로를 검토하세요.'
+        : '전류가 커서 차단기 표(800 A) 범위를 넘어요. 회로를 나누거나 별도 설계가 필요해요.';
+      return;
+    }
+    const A = SIZES[idx];
+    const e = vdrop(A);
+    ro('e-cab', sq(A));
+    ro('e-iz', fix(tbl[idx] * v.k, 1) + ' A');
+    ro('e-vd', fix(e, 2) + ' V (' + fix(e / v.vac * 100, 2) + ' %)');
+    ro('e-pe', sq(peSize(A)));
+    ro('e-why', idx > ampIdx ? '전압강하' : '허용전류');
+    ro('s-cab', sq(A));
+    ro('s-cabs', (phase === 3 ? '3C' : '2C') + ' + PE ' + peSize(A));
+  }
+  ['e-rf', 'e-eff', 'e-vdc', 'e-n', 'e-vac', 'e-psu', 'e-pf', 'e-len', 'e-vdl', 'e-k'].forEach(id => on(id, power));
+  ['e-rfu', 'e-ins', 'e-meth'].forEach(id => $(id).addEventListener('change', power));
+
+  /* ---------- remember inputs ---------- */
+  const FIELD_IDS = [...document.querySelectorAll('#p-rf input, #p-rf select, #p-pwr input, #p-pwr select')].map(el => el.id).filter(Boolean);
+  function saveFields() {
+    const o = {};
+    FIELD_IDS.forEach(id => { o[id] = $(id).value; });
+    store.set('fields', o);
+  }
+  let saveT;
+  document.addEventListener('input', e => {
+    if (!FIELD_IDS.includes(e.target.id)) return;
+    clearTimeout(saveT); saveT = setTimeout(saveFields, 300);
+  });
+  document.addEventListener('change', e => { if (FIELD_IDS.includes(e.target.id)) saveFields(); });
+  const saved = store.get('fields', null);
+  if (saved && typeof saved === 'object') {
+    FIELD_IDS.forEach(id => {
+      if (typeof saved[id] !== 'string') return;
+      const el = $(id);
+      if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === saved[id])) return;
+      el.value = saved[id];
+    });
+  }
+
+  /* ---------- boot ---------- */
+  pwFromDbm(); wl(); fr(); skin();
+  { const s = rd('v-s'); s >= 1 ? vFromG((s - 1) / (s + 1), 'v-s') : vFromG(0.2, ''); }
+  { const d = rd('d-db'); dbSet('d-db', Number.isFinite(d) ? d : 3); }
+  setPhase(phase, false);
+  paintShift();
+  setTab(['calc', 'rf', 'pwr', 'hist'].includes(state.tab) ? state.tab : 'calc');
+  render();
+  window.addEventListener('resize', () => { if (state.tab === 'calc') fitResult(); });
+})();
+</script>
+
+<script>
+(function () {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('./sw.js').catch(function () {}); });
+  }
+  var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  if (standalone) return;
+  try { if (localStorage.getItem('rfcalc.installDismissed') === '1') return; } catch (e) {}
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var bar = document.createElement('div');
+  bar.className = 'install';
+  bar.innerHTML = '<div class="install-t"><strong>홈 화면에 설치하기</strong><span id="ins-msg">한 번 설치하면 인터넷 없이 앱처럼 열려요</span></div>' +
+    '<button class="install-go" id="ins-go">' + (ios ? '방법 보기' : '설치') + '</button>' +
+    '<button class="install-x" id="ins-x" aria-label="안내 닫기">✕</button>';
+  document.querySelector('.app').prepend(bar);
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; });
+  window.addEventListener('appinstalled', function () { bar.remove(); });
+  document.getElementById('ins-go').addEventListener('click', function () {
+    var msg = document.getElementById('ins-msg');
+    if (deferred) {
+      deferred.prompt();
+      deferred.userChoice.then(function (r) { if (r.outcome === 'accepted') bar.remove(); deferred = null; });
+      return;
+    }
+    msg.textContent = ios
+      ? '아래쪽 공유 버튼(□↑) → "홈 화면에 추가" → 추가'
+      : '오른쪽 위 메뉴(⋮) → "홈 화면에 추가" 또는 "앱 설치"';
+    msg.style.color = 'var(--ink)';
+  });
+  document.getElementById('ins-x').addEventListener('click', function () {
+    bar.remove();
+    try { localStorage.setItem('rfcalc.installDismissed', '1'); } catch (e) {}
+  });
+})();
+</script>
+</body>
+</html>
