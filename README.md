@@ -8,5 +8,8 @@ https://skt138500-code.github.io/rf-calc/
 - RF: dBm⇄W, 주파수→파장, 스킨 깊이, VSWR⇄반사손실⇄|Γ|, 순방향/반사 전력, dB⇄비율
 - 전원: SSPA RF 출력·DC 효율 → DC 전류, 분전반 전류, 차단기, 케이블 굵기(IEC 60364-5-52 참고), 접지선, 발열량
 
+## 내 주식
+관심종목 현재가·등락률, 보유 수익률, 기간별 차트, 원화 환산. https://skt138500-code.github.io/rf-calc/stocks/
+
 ## 수정
-원본은 `src/calc.html`이고, `python3 tools/build.py`로 앱 파일을 다시 만든 뒤 `main`과 `gh-pages` 브랜치에 푸시합니다. 자세한 순서는 `CLAUDE.md`에 있습니다.
+`main`에 푸시하면 GitHub Actions가 시세를 붙여 `gh-pages`로 배포합니다. 자세한 순서는 `CLAUDE.md`에 있습니다.

@@ -1,0 +1,48 @@
+# Publishes the site to the gh-pages branch with fresh stock prices.
+# Runs on every push to main (code changes, a stock added in stocks/watch/)
+# and on a schedule around Korean and US market hours.
+name: 주식 시세 업데이트
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '7,22,37,52 0-7 * * 1-5'    # 한국장 09:00–16:59 KST
+    - cron: '7,22,37,52 13-21 * * 1-5'  # 미국장 22:00–06:59 KST
+    - cron: '41 */3 * * *'              # 그 밖의 시간, 환율 등
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 지난 시세 불러오기
+        run: |
+          if git fetch -q --depth=1 origin gh-pages; then
+            git checkout FETCH_HEAD -- stocks/data 2>/dev/null || echo "이전 시세 없음"
+            git reset -q
+          fi
+
+      - name: 시세 받기
+        run: python3 stocks/tools/fetch.py
+
+      - name: gh-pages에 배포
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git checkout -q --orphan site
+          git add -A
+          git add -f stocks/data
+          git rm -r -q --cached .github
+          git commit -q -m "배포 $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f origin site:gh-pages

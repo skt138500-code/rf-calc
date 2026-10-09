@@ -1,17 +1,25 @@
-# RF 공학계산기 — 수정 방법
+# rf-calc 저장소 — 수정 방법
 
-사용자가 폰에 설치해 쓰는 오프라인 웹앱(PWA)이다. GitHub Pages가 **gh-pages 브랜치**를 서비스한다.
+사용자가 폰 홈 화면에 설치해 쓰는 오프라인 웹앱(PWA) 두 개가 들어 있다. 사용자는 한국어를 쓰는 RF 엔지니어이고, 화면 문구는 한국어로 쓴다.
 
-## 고칠 때 순서
-1. 원본은 `src/calc.html` 하나다. 루트의 `index.html`은 빌드 결과물이니 직접 고치지 않는다.
-2. `src/calc.html` 수정 → `python3 tools/build.py` 실행
-   (index.html, sw.js 캐시 버전, manifest가 다시 만들어진다. sw.js 버전이 바뀌어야 폰에서 새 버전을 받는다.)
-3. 커밋 후 두 브랜치에 모두 푸시: `git push origin main && git push origin main:gh-pages`
-4. 확인: https://skt138500-code.github.io/rf-calc/
+| 앱 | 주소 | 원본 |
+|---|---|---|
+| RF 공학계산기 | https://skt138500-code.github.io/rf-calc/ | `src/calc.html` |
+| 내 주식 | https://skt138500-code.github.io/rf-calc/stocks/ | `stocks/index.html` |
 
-## 구조
-- `src/calc.html`: 화면, 스타일, 계산 엔진(`<script id="engine">`), UI 스크립트가 들어 있는 단일 파일. claude.ai 아티팩트로도 그대로 게시 가능.
-- `tools/build.py`: 구글 폰트 링크를 내장 폰트(`fonts/`)로 바꾸고 manifest, 설치 안내, service worker를 붙인다. 아이콘은 없을 때만 Pillow로 만든다.
-- 탭: 계산 / RF(dBm·파장·스킨 깊이·VSWR·순방향/반사·dB) / 전원(SSPA → 분전반 전류·차단기·케이블) / 기록.
-- 케이블 허용전류는 IEC 60364-5-52 구리, 부하 도체 3개 값(`AMP` 표). 참고용이며 앱 안에도 그렇게 적혀 있다.
-- 사용자는 한국어를 쓰는 RF 엔지니어. 화면 문구는 한국어로 쓴다.
+## 배포
+- **main에만 푸시한다.** `.github/workflows/stocks.yml`이 푸시마다(그리고 장 시간 15분마다) 시세를 받아 main + `stocks/data/`를 `gh-pages`에 강제 푸시하고, GitHub Pages가 `gh-pages`를 서비스한다.
+- `gh-pages`에 직접 푸시하지 않는다(다음 실행 때 덮어써진다).
+
+## 계산기 고칠 때
+1. `src/calc.html` 수정 (루트 `index.html`은 빌드 결과물)
+2. `python3 tools/build.py` → index.html, sw.js(캐시 버전), manifest 재생성
+3. 커밋 → `git push origin main`
+
+## 주식 앱 고칠 때
+1. `stocks/index.html` 수정 → `python3 stocks/tools/build.py` (sw.js 캐시 버전, manifest, 아이콘)
+2. 커밋 → `git push origin main`
+- 관심종목: `stocks/watch/` 안의 파일 하나가 한 종목. 파일 이름 = 종목코드(국내 6자리, 미국 티커), 첫 줄 = 앱에 보일 이름. 앱의 "종목 추가"는 GitHub 새 파일 링크를 미리 채워서 연다.
+- 시세 수집: `stocks/tools/fetch.py` (표준 라이브러리만, Yahoo Finance v8 chart API). 국내 코드는 .KS → .KQ 순서로 찾는다. 실패한 종목은 gh-pages에 있던 이전 데이터를 유지한다.
+- 보유 수량·평단가는 폰 localStorage에만 저장된다. 저장소(공개)에 올리지 않는다.
+- 두 앱의 service worker는 자기 접두어(`rfcalc-`, `stocks-`) 캐시만 지운다.
