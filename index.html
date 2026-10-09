@@ -40,7 +40,7 @@ img{max-width:100%}
   --ink:#141d28; --ink-soft:#5a6677; --line:#c2cad5; --press:rgba(20,40,70,.12);
   --accent:#1f5aa6; --on-accent:#ffffff; --shift:#b0560e; --on-shift:#ffffff;
   --screen:#17212c; --screen-ink:#eef3f9; --screen-soft:#8798ae; --screen-line:#2c3948;
-  --danger:#b42318; --danger-screen:#ff8f7d;
+  --danger:#b42318; --danger-screen:#ff8f7d; --screen-press:rgba(255,255,255,.08);
   --font-ui:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   --font-num:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 }
@@ -69,7 +69,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .app{height:100%;max-width:460px;margin:0 auto;display:flex;flex-direction:column;padding-inline:16px;padding-block:10px 12px}
 
 /* tabs */
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;flex:none}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;flex:none}
 .tab{border:0;background:transparent;border-radius:8px;padding:8px 4px;font:500 14px var(--font-ui);color:var(--ink-soft);cursor:pointer}
 .tab[aria-selected="true"]{background:var(--key);color:var(--ink);box-shadow:0 1px 0 var(--line),0 0 0 1px var(--line)}
 
@@ -77,13 +77,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .panel.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch}
 
 /* screen */
-.screen{flex:1 1 auto;min-height:136px;margin-block:10px;background:var(--screen);color:var(--screen-ink);border:1px solid var(--screen-line);border-radius:16px;padding:10px 14px 12px;display:flex;flex-direction:column;gap:4px;overflow:hidden}
+.screen{flex:1 1 0;min-height:150px;margin-block:10px;background:var(--screen);color:var(--screen-ink);border:1px solid var(--screen-line);border-radius:16px;padding:10px 14px 12px;display:flex;flex-direction:column;gap:4px;overflow:hidden}
 .status{display:flex;align-items:center;gap:6px;flex:none}
 .chip{font:600 11px/1 var(--font-num);letter-spacing:.08em;padding:6px 9px;border-radius:6px;border:1px solid var(--screen-line);background:transparent;color:var(--screen-ink);cursor:pointer}
 .chip .alt{color:var(--screen-soft)}
 .shift-ind{font:600 11px/1 var(--font-num);letter-spacing:.08em;color:var(--on-shift);background:var(--shift);padding:5px 7px;border-radius:5px}
 .ans-ro{margin-left:auto;font:400 12px var(--font-num);color:var(--screen-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.expr{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;justify-content:flex-end;scrollbar-width:none}
+.expr{flex:none;max-height:58px;overflow-y:auto;scrollbar-width:none}
+.screen.has-hist .expr{border-top:1px solid var(--screen-line);padding-top:6px}
 .expr::-webkit-scrollbar{display:none}
 .expr-text{font:400 19px/1.4 var(--font-num);text-align:right;word-break:break-all;color:var(--screen-ink)}
 .expr-text.done{color:var(--screen-soft);font-size:16px}
@@ -98,8 +99,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .pfx{display:inline-block;margin-left:.35em;font:600 .42em/1 var(--font-ui);padding:.28em .45em;border:1px solid currentColor;border-radius:.35em;vertical-align:.5em}
 
 /* keypad */
-.keys{flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:clamp(46px,7.2vh,62px);gap:7px}
-@supports (height:1dvh){.keys{grid-auto-rows:clamp(46px,7.2dvh,62px)}}
+.keys{flex:1 1 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(7,minmax(40px,1fr));gap:7px}
 .key{position:relative;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--key);color:var(--ink);border-radius:10px;font:500 22px var(--font-num);cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;box-shadow:0 1px 0 var(--line);padding:0}
 .key:active{box-shadow:inset 0 0 0 100px var(--press);transform:translateY(1px)}
 .key.fn{background:var(--key-fn);font-size:16px}
@@ -170,27 +170,23 @@ details.card[open] summary::after{content:"−"}
 .formula b{color:var(--ink);font-weight:600}
 .formula code{font:500 12px var(--font-num);color:var(--ink)}
 
-/* history */
-.hist-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-block:14px 6px}
-.hist-head h2{margin:0;font:600 15px var(--font-ui)}
-.hist-head .count{font:400 12px var(--font-num);color:var(--ink-soft);margin-left:6px}
-.clear{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;font:500 12px var(--font-ui);cursor:pointer;color:var(--ink)}
-.clear.confirm{border-color:var(--danger);color:var(--danger)}
-.hist-list{list-style:none;margin:0;padding:0 0 20px}
-.hist-item{width:100%;display:flex;flex-direction:column;align-items:flex-end;gap:3px;text-align:right;background:transparent;border:0;border-bottom:1px solid var(--line);padding:11px 2px;cursor:pointer}
-.hist-item:active{background:var(--press)}
-.he{font:400 13px/1.4 var(--font-num);color:var(--ink-soft);word-break:break-all;max-width:100%}
-.he .mode{font:600 10px var(--font-num);letter-spacing:.06em;border:1px solid var(--line);border-radius:4px;padding:1px 4px;margin-right:6px;vertical-align:1px}
-.hv{font:500 20px/1.3 var(--font-num);color:var(--ink);font-variant-numeric:tabular-nums;max-width:100%;overflow-wrap:anywhere}
-.hv sup{font-size:.62em;vertical-align:.6em;line-height:0}
-.hv .pfx{font-size:.55em}
-.empty{margin-top:28px;padding:22px 18px;border:1px dashed var(--line);border-radius:14px;color:var(--ink-soft);font-size:14px;line-height:1.6;text-align:center}
-.empty strong{color:var(--ink);font-weight:600}
+/* on-screen history tape */
+.hist{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;margin-inline:-6px;scrollbar-width:none;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 22px);mask-image:linear-gradient(to bottom,transparent 0,#000 22px)}
+.hist::-webkit-scrollbar{display:none}
+.hist-in{margin-top:auto;display:flex;flex-direction:column}
+.hrow{display:block;width:100%;text-align:right;background:none;border:0;border-radius:8px;padding:4px 6px;font:400 15px/1.4 var(--font-num);color:var(--screen-soft);word-break:break-all;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hrow:active{background:var(--screen-press)}
+.hrow .hr-v{color:var(--screen-ink);opacity:.82}
+.hrow sup{font-size:.7em;vertical-align:.5em;line-height:0}
+.hrow .x10{margin-left:.1em}
+.hrow .pfx{font-size:.72em;vertical-align:.1em;padding:.15em .35em}
+.chip.k{font-family:var(--font-ui);letter-spacing:0;color:var(--screen-soft)}
+.chip.warn{color:var(--danger-screen);border-color:var(--danger-screen)}
 
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--ground);font:500 13px var(--font-ui);padding:8px 14px;border-radius:999px;pointer-events:none;opacity:0;transition:opacity .18s;max-width:calc(100% - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .toast.show{opacity:1}
 @media (prefers-reduced-motion: reduce){.caret{animation:none}.toast{transition:none}.key:active{transform:none}}
-@media (max-height:600px){.screen{min-height:112px}.result{font-size:32px}}
+@media (max-height:600px){.screen{min-height:120px}.result{font-size:32px}}
 </style>
 
 <div class="app">
@@ -198,7 +194,6 @@ details.card[open] summary::after{content:"−"}
     <button class="tab" role="tab" id="tab-calc" data-tab="calc" aria-controls="p-calc">계산</button>
     <button class="tab" role="tab" id="tab-rf" data-tab="rf" aria-controls="p-rf">RF</button>
     <button class="tab" role="tab" id="tab-pwr" data-tab="pwr" aria-controls="p-pwr">전원</button>
-    <button class="tab" role="tab" id="tab-hist" data-tab="hist" aria-controls="p-hist">기록</button>
   </div>
 
   <section class="panel" id="p-calc" role="tabpanel" aria-labelledby="tab-calc">
@@ -207,8 +202,10 @@ details.card[open] summary::after{content:"−"}
         <button class="chip" id="angle-btn" aria-label="각도 단위 바꾸기">DEG</button>
         <button class="chip" id="fmt-btn" aria-label="표시 형식 바꾸기">NORM</button>
         <span class="shift-ind" id="shift-ind" hidden>2nd</span>
+        <button class="chip k" id="hclr" hidden>기록 지움</button>
         <span class="ans-ro" id="ans-ro"></span>
       </div>
+      <div class="hist" id="hist" aria-label="지난 계산, 누르면 다시 불러오기"><div class="hist-in" id="hist-in"></div></div>
       <div class="expr" id="expr-box"><div class="expr-text" id="expr" aria-live="off"></div></div>
       <button class="result" id="result" aria-live="polite" aria-label="결과, 누르면 복사"></button>
     </div>
@@ -422,14 +419,6 @@ details.card[open] summary::after{content:"−"}
     </div>
   </section>
 
-  <section class="panel scroll" id="p-hist" role="tabpanel" aria-labelledby="tab-hist" hidden>
-    <div class="hist-head">
-      <h2>최근 계산<span class="count" id="h-count"></span></h2>
-      <button class="clear" id="h-clear">기록 지우기</button>
-    </div>
-    <ul class="hist-list" id="h-list"></ul>
-    <div class="empty" id="h-empty" hidden><strong>아직 기록이 없어요.</strong><br>= 를 누르면 식과 결과가 여기 쌓이고,<br>항목을 누르면 그 값이 계산기에 입력됩니다.</div>
-  </section>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -799,16 +788,26 @@ details.card[open] summary::after{content:"−"}
     else state.expr = before + '(−' + num + ')';
   }
 
+  // replace Ans with its value so a stored line still means the same thing later
+  function substAns(expr, v) {
+    const s = E.canon(v).replace(/-/g, '−');
+    return expr.replace(/Ans/g, (m, off) => {
+      const tight = /[0-9.]/.test(expr[off - 1] || '') || /[0-9.]/.test(expr[off + 3] || '');
+      return v < 0 || tight ? '(' + s + ')' : s;
+    });
+  }
+
   function equals() {
     if (state.done || !state.expr.trim()) return;
     try {
       const v = E.evaluate(state.expr, { angle: state.angle, ans: state.ans });
       const closed = state.expr + ')'.repeat(Math.max(0, E.openParens(state.expr)));
-      state.history.unshift({ e: closed, v, a: /sin|cos|tan/.test(closed) ? state.angle : '' });
+      state.history.unshift({ e: substAns(closed, state.ans), v, a: /sin|cos|tan/.test(closed) ? state.angle : '' });
       if (state.history.length > 80) state.history.length = 80;
       store.set('history', state.history);
       state.ans = v; store.set('ans', v);
       state.last = v; state.expr = closed; state.done = true; state.err = '';
+      renderTape();
     } catch (err) {
       state.err = err.message || '식 오류';
     }
@@ -878,7 +877,7 @@ details.card[open] summary::after{content:"−"}
   });
   $('fmt-btn').addEventListener('click', () => {
     state.fmt = { NORM: 'SCI', SCI: 'ENG', ENG: 'NORM' }[state.fmt];
-    store.set('fmt', state.fmt); render(); renderHist();
+    store.set('fmt', state.fmt); render(); renderTape();
   });
 
   let toastT;
@@ -927,48 +926,45 @@ details.card[open] summary::after{content:"−"}
     $('p-calc').hidden = t !== 'calc';
     $('p-rf').hidden = t !== 'rf';
     $('p-pwr').hidden = t !== 'pwr';
-    $('p-hist').hidden = t !== 'hist';
-    if (t === 'hist') renderHist();
-    if (t === 'calc') render();
+    if (t === 'calc') { render(); renderTape(); }
   }
   document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
 
-  /* ---------- history ---------- */
-  let clearArmed = false, clearT;
-  function renderHist() {
-    const list = $('h-list');
-    list.innerHTML = '';
-    $('h-count').textContent = state.history.length ? state.history.length + '개' : '';
-    $('h-empty').hidden = state.history.length > 0;
-    $('h-clear').hidden = !state.history.length;
-    state.history.forEach(h => {
-      const li = document.createElement('li');
+  /* ---------- history tape on the screen ---------- */
+  const histBox = $('hist'), histIn = $('hist-in'), hclr = $('hclr');
+  function renderTape() {
+    histIn.innerHTML = '';
+    const rows = state.history.slice(0, 40).reverse();
+    rows.forEach(h => {
       const b = document.createElement('button');
-      b.className = 'hist-item';
-      const he = document.createElement('div');
-      he.className = 'he';
-      if (h.a) { const m = document.createElement('span'); m.className = 'mode'; m.textContent = h.a; he.appendChild(m); }
-      he.appendChild(document.createTextNode(h.e + ' ='));
-      const hv = document.createElement('div');
-      hv.className = 'hv';
-      hv.innerHTML = numHTML(h.v);
-      b.append(he, hv);
-      b.addEventListener('click', () => { setTab('calc'); insert(E.toInsert(h.v)); toast('값을 입력했어요'); });
-      li.appendChild(b);
-      list.appendChild(li);
+      b.className = 'hrow';
+      b.appendChild(document.createTextNode(h.e + ' = '));
+      const v = document.createElement('span');
+      v.className = 'hr-v';
+      v.innerHTML = numHTML(h.v);
+      b.appendChild(v);
+      b.addEventListener('click', () => {
+        state.expr = h.e; state.done = false; state.err = '';
+        if (state.shift) { state.shift = false; paintShift(); }
+        render();
+      });
+      histIn.appendChild(b);
     });
+    document.querySelector('.screen').classList.toggle('has-hist', rows.length > 0);
+    hclr.hidden = rows.length === 0;
+    histBox.scrollTop = histBox.scrollHeight;
   }
-  $('h-clear').addEventListener('click', () => {
-    const b = $('h-clear');
+  let clearArmed = false, clearT;
+  function disarm() { clearArmed = false; hclr.classList.remove('warn'); hclr.textContent = '기록 지움'; }
+  hclr.addEventListener('click', () => {
     if (!clearArmed) {
-      clearArmed = true; b.classList.add('confirm'); b.textContent = '한 번 더 누르면 삭제';
-      clearTimeout(clearT);
-      clearT = setTimeout(() => { clearArmed = false; b.classList.remove('confirm'); b.textContent = '기록 지우기'; }, 3000);
+      clearArmed = true; hclr.classList.add('warn'); hclr.textContent = '한 번 더';
+      clearTimeout(clearT); clearT = setTimeout(disarm, 3000);
       return;
     }
-    clearArmed = false; clearTimeout(clearT);
-    b.classList.remove('confirm'); b.textContent = '기록 지우기';
-    state.history = []; store.set('history', []); renderHist();
+    clearTimeout(clearT); disarm();
+    state.history = []; store.set('history', []); renderTape();
+    toast('기록을 지웠어요');
   });
 
   /* ---------- RF converters ---------- */
@@ -1282,7 +1278,8 @@ details.card[open] summary::after{content:"−"}
   { const d = rd('d-db'); dbSet('d-db', Number.isFinite(d) ? d : 3); }
   setPhase(phase, false);
   paintShift();
-  setTab(['calc', 'rf', 'pwr', 'hist'].includes(state.tab) ? state.tab : 'calc');
+  setTab(['calc', 'rf', 'pwr'].includes(state.tab) ? state.tab : 'calc');
+  renderTape();
   render();
   window.addEventListener('resize', () => { if (state.tab === 'calc') fitResult(); });
 })();
