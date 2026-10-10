@@ -27,4 +27,4 @@
 - 아이콘: `stocks/tools/build.py`의 `icon()`이 그린다. 아이콘 파일이 없을 때만 새로 만드니, 바꿀 땐 PNG들을 지우고 빌드한다.
 - 시세 수집: `stocks/tools/fetch.py` (표준 라이브러리만, Yahoo Finance v8 chart API, 5년 차트 요청에 `events=div`로 배당 내역도 받음). 국내 코드는 .KS → .KQ 순서로 찾는다. 실패한 종목은 gh-pages에 있던 이전 데이터를 유지한다.
 - 보유 수량·평단가·분류·GitHub 토큰은 폰 localStorage에만 저장된다. 저장소(공개)에 올리지 않는다.
-- 두 앱의 service worker는 자기 접두어(`rfcalc-`, `stocks-`) 캐시만 지운다. 주식 앱 service worker는 다른 출처(GitHub API 등) 요청을 건드리지 않는다.
+- 두 앱의 service worker는 자기 접두어(`rfcalc-`, `stocks-`) 캐시만 지운다. 주식 앱 service worker는 다른 출처(GitHub API 등) 요청을 건드리지 않는다. 페이지(index.html)는 네트워크 우선이라 업데이트가 첫 실행에 바로 보이고, 오프라인이거나 3초 넘게 걸리면 저장본을 쓴다.
