@@ -91,22 +91,22 @@ a{color:var(--accent)}
 .group{display:flex;flex-direction:column}
 .group h2{margin:0 0 6px;font-size:12px;font-weight:600;color:var(--ink-soft);letter-spacing:.04em}
 .rows{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.row{width:100%;display:grid;grid-template-columns:minmax(0,1fr) 60px auto;align-items:center;gap:10px;padding:11px 12px;background:none;border:0;border-top:1px solid var(--line);text-align:left}
+.row{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n q" "s p";column-gap:12px;row-gap:1px;align-items:center;padding:9px 12px;background:none;border:0;border-top:1px solid var(--line);text-align:left}
 .row:first-child{border-top:0}
 .row:active{background:var(--press)}
-.r-name{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.r-sub{font-size:12px;color:var(--ink-soft);display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden}
-.r-hold{font-size:12px;color:var(--ink-soft);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r-name{grid-area:n;font-size:15px;font-weight:600;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r-sub{grid-area:s;font-size:12px;line-height:1.4;color:var(--ink-soft);display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;min-width:0}
+.r-sub .tx{overflow:hidden;text-overflow:ellipsis}
+.r-sub b{font-weight:600;color:var(--ink)}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--flat);flex:none}
 .dot.open{background:var(--accent)}
-.spark{width:60px;height:28px;display:block}
-.spark .sl{fill:none;stroke:var(--ink-soft);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;opacity:.75}
-.r-px{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:84px}
-.r-price{font:600 15px var(--font-num);font-variant-numeric:tabular-nums;white-space:nowrap}
-.r-alt{font:400 11px var(--font-num);color:var(--ink-soft);white-space:nowrap}
-.pill{font:600 12px/1 var(--font-num);font-variant-numeric:tabular-nums;padding:4px 6px;border-radius:6px;white-space:nowrap}
+.r-q{grid-area:q;display:flex;align-items:center;justify-content:flex-end;gap:6px;min-width:0}
+.r-price{font:600 15px/1.35 var(--font-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.r-pl{grid-area:p;justify-self:end;font:500 12.5px/1.4 var(--font-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.r-pl small{font-size:11.5px;font-weight:400;opacity:.8;margin-left:3px}
+.pill{font:600 11.5px/1 var(--font-num);font-variant-numeric:tabular-nums;padding:3px 5px;border-radius:5px;white-space:nowrap}
 .pill.up{background:var(--up);color:var(--on-dir)} .pill.down{background:var(--down);color:var(--on-dir)} .pill.flat{background:var(--flat);color:var(--on-dir)}
-.row.wait .r-px,.row.err .r-px{min-width:0}
+.row .tag{grid-column:2;grid-row:1/3;justify-self:end}
 .tag{font-size:12px;color:var(--ink-soft);border:1px dashed var(--line);border-radius:6px;padding:3px 6px;white-space:nowrap}
 .row.err .tag{color:var(--warn);border-color:var(--warn)}
 .row.hid{opacity:.55}
@@ -262,6 +262,29 @@ a{color:var(--accent)}
 .drow.off{opacity:.6}
 .dday{font:600 12px var(--font-num);color:var(--accent)}
 
+/* dividend: 받음 vs 예상 */
+.seg.s2{grid-template-columns:repeat(2,1fr)}
+.st{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:0;flex:none}
+.st.got{background:var(--accent)}
+.st.exp{background:color-mix(in srgb,var(--accent) 22%,transparent);box-shadow:inset 0 0 0 1.2px var(--accent)}
+.sum .st.got{background:var(--screen-down)}
+.sum .st.exp{background:color-mix(in srgb,var(--screen-down) 25%,transparent);box-shadow:inset 0 0 0 1.2px var(--screen-down)}
+.prog{height:6px;border-radius:99px;background:color-mix(in srgb,var(--accent) 18%,transparent);overflow:hidden}
+.prog span{display:block;height:100%;background:var(--accent);border-radius:99px}
+.sum .prog{background:color-mix(in srgb,var(--screen-down) 22%,transparent)}
+.sum .prog span{background:var(--screen-down)}
+.prog.sm{grid-column:1/-1;height:4px;margin-top:2px}
+.legend{display:flex;gap:10px;font-size:12px;color:var(--ink-soft);white-space:nowrap}
+.legend span{display:inline-flex;align-items:center}
+.selbg{fill:var(--press)}
+.bg-got{fill:var(--accent)}
+.bg-exp{fill:color-mix(in srgb,var(--accent) 22%,transparent);stroke:var(--accent);stroke-width:1.2;stroke-dasharray:3 2}
+.bt.now{fill:var(--accent);font-weight:600}
+#mdet{display:flex;flex-direction:column;gap:6px}
+.msub{display:flex;flex-wrap:wrap;gap:4px 12px;font:400 12.5px var(--font-ui);color:var(--ink-soft);padding-bottom:4px}
+.msub span{display:inline-flex;align-items:center}
+.mlist li.exp b{color:var(--ink-soft);font-weight:400}
+.drow .v small{display:inline-flex;align-items:center}
 /* sector tab */
 .seg.s3{grid-template-columns:repeat(3,1fr)}
 .stack{display:flex;gap:2px;height:16px;border-radius:6px;overflow:hidden;background:var(--surface)}
@@ -275,7 +298,7 @@ a{color:var(--accent)}
 .lg i{width:12px;height:12px;border-radius:3px}
 .lg .t{display:flex;flex-direction:column;gap:1px;min-width:0}
 .lg .t b{font-size:14.5px}
-.lg .t small{font-size:12px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lg .t small{font-size:12px;line-height:1.4;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .lg .v{text-align:right;display:flex;flex-direction:column;gap:1px}
 .lg .v b{font:600 15px var(--font-num);font-variant-numeric:tabular-nums}
 .lg .v small{font:400 12px var(--font-num);color:var(--ink-soft);white-space:nowrap}
@@ -291,6 +314,13 @@ a{color:var(--accent)}
 .pick{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 13px;font-size:14px;font-weight:600;color:var(--ink)}
 .pick[aria-pressed="true"]{background:var(--accent);border-color:transparent;color:var(--on-accent)}
 
+/* backup */
+.chk{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.45}
+.chk input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--accent);flex:none}
+textarea.code{width:100%;min-height:84px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink);padding:10px;font:400 12.5px/1.4 var(--font-num);word-break:break-all;resize:vertical}
+textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.foot .linkish{font-size:12px;padding:0}
+
 /* GitHub connect */
 .connect{border-style:dashed}
 .connect p{margin:0;font-size:13.5px;line-height:1.5;color:var(--ink-soft)}
@@ -300,7 +330,7 @@ a{color:var(--accent)}
 .btn[disabled]{opacity:.55}
 .inwrap input.tok{font:400 14px var(--font-num)}
 @media (prefers-reduced-motion: reduce){.spin svg{animation:none}.toast{transition:none}}
-@media (max-width:360px){.row{grid-template-columns:minmax(0,1fr) auto}.spark{display:none}}
+@media (max-width:360px){.r-pl small{display:none}.r-price{font-size:14px}}
 </style>
 </head>
 <body>
@@ -324,7 +354,7 @@ a{color:var(--accent)}
   </div>
   <div class="panel" id="p-div" role="tabpanel" aria-labelledby="tab-div" hidden></div>
   <div class="panel" id="p-sec" role="tabpanel" aria-labelledby="tab-sec" hidden></div>
-  <p class="foot">시세·배당은 Yahoo Finance 기준이며 15~30분 늦을 수 있어요.<br>보유 수량·평단가·분류는 이 폰에만 저장돼요.</p>
+  <p class="foot">시세·배당은 Yahoo Finance 기준이며 15~30분 늦을 수 있어요.<br>보유 수량·평단가·분류는 이 폰에만 저장돼요. <button class="linkish" id="bak-btn">백업·복원</button></p>
 </div>
 
 <div class="sheet" id="detail" hidden role="dialog" aria-modal="true" aria-labelledby="d-name">
@@ -423,11 +453,30 @@ a{color:var(--accent)}
   </div>
 </div>
 
+<div class="sheet" id="bak" hidden role="dialog" aria-modal="true" aria-labelledby="b-title">
+  <div class="sheet-in">
+    <div class="sh-top"><button class="back" data-close aria-label="뒤로">‹</button><div class="sh-t"><h2 id="b-title">백업·복원</h2><span>보유 수량·평단가·분류</span></div></div>
+    <section class="card">
+      <h3>백업 코드 만들기</h3>
+      <p class="note">홈 화면에서 앱을 지우거나 폰을 바꾸면 이 폰에만 있던 보유 수량·평단가·분류가 같이 지워질 수 있어요. 아래 버튼으로 코드를 복사해 메모 앱에 붙여 두세요.</p>
+      <label class="chk"><input type="checkbox" id="b-gh"><span>GitHub 열쇠도 같이 넣기 <span class="muted">(그러면 이 코드는 남에게 보여주지 마세요)</span></span></label>
+      <button class="btn primary" id="b-copy">백업 코드 복사</button>
+      <textarea class="code" id="b-out" readonly hidden aria-label="백업 코드"></textarea>
+    </section>
+    <section class="card">
+      <h3>백업 코드로 되돌리기</h3>
+      <textarea class="code" id="b-in" placeholder="MYSTOCK1. 로 시작하는 코드를 붙여넣으세요" aria-label="붙여넣을 백업 코드"></textarea>
+      <div class="hint" id="b-hint"></div>
+      <button class="btn" id="b-load">불러오기</button>
+    </section>
+  </div>
+</div>
+
 <div class="sheet" id="classer" hidden role="dialog" aria-modal="true" aria-labelledby="c-title">
   <div class="sheet-in">
     <div class="sh-top"><button class="back" data-close aria-label="뒤로">‹</button><div class="sh-t"><h2 id="c-title">분류 바꾸기</h2><span id="c-sub"></span></div></div>
     <section class="card"><h3>섹터</h3><div class="picks" id="c-s"></div></section>
-    <section class="card"><h3>성격</h3><div class="picks" id="c-t"></div></section>
+    <section class="card"><h3>유형</h3><div class="picks" id="c-t"></div></section>
     <button class="btn" id="c-reset">기본값으로 되돌리기</button>
     <p class="note">분류는 이 폰에만 저장돼요. 섹터 탭의 비중 계산에 쓰여요.</p>
   </div>
@@ -448,7 +497,7 @@ a{color:var(--accent)}
     data: store.get('last', null), hold: store.get('hold', {}), hidden: store.get('hidden', []),
     pending: store.get('pending', []), krw: store.get('krw', false), showHidden: false,
     amt: store.get('amt', true), tab: store.get('tab', 'list'), cls: store.get('cls', {}),
-    gone: store.get('gone', []), secBy: store.get('secBy', 's'), divMonth: 0, clsCode: null,
+    gone: store.get('gone', []), secBy: store.get('secBy', 's'), tax: store.get('tax', 'net'), divMonth: new Date().getMonth(), clsCode: null,
     loading: false, err: '', fetchedAt: 0, cur: null, range: 'd1', hist: {}
   };
   const API = 'https://api.github.com/repos/' + REPO;
@@ -457,24 +506,29 @@ a{color:var(--accent)}
   /* ---------- sectors (defaults; the user's picks are kept in S.cls on this phone) ---------- */
   const SECTORS = ['반도체', 'IT·소프트웨어', '통신·미디어', '항공우주·방산', '조선·중공업', '산업재', '자동차', '2차전지·소재',
     '에너지·화학', '바이오·헬스케어', '금융', '부동산·리츠', '소비재', '지수 ETF', '채권', '가상자산', '기타'];
-  const STYLES = ['성장·모멘텀', '배당·인컴', '안정·우량', '기타'];
-  const G = '성장·모멘텀', D = '배당·인컴', A = '안정·우량';
+  const STYLES = ['성장·모멘텀', '경기민감주', '가치·우량주', '배당주', '기타'];   // 화면에서는 '유형'
+  const G = '성장·모멘텀', C = '경기민감주', V = '가치·우량주', D = '배당주', E = '기타';
+  const OLD_TYPE = { '배당·인컴': D, '안정·우량': V };   // 예전 이름으로 저장된 선택을 새 이름으로
   const CLS = {
-    '005930': ['반도체', A], '005935': ['반도체', A], '000660': ['반도체', G], '373220': ['2차전지·소재', G], '207940': ['바이오·헬스케어', G],
-    '005380': ['자동차', A], '000270': ['자동차', A], '012330': ['자동차', A], '068270': ['바이오·헬스케어', G], '035420': ['IT·소프트웨어', G],
-    '035720': ['IT·소프트웨어', G], '005490': ['2차전지·소재', A], '051910': ['에너지·화학', A], '006400': ['2차전지·소재', G],
-    '105560': ['금융', D], '055550': ['금융', D], '012450': ['항공우주·방산', G], '329180': ['조선·중공업', G], '042660': ['조선·중공업', G],
-    '034020': ['조선·중공업', G], '028260': ['산업재', A], '259960': ['통신·미디어', G], '066570': ['소비재', A], '096770': ['에너지·화학', A],
+    '005930': ['반도체', V], '005935': ['반도체', V], '000660': ['반도체', G], '373220': ['2차전지·소재', G], '207940': ['바이오·헬스케어', G],
+    '005380': ['자동차', C], '000270': ['자동차', C], '012330': ['자동차', C], '068270': ['바이오·헬스케어', G], '035420': ['IT·소프트웨어', G],
+    '035720': ['IT·소프트웨어', G], '005490': ['2차전지·소재', C], '051910': ['에너지·화학', C], '006400': ['2차전지·소재', G],
+    '105560': ['금융', D], '055550': ['금융', D], '012450': ['항공우주·방산', G], '329180': ['조선·중공업', C], '042660': ['조선·중공업', C],
+    '034020': ['조선·중공업', G], '028260': ['산업재', V], '259960': ['통신·미디어', G], '066570': ['소비재', C], '096770': ['에너지·화학', C],
     '003230': ['소비재', G], '247540': ['2차전지·소재', G], '086520': ['2차전지·소재', G], '196170': ['바이오·헬스케어', G],
-    '028300': ['바이오·헬스케어', G], '277810': ['산업재', G], '069500': ['지수 ETF', A], '122630': ['지수 ETF', G], '360750': ['지수 ETF', A],
-    TSLA: ['자동차', G], SPCX: ['항공우주·방산', G], AAPL: ['IT·소프트웨어', A], NVDA: ['반도체', G], MSFT: ['IT·소프트웨어', A],
+    '028300': ['바이오·헬스케어', G], '277810': ['산업재', G], '069500': ['지수 ETF', V], '122630': ['지수 ETF', G], '360750': ['지수 ETF', V],
+    TSLA: ['자동차', G], SPCX: ['항공우주·방산', G], AAPL: ['IT·소프트웨어', V], NVDA: ['반도체', G], MSFT: ['IT·소프트웨어', V],
     AMZN: ['소비재', G], GOOGL: ['통신·미디어', G], GOOG: ['통신·미디어', G], META: ['통신·미디어', G], AVGO: ['반도체', G],
-    PLTR: ['IT·소프트웨어', G], AMD: ['반도체', G], NFLX: ['통신·미디어', G], TSM: ['반도체', A], MU: ['반도체', G], INTC: ['반도체', G],
-    KO: ['소비재', D], 'BRK-B': ['금융', A], LLY: ['바이오·헬스케어', G], ORCL: ['IT·소프트웨어', G], COIN: ['가상자산', G],
-    IONQ: ['IT·소프트웨어', G], RKLB: ['항공우주·방산', G], O: ['부동산·리츠', D], OHI: ['부동산·리츠', D], QQQ: ['지수 ETF', G],
-    SPY: ['지수 ETF', A], VOO: ['지수 ETF', A], SCHD: ['지수 ETF', D], TQQQ: ['지수 ETF', G], SOXL: ['반도체', G],
-    JEPI: ['금융', D], JEPQ: ['금융', D], MAIN: ['금융', D], SCHG: ['지수 ETF', G], DIVO: ['지수 ETF', D], QYLD: ['금융', D], TLTW: ['채권', D], TLT: ['채권', A], BITX: ['가상자산', G], IBIT: ['가상자산', G]
+    PLTR: ['IT·소프트웨어', G], AMD: ['반도체', G], NFLX: ['통신·미디어', G], TSM: ['반도체', V], MU: ['반도체', C], INTC: ['반도체', C],
+    KO: ['소비재', D], 'BRK-B': ['금융', V], BAC: ['금융', C], JPM: ['금융', V], LLY: ['바이오·헬스케어', G], ORCL: ['IT·소프트웨어', G],
+    COIN: ['가상자산', G], IONQ: ['IT·소프트웨어', G], RKLB: ['항공우주·방산', G], O: ['부동산·리츠', D], OHI: ['부동산·리츠', D],
+    QQQ: ['지수 ETF', G], SPY: ['지수 ETF', V], VOO: ['지수 ETF', V], SCHD: ['지수 ETF', D], TQQQ: ['지수 ETF', G], SOXL: ['반도체', G],
+    JEPI: ['금융', D], JEPQ: ['금융', D], MAIN: ['금융', D], SCHG: ['지수 ETF', G], DIVO: ['지수 ETF', D], QYLD: ['금융', D],
+    TLTW: ['채권', D], TLT: ['채권', E], BITX: ['가상자산', G], IBIT: ['가상자산', G]
   };
+  // migrate picks saved under the old type names
+  Object.keys(S.cls).forEach(k => { const m = S.cls[k]; if (m && OLD_TYPE[m.t]) m.t = OLD_TYPE[m.t]; });
+  store.set('cls', S.cls);
   function clsOf(it) {
     const code = it.code || it;
     const def = CLS[code] || [];
@@ -503,23 +557,26 @@ a{color:var(--accent)}
     return { d, last, gap, freq, label: { 12: '매월', 4: '분기', 2: '반기', 1: '연 1회' }[freq], ttm, n: yr.length, active, next,
       yld: it.price > 0 ? ttm / it.price * 100 : NaN };
   }
-  function monthStart(off) { const n = new Date(); return new Date(n.getFullYear(), n.getMonth() + off, 1).getTime() / 1000; }
-  function monthIdx(t) { const d = new Date(t * 1000), n = new Date(); return (d.getFullYear() - n.getFullYear()) * 12 + d.getMonth() - n.getMonth(); }
   function plusYear(t) { const d = new Date(t * 1000); d.setFullYear(d.getFullYear() + 1); return d.getTime() / 1000; }
-  // expected ex-dividend events for the 12 calendar months from this month, assuming the past year repeats
-  function projected(di) {
-    if (!di || !di.active) return [];
-    const m0 = monthStart(0), m1 = monthStart(1), m12 = monthStart(12), now = Date.now() / 1000;
-    // this month: what already happened + what is still ahead; later months: last year's dates, one year on
-    const actual = di.d.filter(x => x[0] >= m0 && x[0] <= now + DAY);
-    const out = actual.map(x => [x[0], x[1], true]);
-    di.d.forEach(x => {
-      const t = plusYear(x[0]);
-      if (t < now || t >= m12 || (t < m1 && actual.length)) return;
-      out.push([t, x[1], false]);
-    });
-    return out.sort((a, b) => a[0] - b[0]);
+  // this calendar year's ex-dividend events: [[date, 1주 금액, 받음?]]
+  //   지나간 것 = 실제 기록, 남은 달 = 작년 같은 때 배당이 1년 뒤 다시 나온다고 가정 (실제 기록과 겹치면 빼기)
+  function yearEvents(di) {
+    if (!di) return [];
+    const y = new Date().getFullYear(), y0 = new Date(y, 0, 1) / 1000, y1 = new Date(y + 1, 0, 1) / 1000, now = Date.now() / 1000;
+    const out = di.d.filter(x => x[0] >= y0 && x[0] < y1).map(x => [x[0], x[1], x[0] <= now]);
+    if (di.active) {
+      const win = Math.min(di.gap * 0.45, 40 * DAY);
+      di.d.forEach(x => {
+        const t = plusYear(x[0]);
+        if (t <= now || t < y0 || t >= y1) return;
+        if (di.d.some(z => Math.abs(z[0] - t) < win)) return;
+        out.push([t, x[1], false]);
+      });
+    }
+    return out.sort((p, q) => p[0] - q[0]);
   }
+  const taxed = (it, v) => S.tax === 'gross' ? v : v * (1 - TAX(it));
+  const taxWord = () => S.tax === 'gross' ? '세전' : '세후';
   function divMoney(v, cur) {
     if (!isFinite(v)) return '—';
     if (cur === 'USD') return (v < 0 ? '−' : '') + '$' + nf(v, Math.abs(v) < 1 ? 3 : 2);
@@ -704,40 +761,27 @@ a{color:var(--accent)}
       </dl>${note}` + fxRow;
   }
 
-  function sparkSVG(vals) {
-    if (!vals || vals.length < 2) return '<svg class="spark" aria-hidden="true"></svg>';
-    const lo = Math.min(...vals), hi = Math.max(...vals), w = 60, h = 28, p = 3;
-    const pts = vals.map((v, i) => [p + (w - 2 * p) * i / (vals.length - 1), p + (h - 2 * p) * (1 - (v - lo) / ((hi - lo) || 1))]);
-    const last = pts[pts.length - 1];
-    return `<svg class="spark" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline class="sl" points="${pts.map(q => q[0].toFixed(1) + ',' + q[1].toFixed(1)).join(' ')}"/><circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.4" style="fill:var(--ink-soft)"/></svg>`;
-  }
-
   function rowHTML(it, hid) {
+    // two lines:  이름 ........ 가격 [등락]
+    //             코드 · 시장 · 보유 ........ 내 손익
     const cur = it.cur, d = dir(it.chg);
     const kr = isKR(it);
     const showKRW = !kr && S.krw && fx() && cur === 'USD';
     const price = showKRW ? money(toKRW(it.price, cur), 'KRW') : money(it.price, cur);
-    const alt = showKRW ? money(it.price, cur) : '';
     const open = isOpen(it);
     const h = heldOf(it.code);
-    let hold = '';
+    let qty = '', pl = '';
     if (h) {
-      const qty = `보유 ${nf(h.q, h.q % 1 ? 2 : 0)}주`;
-      if (S.amt) {
-        // 평가손익 금액: 국내는 원, 미국은 ₩ 버튼을 켜면 원(매입 환율 반영), 끄면 달러
-        let tail = '';
-        if (h.a > 0) {
-          let v, c;
-          if (it.cur === 'USD' && S.krw && fx()) { const F = fx(), F0 = h.fx > 0 ? h.fx : F; v = h.q * (it.price * F - h.a * F0); c = 'KRW'; }
-          else { v = h.q * (it.price - h.a); c = cur; }
-          tail = ` · <span class="${dir(v)}">${smoney(v, c)}</span>`;
-        }
-        hold = `<div class="r-hold">${qty}${tail}</div>`;
-      } else {
-        const plp = h.a > 0 ? (it.price - h.a) / h.a * 100 : NaN;
-        const plpK = h.a > 0 && it.cur === 'USD' && h.fx > 0 && fx() ? (it.price * fx() - h.a * h.fx) / (h.a * h.fx) * 100 : NaN;
-        const p1 = v => sgn(v) + nf(v, 1) + '%';
-        hold = `<div class="r-hold">${qty}${isFinite(plp) ? ` · <span class="${dir(plp)}">${isFinite(plpK) ? '$' + p1(plp) : pct(plp)}</span>` : ''}${isFinite(plpK) ? ` · <span class="${dir(plpK)}">₩${p1(plpK)}</span>` : ''}</div>`;
+      qty = ` · <b>${nf(h.q, h.q % 1 ? 2 : 0)}주</b>`;
+      if (h.a > 0) {
+        // 금액: 국내는 원, 미국은 ₩ 버튼을 켜면 원(매입 환율 반영), 끄면 달러
+        let v, c, p;
+        if (cur === 'USD' && S.krw && fx()) {
+          const F = fx(), F0 = h.fx > 0 ? h.fx : F;
+          v = h.q * (it.price * F - h.a * F0); c = 'KRW'; p = (it.price * F - h.a * F0) / (h.a * F0) * 100;
+        } else { v = h.q * (it.price - h.a); c = cur; p = (it.price - h.a) / h.a * 100; }
+        const amt = smoney(v, c), pc = sgn(p) + nf(p, 1) + '%';
+        pl = `<span class="r-pl ${dir(v)}">${S.amt ? amt + `<small>${pc}</small>` : pc + `<small>${amt}</small>`}</span>`;
       }
     }
     let pillTxt = pct(it.pct).replace(/^[+−]/, '');
@@ -746,10 +790,10 @@ a{color:var(--accent)}
       pillTxt = showKRW ? money(c * fx(), 'KRW') : cur === 'USD' ? '$' + nf(c, c < 0.1 ? 3 : 2) : money(c, cur);
     }
     return `<button class="row${hid ? ' hid' : ''}" data-code="${esc(it.code)}">
-      <div><div class="r-name">${esc(it.name)}</div>
-        <div class="r-sub"><span class="dot${open ? ' open' : ''}"></span>${esc(kr ? it.code : it.sym)} · ${esc(it.market || '')}${open ? ' · 장중' : ''}${it.stale ? ' · 지연' : ''}</div>${hold}</div>
-      ${sparkSVG(it.spark)}
-      <div class="r-px"><span class="r-price">${price}</span>${alt ? `<span class="r-alt">${alt}</span>` : ''}<span class="pill ${d}">${d === 'up' ? '▲' : d === 'down' ? '▼' : ''}${pillTxt}</span></div>
+      <span class="r-name">${esc(it.name)}</span>
+      <span class="r-q"><span class="r-price">${price}</span><span class="pill ${d}">${d === 'up' ? '▲' : d === 'down' ? '▼' : ''}${pillTxt}</span></span>
+      <span class="r-sub"><span class="dot${open ? ' open' : ''}"></span><span class="tx">${esc(kr ? it.code : it.sym)} · ${esc(it.market || '')}${open ? ' · 장중' : ''}${it.stale ? ' · 지연' : ''}${qty}</span></span>
+      ${pl}
     </button>`;
   }
 
@@ -767,10 +811,10 @@ a{color:var(--accent)}
     };
     const waitRows = S.pending.filter(p => !items.some(i => i.code === p.code)).map(p => {
       const old = !p.at || Date.now() - p.at > 10 * 60000;
-      return `<button class="row wait${old ? ' err' : ''}" data-pend="${esc(p.code)}"><div><div class="r-name">${esc(p.name || p.code)}</div><div class="r-sub">${esc(p.code)}${old ? ' · 저장이 안 됐을 수 있어요 · 눌러서 지우기' : ' · 보통 1~2분 걸려요'}</div></div><span></span><div class="r-px"><span class="tag">${old ? '확인 필요' : '시세 기다리는 중'}</span></div></button>`;
+      return `<button class="row wait${old ? ' err' : ''}" data-pend="${esc(p.code)}"><span class="r-name">${esc(p.name || p.code)}</span><span class="r-sub"><span class="tx">${esc(p.code)}${old ? ' · 저장이 안 됐을 수 있어요 · 눌러서 지우기' : ' · 보통 1~2분 걸려요'}</span></span><span class="tag">${old ? '확인 필요' : '시세 기다리는 중'}</span></button>`;
     }).join('');
     const errRows = Object.keys(errors).map(code =>
-      `<button class="row err" data-err="${esc(code)}"><div><div class="r-name">${esc(code)}</div><div class="r-sub">${esc(errors[code])} · 눌러서 목록에서 빼기</div></div><span></span><div class="r-px"><span class="tag">확인 필요</span></div></button>`).join('');
+      `<button class="row err" data-err="${esc(code)}"><span class="r-name">${esc(code)}</span><span class="r-sub"><span class="tx">${esc(errors[code])} · 눌러서 목록에서 빼기</span></span><span class="tag">확인 필요</span></button>`).join('');
     html += group('국내', kr);
     html += group('미국', us);
     if (waitRows || errRows) html += group('대기 · 확인 필요', [], waitRows + errRows);
@@ -798,7 +842,7 @@ a{color:var(--accent)}
     S.tab = ['list', 'div', 'sec'].includes(t) ? t : 'list'; store.set('tab', S.tab);
     document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === S.tab)));
     ['list', 'div', 'sec'].forEach(k => { $('p-' + k).hidden = k !== S.tab; });
-    if (S.tab === 'div') S.divMonth = 0;
+    if (S.tab === 'div') S.divMonth = new Date().getMonth();
     render();
   }
   document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { setTab(b.dataset.tab); window.scrollTo(0, 0); }));
@@ -1284,18 +1328,20 @@ a{color:var(--accent)}
       </div>
       <div class="dbars" id="dbars"></div>
       <div class="cap" id="dcap"></div>`;
-    // 내 배당
-    const proj = projected(di);
-    const perShareYear = proj.reduce((s, x) => s + x[1], 0);
-    if (q > 0 && di.active) {
-      const tax = TAX(it), once = q * di.last[1], year = q * perShareYear, F = rateOf(it);
-      let rows = `<dt>1회 (최근 배당 기준)</dt><dd>${divMoney(once, cur)}</dd>
-        <dt>1년 예상</dt><dd class="big">${divMoney(year, cur)}</dd>
-        <dt>· 세후 (${isKR(it) ? '15.4' : '15'}% 뗀 금액)</dt><dd>${divMoney(year * (1 - tax), cur)}</dd>`;
-      if (cur === 'USD' && isFinite(F)) rows += `<dt>원화 세후</dt><dd>≈ ${money(year * (1 - tax) * F, 'KRW')}</dd>`;
-      if (isFinite(F)) rows += `<dt>월 평균 (세후)</dt><dd>≈ ${money(year * (1 - tax) * F / 12, 'KRW')}</dd>`;
-      if (a > 0) rows += `<dt>내 매입가 기준 수익률</dt><dd>${nf(perShareYear / a * 100, 2)}%</dd>`;
-      html += `<p class="ro-h">내 배당 <span>· ${nf(q, q % 1 ? 2 : 0)}주, 지난 1년과 같다고 가정</span></p><dl class="ro">${rows}</dl>`;
+    // 내 배당 (올해 1~12월: 받은 것 + 남은 예상)
+    if (q > 0) {
+      const ev = yearEvents(di), F = rateOf(it), tax = TAX(it), yr = new Date().getFullYear();
+      const got = q * ev.filter(e => e[2]).reduce((t, e) => t + e[1], 0);
+      const left = q * ev.filter(e => !e[2]).reduce((t, e) => t + e[1], 0);
+      const tot = got + left;
+      let rows = `<dt>1회 (최근 배당 기준)</dt><dd>${divMoney(q * di.last[1], cur)}</dd>
+        <dt><i class="st got"></i>올해 받은 금액</dt><dd>${divMoney(got, cur)}</dd>
+        <dt><i class="st exp"></i>올해 남은 예상</dt><dd>${divMoney(left, cur)}</dd>
+        <dt>${yr}년 합계</dt><dd class="big">${divMoney(tot, cur)}</dd>
+        <dt>· 세후 (${isKR(it) ? '15.4' : '15'}% 뗀 금액)</dt><dd>${divMoney(tot * (1 - tax), cur)}</dd>`;
+      if (cur === 'USD' && isFinite(F)) rows += `<dt>원화 세후</dt><dd>≈ ${money(tot * (1 - tax) * F, 'KRW')}</dd>`;
+      if (a > 0 && di.ttm > 0) rows += `<dt>내 매입가 기준 수익률</dt><dd>${nf(di.ttm / a * 100, 2)}%</dd>`;
+      if (tot > 0) html += `<p class="ro-h">내 배당 <span>· ${nf(q, q % 1 ? 2 : 0)}주, ${yr}년 · 세전 (1월부터 보유 가정)</span></p><dl class="ro">${rows}</dl>`;
     } else if (di.active) {
       html += '<p class="note">보유 수량을 넣으면 내가 받을 배당이 계산돼요.</p>';
     }
@@ -1312,12 +1358,13 @@ a{color:var(--accent)}
     draw(recent.length - 1);
   }
 
-  /* ---------- 배당 탭 ---------- */
+  /* ---------- 배당 탭: 올해 1~12월, 받은 금액 + 남은 예상 ---------- */
   function divPortfolio() {
     const items = (S.data && S.data.items) || [];
-    const months = Array.from({ length: 12 }, (_, i) => ({ t: monthStart(i), g: 0, n: 0, parts: [] }));
+    const yr = new Date().getFullYear();
+    const months = Array.from({ length: 12 }, () => ({ got: 0, exp: 0, gotO: 0, expO: 0, parts: [] }));
     const rows = [];
-    let g = 0, n = 0, val = 0, cost = 0;
+    let got = 0, exp = 0, gotO = 0, expO = 0, val = 0, cost = 0;   // *O = the other tax mode, for the small print
     items.forEach(it => {
       const di = divInfo(it), h = heldOf(it.code), F = rateOf(it);
       if (h && isFinite(F)) {
@@ -1325,80 +1372,103 @@ a{color:var(--accent)}
         if (h.a > 0) cost += it.cur === 'USD' && h.fx > 0 ? h.q * h.a * h.fx : h.q * h.a * F;
       }
       if (!di) return;
-      const row = { it, di, h, g: 0, n: 0 };
+      const row = { it, di, h, got: 0, exp: 0 };
       if (h && isFinite(F)) {
-        projected(di).forEach(([t, amt, real]) => {
-          const mi = monthIdx(t); if (mi < 0 || mi > 11) return;
-          const gg = amt * h.q * F, nn = gg * (1 - TAX(it));
-          months[mi].g += gg; months[mi].n += nn; months[mi].parts.push({ it, t, g: gg, n: nn, real });
-          row.g += gg; row.n += nn;
+        yearEvents(di).forEach(([t, amt, real]) => {
+          const g = amt * h.q * F, v = taxed(it, g), o = S.tax === 'gross' ? g * (1 - TAX(it)) : g;
+          const m = months[new Date(t * 1000).getMonth()];
+          if (real) { m.got += v; m.gotO += o; row.got += v; } else { m.exp += v; m.expO += o; row.exp += v; }
+          m.parts.push({ it, t, v, real });
         });
       }
-      g += row.g; n += row.n;
-      if (di.active || row.g > 0) rows.push(row);
+      got += row.got; exp += row.exp;
+      if (di.active || row.got + row.exp > 0) rows.push(row);
     });
-    rows.sort((x, y) => (y.n - x.n) || ((y.di.yld || 0) - (x.di.yld || 0)));
-    return { months, rows, g, n, val, cost };
+    months.forEach(m => { gotO += m.gotO; expO += m.expO; });
+    rows.sort((x, y) => (y.got + y.exp - x.got - x.exp) || ((y.di.yld || 0) - (x.di.yld || 0)));
+    return { yr, months, rows, got, exp, tot: got + exp, totO: gotO + expO, val, cost };
   }
 
   function renderDivTab() {
     const box = $('p-div');
     if (!S.data) { box.innerHTML = `<div class="loading-card">${S.err ? esc(S.err) : '시세를 불러오는 중이에요…'}</div>`; return; }
-    const P = divPortfolio();
-    const F = fx();
-    let html = '';
-    if (P.n > 0) {
-      html += `<section class="sum"><div><div class="sum-k">앞으로 1년 예상 배당 · 세후</div><div class="sum-v">${money(P.n, 'KRW')}</div></div>
+    const P = divPortfolio(), F = fx(), tw = taxWord(), now = new Date();
+    const grossTot = S.tax === 'gross' ? P.tot : P.totO;
+    let html = `<div class="seg s2" id="tax-seg" role="group" aria-label="세금"><button data-t="net" aria-pressed="${S.tax !== 'gross'}">세후</button><button data-t="gross" aria-pressed="${S.tax === 'gross'}">세전</button></div>`;
+    if (P.tot > 0) {
+      const share = P.got / P.tot * 100;
+      html += `<section class="sum"><div><div class="sum-k">${P.yr}년 배당 합계 · ${tw}</div><div class="sum-v">${money(P.tot, 'KRW')}</div></div>
+        <div class="prog" aria-hidden="true"><span style="width:${share.toFixed(1)}%"></span></div>
         <dl class="sum-rows">
-          <dt>월 평균</dt><dd>${money(P.n / 12, 'KRW')}</dd>
-          <dt>세전</dt><dd>${money(P.g, 'KRW')}</dd>
-          <dt>배당수익률 <small>평가금액 대비</small></dt><dd>${P.val > 0 ? nf(P.g / P.val * 100, 2) + '%' : '—'}</dd>
-          ${P.cost > 0 ? `<dt>투자금 대비</dt><dd>${nf(P.g / P.cost * 100, 2)}%</dd>` : ''}
+          <dt><i class="st got"></i>받은 금액 <small>1~${now.getMonth() + 1}월</small></dt><dd>${money(P.got, 'KRW')}</dd>
+          <dt><i class="st exp"></i>남은 예상</dt><dd>${money(P.exp, 'KRW')}</dd>
+          <dt>월 평균</dt><dd>${money(P.tot / 12, 'KRW')}</dd>
+          <dt>배당수익률 <small>평가금액 대비, 세전</small></dt><dd>${P.val > 0 ? nf(grossTot / P.val * 100, 2) + '%' : '—'}</dd>
+          ${P.cost > 0 ? `<dt>투자금 대비 <small>세전</small></dt><dd>${nf(grossTot / P.cost * 100, 2)}%</dd>` : ''}
         </dl>
-        <div class="sum-k">지난 1년 배당이 그대로 나온다고 가정${F ? ` · 환율 ${nf(F, 2)}` : ''}</div></section>`;
-      html += `<section class="card"><div class="card-h"><h3>월별 예상 배당</h3><span class="chip">세후 · 원</span></div>
+        <div class="sum-k">지금 보유 수량을 1월부터 갖고 있었다고 계산했어요. 남은 달은 작년 같은 달 배당이 다시 나온다고 가정${F ? ` · 환율 ${nf(F, 2)}` : ''}</div></section>`;
+      html += `<section class="card"><div class="card-h"><h3>${P.yr}년 월별 배당</h3><span class="legend"><span><i class="st got"></i>받음</span><span><i class="st exp"></i>예상</span></span></div>
         <div class="mbars" id="mbars"></div><div id="mdet"></div>
         <p class="note">배당락일이 있는 달 기준이에요. 실제 입금은 미국 주식은 보통 며칠~몇 주 뒤, 국내 주식은 1~2달 뒤에 들어와요.</p></section>`;
-      // 다가오는 배당락 (30일)
-      const now = Date.now() / 1000;
-      const up = P.rows.filter(r => r.h && r.di.active && r.di.next - now <= 31 * DAY).sort((x, y) => x.di.next - y.di.next);
-      if (up.length) {
-        html += `<section class="group"><h2>다가오는 배당락 · 30일 안</h2><div class="rows">${up.map(r => {
-          const d = Math.round((r.di.next - now) / DAY), F2 = rateOf(r.it);
-          const est = r.h.q * r.di.last[1] * F2 * (1 - TAX(r.it));
-          return `<button class="drow" data-code="${esc(r.it.code)}"><div class="t"><b><span>${esc(r.it.name)}</span></b><small>${md(r.di.next, r.it.tz)} 예상 · 1주 ${divMoney(r.di.last[1], r.it.cur)}</small></div><div class="v"><b>${money(est, 'KRW')}</b><span class="dday">${d <= 0 ? '곧' : 'D-' + d}</span></div></button>`;
-        }).join('')}</div><p class="note" style="margin-top:6px">배당락일 전날까지 갖고 있어야 받아요. 날짜는 지난 배당 간격으로 짐작한 거예요.</p></section>`;
-      }
     } else {
-      html += `<section class="sum"><div class="sum-empty"><b>배당 주는 종목의 보유 수량을 넣으면 예상 배당이 여기 보여요.</b><br>종목 탭에서 종목을 누르고 수량을 입력하세요.</div></section>`;
+      html += `<section class="sum"><div class="sum-empty"><b>배당 주는 종목의 보유 수량을 넣으면 올해 배당이 여기 보여요.</b><br>종목 탭에서 종목을 누르고 수량을 입력하세요.</div></section>`;
     }
-    // 종목별
     if (P.rows.length) {
-      html += `<section class="group"><h2>종목별 배당 · 1년 예상 세후</h2><div class="rows">${P.rows.map(r => {
-        const share = P.n > 0 && r.n > 0 ? nf(r.n / P.n * 100, 0) + '%' : '';
-        const sub = `${isFinite(r.di.yld) && r.di.ttm > 0 ? '수익률 ' + nf(r.di.yld, 2) + '%' : '최근 1년 배당 없음'} · 최근 ${divMoney(r.di.last[1], r.it.cur)}`;
-        return `<button class="drow${r.n > 0 ? '' : ' off'}" data-code="${esc(r.it.code)}"><div class="t"><b><span>${esc(r.it.name)}</span><span class="chip">${r.di.active ? r.di.label : '중단?'}</span></b><small>${sub}</small></div>
-          <div class="v">${r.n > 0 ? `<b>${money(r.n, 'KRW')}</b><small>${share}</small>` : `<small>${r.h ? '' : '보유 없음'}</small>`}</div></button>`;
+      html += `<section class="group"><h2>종목별 배당 · ${P.yr}년 ${tw}</h2><div class="rows">${P.rows.map(r => {
+        const tot = r.got + r.exp;
+        const sub = `${isFinite(r.di.yld) && r.di.ttm > 0 ? '수익률 ' + nf(r.di.yld, 2) + '%' : '최근 1년 배당 없음'} · 1주 ${divMoney(r.di.last[1], r.it.cur)}`;
+        const right = tot > 0
+          ? `<b>${money(tot, 'KRW')}</b><small><i class="st got"></i>받음 ${money(r.got, 'KRW')}</small>`
+          : `<small>${r.h ? '올해 배당 없음' : '보유 없음'}</small>`;
+        return `<button class="drow${tot > 0 ? '' : ' off'}" data-code="${esc(r.it.code)}"><div class="t"><b><span>${esc(r.it.name)}</span><span class="chip">${r.di.active ? r.di.label : '중단?'}</span></b><small>${sub}</small></div>
+          <div class="v">${right}</div>${tot > 0 ? `<div class="prog sm" aria-hidden="true"><span style="width:${(r.got / tot * 100).toFixed(1)}%"></span></div>` : ''}</button>`;
       }).join('')}</div></section>`;
     }
-    html += `<p class="note">세후는 원천징수(미국 15%, 국내 15.4%)만 뺀 금액이에요. 금융소득 종합과세는 반영하지 않았어요. 미국 주식은 지금 환율로 원화 환산했어요.</p>`;
+    html += `<p class="note">세후는 원천징수(미국 15%, 국내 15.4%)만 뺀 금액이에요. 금융소득 종합과세는 반영하지 않았어요. 미국 주식은 지금 환율로 원화 환산했어요. 국내 종목은 Yahoo에 배당 기록이 늦게 들어올 수 있어요.</p>`;
     box.innerHTML = html;
+    box.querySelectorAll('#tax-seg button').forEach(b => b.addEventListener('click', () => { S.tax = b.dataset.t; store.set('tax', S.tax); renderDivTab(); }));
     box.querySelectorAll('.drow').forEach(b => b.addEventListener('click', () => openDetail(b.dataset.code)));
     if ($('mbars')) drawMonths(P);
+  }
+
+  function monthBarsSVG(months, sel, W, H) {
+    // stacked: 받음 (solid) at the base, 예상 (light, dashed edge) on top, 2px gap between
+    const pb = 20, pt = 18, n = 12, band = W / n, bw = Math.max(6, Math.min(20, band * 0.58));
+    const hi = Math.max(...months.map(m => m.got + m.exp), 0) || 1, cm = new Date().getMonth();
+    const base = H - pb, sc = v => (H - pb - pt) * v / hi;
+    const top = (x, y, h, r) => `M${x.toFixed(1)} ${(y + h).toFixed(1)}V${(y + r).toFixed(1)}Q${x.toFixed(1)} ${y.toFixed(1)} ${(x + r).toFixed(1)} ${y.toFixed(1)}H${(x + bw - r).toFixed(1)}Q${(x + bw).toFixed(1)} ${y.toFixed(1)} ${(x + bw).toFixed(1)} ${(y + r).toFixed(1)}V${(y + h).toFixed(1)}Z`;
+    let g = `<rect class="selbg" x="${(band * sel + 1).toFixed(1)}" y="2" width="${(band - 2).toFixed(1)}" height="${H - 2}" rx="7"/>`;
+    g += `<line class="bl" x1="0" x2="${W}" y1="${base + 0.5}" y2="${base + 0.5}"/>`;
+    months.forEach((m, i) => {
+      const cx = band * i + band / 2, x = cx - bw / 2;
+      let hg = m.got > 0 ? Math.max(3, sc(m.got)) : 0, he = m.exp > 0 ? Math.max(3, sc(m.exp)) : 0;
+      if (hg) g += `<path class="bg-got" d="${top(x, base - hg, hg, he ? 0 : Math.min(4, bw / 2, hg))}"/>`;
+      if (he) {
+        const y = base - hg - (hg ? 2 : 0) - he;
+        g += `<path class="bg-exp" d="${top(x + 0.6, y + 0.6, he - 1.2, Math.min(4, bw / 2, he))}"/>`;
+      }
+      const tot = m.got + m.exp;
+      if (i === sel && tot > 0) {
+        const anc = i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle', lx = i === 0 ? x : i === n - 1 ? x + bw : cx;
+        g += `<text class="bv" x="${lx.toFixed(1)}" y="${(base - hg - he - (hg && he ? 2 : 0) - 5).toFixed(1)}" text-anchor="${anc}">${compactKRW(tot)}</text>`;
+      }
+      g += `<text class="bt${i === sel ? ' sel' : ''}${i === cm ? ' now' : ''}" x="${cx.toFixed(1)}" y="${H - 5}" text-anchor="middle">${i + 1}월</text>`;
+      g += `<rect class="hit" data-i="${i}" x="${(band * i).toFixed(1)}" y="0" width="${band.toFixed(1)}" height="${H}"/>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="월별 배당: 받음과 예상">${g}</svg>`;
   }
 
   function drawMonths(P) {
     const el = $('mbars'), sel = S.divMonth;
     const W = Math.max(260, el.clientWidth || 320);
-    const labels = P.months.map(m => (new Date(m.t * 1000).getMonth() + 1) + '월');
-    const m = P.months[sel];
-    el.innerHTML = barsSVG(P.months.map(x => x.n), sel, W, 150, labels, m.n > 0 ? compactKRW(m.n) : '');
+    el.innerHTML = monthBarsSVG(P.months, sel, W, 160);
     el.querySelectorAll('.hit').forEach(r => r.addEventListener('pointerdown', () => { S.divMonth = +r.dataset.i; drawMonths(P); }));
-    const d = new Date(m.t * 1000);
+    const m = P.months[sel], tot = m.got + m.exp, other = m.gotO + m.expO;
     const parts = m.parts.slice().sort((x, y) => x.t - y.t);
-    $('mdet').innerHTML = `<div class="mhead"><b>${d.getFullYear()}년 ${d.getMonth() + 1}월</b><span>${money(m.n, 'KRW')}</span></div>` + (parts.length
-      ? `<ul class="mlist">${parts.map(p => `<li><span>${esc(p.it.name)} <small>${md(p.t, p.it.tz)}${p.real ? '' : ' 예상'}</small></span><b>${money(p.n, 'KRW')}</b></li>`).join('')}</ul>`
-      : '<p class="note">이 달에는 예상 배당이 없어요.</p>');
+    $('mdet').innerHTML = `<div class="mhead"><b>${P.yr}년 ${sel + 1}월</b><span>${money(tot, 'KRW')}</span></div>
+      <div class="msub"><span><i class="st got"></i>받음 ${money(m.got, 'KRW')}</span><span><i class="st exp"></i>예상 ${money(m.exp, 'KRW')}</span><span class="muted">${S.tax === 'gross' ? '세후' : '세전'} ${money(other, 'KRW')}</span></div>` + (parts.length
+      ? `<ul class="mlist">${parts.map(p => `<li class="${p.real ? 'got' : 'exp'}"><span><i class="st ${p.real ? 'got' : 'exp'}"></i>${esc(p.it.name)} <small>${md(p.t, p.it.tz)} · ${p.real ? '받음' : '예상'}</small></span><b>${money(p.v, 'KRW')}</b></li>`).join('')}</ul>`
+      : '<p class="note">이 달에는 배당이 없어요.</p>');
   }
 
   /* ---------- 섹터 탭 ---------- */
@@ -1429,9 +1499,9 @@ a{color:var(--accent)}
     const box = $('p-sec');
     if (!S.data) { box.innerHTML = `<div class="loading-card">${S.err ? esc(S.err) : '시세를 불러오는 중이에요…'}</div>`; return; }
     const by = S.secBy, R = groupBy(by);
-    const title = { s: '섹터별 비중', t: '성격별 비중', c: '국가별 비중' }[by];
+    const title = { s: '섹터별 비중', t: '유형별 비중', c: '국가별 비중' }[by];
     let html = `<div class="seg s3" id="sec-by" role="group" aria-label="나눠 볼 기준">
-      <button data-b="s" aria-pressed="${by === 's'}">섹터</button><button data-b="t" aria-pressed="${by === 't'}">성격</button><button data-b="c" aria-pressed="${by === 'c'}">국가</button></div>`;
+      <button data-b="s" aria-pressed="${by === 's'}">섹터</button><button data-b="t" aria-pressed="${by === 't'}">유형</button><button data-b="c" aria-pressed="${by === 'c'}">국가</button></div>`;
     if (R.total > 0) {
       const top = R.arr.find(g => !g.none && !g.other);
       const tp = top ? top.v / R.total * 100 : 0;
@@ -1484,6 +1554,40 @@ a{color:var(--accent)}
   $('c-t').addEventListener('click', pickCls);
   $('c-reset').addEventListener('click', () => { delete S.cls[S.clsCode]; store.set('cls', S.cls); drawClasser(); toast('기본 분류로 되돌렸어요'); });
   $('d-cls').addEventListener('click', () => { if (S.cur) openClasser(S.cur); });
+
+  /* ---------- 백업·복원 (이 폰에만 있는 값들) ---------- */
+  const BAK = 'MYSTOCK1.';
+  const unb64 = t => new TextDecoder().decode(Uint8Array.from(atob(t), c => c.charCodeAt(0)));
+  $('bak-btn').addEventListener('click', () => {
+    $('b-out').hidden = true; $('b-in').value = ''; $('b-hint').textContent = ''; $('b-gh').checked = false;
+    showSheet('bak');
+  });
+  $('b-copy').addEventListener('click', async () => {
+    const data = { v: 1, at: Date.now(), hold: S.hold, cls: S.cls, hidden: S.hidden, amt: S.amt, krw: S.krw, tax: S.tax, secBy: S.secBy };
+    if ($('b-gh').checked && token()) data.gh = token();
+    const code = BAK + b64(JSON.stringify(data));
+    const out = $('b-out');
+    out.value = code;
+    try { await navigator.clipboard.writeText(code); toast('백업 코드를 복사했어요. 메모 앱에 붙여 두세요'); out.hidden = true; }
+    catch (e) { out.hidden = false; out.focus(); out.select(); toast('코드를 길게 눌러 복사해 주세요'); }
+  });
+  $('b-load').addEventListener('click', () => {
+    const hint = $('b-hint'); hint.textContent = '';
+    const raw = $('b-in').value.replace(/\s+/g, '');
+    let d = null;
+    try { if (raw.startsWith(BAK)) d = JSON.parse(unb64(raw.slice(BAK.length))); } catch (e) {}
+    if (!d || typeof d.hold !== 'object') { hint.textContent = '백업 코드가 아니에요. MYSTOCK1. 로 시작하는 코드 전체를 붙여넣어 주세요.'; return; }
+    const n = Object.keys(d.hold || {}).length;
+    if (Object.keys(S.hold).length && !confirm(`이 폰의 보유 정보를 백업 내용(${n}종목)으로 바꿀까요?`)) return;
+    S.hold = d.hold || {}; store.set('hold', S.hold);
+    S.cls = d.cls || {}; Object.keys(S.cls).forEach(k => { const m = S.cls[k]; if (m && OLD_TYPE[m.t]) m.t = OLD_TYPE[m.t]; }); store.set('cls', S.cls);
+    if (Array.isArray(d.hidden)) { S.hidden = d.hidden; store.set('hidden', S.hidden); }
+    ['amt', 'krw'].forEach(k => { if (typeof d[k] === 'boolean') { S[k] = d[k]; store.set(k, d[k]); } });
+    ['tax', 'secBy'].forEach(k => { if (typeof d[k] === 'string') { S[k] = d[k]; store.set(k, d[k]); } });
+    if (d.gh) store.set('gh', d.gh);
+    toast(`불러왔어요 · 보유 ${n}종목${d.gh ? ' · GitHub 연결 포함' : ''}`);
+    closeSheet(false);
+  });
 
   /* ---------- refresh policy ---------- */
   document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - S.fetchedAt > 60000) load(false); });
