@@ -24,6 +24,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 WATCH = ROOT / 'watch'
 OUT = ROOT / 'data'
 HIST = OUT / 'hist'
+LOGOS = OUT / 'logos'
+LOGO_RETRY = 7 * 86400   # a stock with no logo found is tried again after a week
 UA = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
       '(KHTML, like Gecko) Chrome/124.0 Safari/537.36')
 HOSTS = ['query1.finance.yahoo.com', 'query2.finance.yahoo.com']
@@ -93,6 +95,64 @@ def dividends(res, years=3):
     return out
 
 
+def thin(vals, n=60):
+    """Evenly pick about n points (first and last kept) for the small list chart."""
+    if len(vals) <= n:
+        return vals
+    step = (len(vals) - 1) / (n - 1)
+    return [vals[round(i * step)] for i in range(n)]
+
+
+def logo_sources(code):
+    if re.fullmatch(r'\d{6}', code):
+        return [f'https://static.toss.im/png-icons/securities/icn-sec-fill-{code}.png',
+                f'https://file.alphasquare.co.kr/media/images/stock_logo/kr/{code}.png']
+    t = urllib.parse.quote(code.upper())
+    return [f'https://financialmodelingprep.com/image-stock/{t}.png',
+            f'https://assets.parqet.com/logos/symbol/{t}?format=png',
+            f'https://file.alphasquare.co.kr/media/images/stock_logo/us/{t}.png']
+
+
+IMAGE_TYPES = [(b'\x89PNG', '.png'), (b'\xff\xd8\xff', '.jpg'), (b'RIFF', '.webp'), (b'GIF8', '.gif'), (b'<svg', '.svg'), (b'<?xml', '.svg')]
+
+
+def fetch_logo(code, misses):
+    """Save the company logo once into data/logos/ and return its file name (or None)."""
+    safe = re.sub(r'[^A-Za-z0-9\-]', '_', code)
+    have = sorted(LOGOS.glob(safe + '.*'))
+    if have:
+        return have[0].name
+    if time.time() - misses.get(code, 0) < LOGO_RETRY:
+        return None
+    answered = False   # only remember "no logo" when a source actually said so (not on network trouble)
+    for url in logo_sources(code):
+        req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept': 'image/*'})
+        try:
+            with urllib.request.urlopen(req, timeout=15) as r:
+                ctype = r.headers.get('Content-Type', '')
+                body = r.read(400_000)
+            answered = True
+        except urllib.error.HTTPError as e:
+            answered = True
+            print(f'logo {code:8} {url.split("/")[2]}: {e}')
+            continue
+        except Exception as e:
+            print(f'logo {code:8} {url.split("/")[2]}: {e}')
+            continue
+        head = body[:64].lstrip()
+        ext = next((x for magic, x in IMAGE_TYPES if head.startswith(magic)), None)
+        if not ext or len(body) < 300 or (ext == '.webp' and b'WEBP' not in body[:16]):
+            print(f'logo {code:8} {url.split("/")[2]}: not an image ({ctype}, {len(body)} bytes)')
+            continue
+        (LOGOS / (safe + ext)).write_bytes(body)
+        misses.pop(code, None)
+        print(f'logo {code:8} {url.split("/")[2]}: ok {len(body)} bytes')
+        return safe + ext
+    if answered:
+        misses[code] = int(time.time())
+    return None
+
+
 def candidates(code):
     if re.fullmatch(r'\d{6}', code):
         return [code + '.KS', code + '.KQ']
@@ -140,6 +200,7 @@ def fetch_one(code, name):
             'open': period.get('start'),
             'close': period.get('end'),
             'spark': sy1['c'][-30:],
+            'spark1d': thin(s1['c']),
             'hist': file_name(sym),
         }
         div = dividends(y5)
@@ -156,6 +217,11 @@ def fetch_one(code, name):
 def main():
     OUT.mkdir(exist_ok=True)
     HIST.mkdir(exist_ok=True)
+    LOGOS.mkdir(exist_ok=True)
+    try:
+        misses = json.loads((LOGOS / '_missing.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        misses = {}
     try:
         old = json.loads((OUT / 'quotes.json').read_text(encoding='utf-8'))
     except (OSError, ValueError):
@@ -207,6 +273,24 @@ def main():
     for f in HIST.glob('*.json'):
         if f.name not in used:
             f.unlink()
+
+    # logos: fetched once per stock, kept with the rest of data/ between runs
+    keep = set()
+    for it in items:
+        try:
+            name = fetch_logo(it['code'], misses)
+        except Exception as e:
+            print(f'logo {it["code"]:8} failed: {e}', file=sys.stderr)
+            name = None
+        if name:
+            it['logo'] = 'logos/' + name
+            keep.add(name)
+    for f in LOGOS.iterdir():
+        if f.name != '_missing.json' and f.name not in keep and f.stem not in {re.sub(r'[^A-Za-z0-9\-]', '_', c) for c in errors}:
+            f.unlink()
+    codes = {it['code'] for it in items}
+    misses = {k: v for k, v in misses.items() if k in codes}
+    (LOGOS / '_missing.json').write_text(json.dumps(misses), encoding='utf-8')
 
     quotes = {'updated': int(time.time()), 'fx': fx, 'items': items, 'errors': errors}
     (OUT / 'quotes.json').write_text(json.dumps(quotes, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
