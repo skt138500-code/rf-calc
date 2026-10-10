@@ -5,7 +5,8 @@ Each file in stocks/watch/ is one stock: the file name is the code
 (6-digit KRX code like 005930, or a US ticker like TSLA) and the first line
 of the file is the name shown in the app.
 
-Writes stocks/data/quotes.json and stocks/data/hist/<symbol>.json.
+Writes stocks/data/quotes.json and stocks/data/hist/<symbol>.json
+(plus market indexes in quotes.json and headlines in news.json, see market.py).
 Each quote item also carries its dividend history ('div': [[ex-date, amount]]).
 Uses only the Python standard library. Data source: Yahoo Finance chart API.
 If a stock fails this run, its previous data (restored from gh-pages by the
@@ -292,9 +293,20 @@ def main():
     misses = {k: v for k, v in misses.items() if k in codes}
     (LOGOS / '_missing.json').write_text(json.dumps(misses), encoding='utf-8')
 
-    quotes = {'updated': int(time.time()), 'fx': fx, 'items': items, 'errors': errors}
+    try:  # indexes for the 시장 tab (kept from the last run if Yahoo has trouble)
+        import market
+        idx = market.indices(chart, thin)
+    except Exception as e:
+        print(f'idx  failed {e}', file=sys.stderr)
+        idx = []
+    quotes = {'updated': int(time.time()), 'fx': fx, 'items': items, 'errors': errors, 'indices': idx or old.get('indices', [])}
     (OUT / 'quotes.json').write_text(json.dumps(quotes, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
     print(f'{len(items)} items, {len(errors)} errors')
+    try:  # headlines, at most once an hour
+        import market
+        market.news(OUT / 'news.json', [(it['code'], it['name'], bool(re.fullmatch(r'\d{6}', it['code']))) for it in items], UA)
+    except Exception as e:
+        print(f'news failed {e}', file=sys.stderr)
     fresh = [it for it in items if not it.get('stale')]
     if entries and not fresh and not errors:
         sys.exit('no data could be fetched')
