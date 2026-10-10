@@ -160,6 +160,10 @@ a{color:var(--accent)}
 .ro dt{color:var(--ink-soft)}
 .ro dd{margin:0;text-align:right;font:500 14px var(--font-num);font-variant-numeric:tabular-nums}
 .ro dd.big{font-size:16px;font-weight:600}
+.ro-wrap{display:flex;flex-direction:column;gap:12px}
+.ro-h{margin:0 0 -4px;font-size:12px;font-weight:600;color:var(--ink-soft)}
+.ro-h span{font-weight:400}
+.field.wide{grid-column:1/-1}
 .btn{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:11px 12px;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;text-align:center}
 .btn.primary{background:var(--accent);border-color:transparent;color:var(--on-accent)}
 .btn.warn{color:var(--up)}
@@ -231,8 +235,10 @@ a{color:var(--accent)}
       <div class="fields">
         <div class="field"><label for="h-q">수량</label><div class="inwrap"><input id="h-q" inputmode="decimal" autocomplete="off" placeholder="0"><span class="unit">주</span></div></div>
         <div class="field"><label for="h-a">평단가</label><div class="inwrap"><input id="h-a" inputmode="decimal" autocomplete="off" placeholder="0"><span class="unit" id="h-cur">원</span></div></div>
+        <div class="field wide" id="h-fx-f" hidden><label for="h-fx">매입 환율</label><div class="inwrap"><input id="h-fx" inputmode="decimal" autocomplete="off"><span class="unit">원/$</span></div></div>
       </div>
-      <dl class="ro" id="h-ro"></dl>
+      <p class="note" id="h-fx-note" hidden>여러 번 나눠 샀다면 평균 환율을 넣으세요. 비워두면 지금 환율로 계산해요.</p>
+      <div class="ro-wrap" id="h-ro"></div>
       <button class="btn" id="h-clear">보유 정보 지우기</button>
     </section>
 
@@ -374,14 +380,19 @@ a{color:var(--accent)}
   function renderSum() {
     const el = $('sum');
     // P/L only counts holdings that have an average price; the rest add to value only
-    let val = 0, cost = 0, valWithCost = 0, today = 0, n = 0, noAvg = 0;
+    let val = 0, cost = 0, valWithCost = 0, today = 0, n = 0, noAvg = 0, noFx = 0;
     const items = (S.data && S.data.items) || [];
     items.forEach(it => {
       const h = heldOf(it.code); if (!h) return;
       const v = toKRW(h.q * it.price, it.cur);
       if (!isFinite(v)) return;
       n++; val += v;
-      if (h.a > 0) { cost += toKRW(h.q * h.a, it.cur); valWithCost += v; } else noAvg++;
+      if (h.a > 0) {
+        // US cost uses the exchange rate at purchase when it was entered
+        cost += it.cur === 'USD' && h.fx > 0 ? h.q * h.a * h.fx : toKRW(h.q * h.a, it.cur);
+        if (it.cur === 'USD' && !(h.fx > 0)) noFx++;
+        valWithCost += v;
+      } else noAvg++;
       if (it.prev) today += toKRW(h.q * (it.price - it.prev), it.cur);
     });
     const f = S.data && S.data.fx;
@@ -395,7 +406,10 @@ a{color:var(--accent)}
     const plRow = cost > 0
       ? `<dd class="${dir(pl)}">${smoney(pl, 'KRW')} (${pct(plp)})</dd>`
       : `<dd class="flat">평단가를 넣으면 계산돼요</dd>`;
-    const note = noAvg && cost > 0 ? `<div class="sum-k">평단가가 없는 ${noAvg}종목은 손익에서 빠져 있어요</div>` : '';
+    const notes = [];
+    if (noAvg && cost > 0) notes.push(`평단가가 없는 ${noAvg}종목은 손익에서 빠져 있어요`);
+    if (noFx) notes.push(`매입 환율이 없는 미국 ${noFx}종목은 지금 환율로 계산했어요`);
+    const note = notes.map(t => `<div class="sum-k">${t}</div>`).join('');
     el.innerHTML = `<div><div class="sum-k">총 평가금액 · ${n}종목</div><div class="sum-v">${money(val, 'KRW')}</div></div>
       <dl class="sum-rows">
         <dt>평가손익</dt>${plRow}
@@ -423,7 +437,9 @@ a{color:var(--accent)}
     let hold = '';
     if (h) {
       const plp = h.a > 0 ? (it.price - h.a) / h.a * 100 : NaN;
-      hold = `<div class="r-hold">보유 ${nf(h.q, h.q % 1 ? 2 : 0)}주${isFinite(plp) ? ` · <span class="${dir(plp)}">${pct(plp)}</span>` : ''}</div>`;
+      const plpK = h.a > 0 && it.cur === 'USD' && h.fx > 0 && fx() ? (it.price * fx() - h.a * h.fx) / (h.a * h.fx) * 100 : NaN;
+      const p1 = v => sgn(v) + nf(v, 1) + '%';
+      hold = `<div class="r-hold">보유 ${nf(h.q, h.q % 1 ? 2 : 0)}주${isFinite(plp) ? ` · <span class="${dir(plp)}">${isFinite(plpK) ? '$' + p1(plp) : pct(plp)}</span>` : ''}${isFinite(plpK) ? ` · <span class="${dir(plpK)}">₩${p1(plpK)}</span>` : ''}</div>`;
     }
     return `<button class="row${hid ? ' hid' : ''}" data-code="${esc(it.code)}">
       <div><div class="r-name">${esc(it.name)}</div>
@@ -506,10 +522,14 @@ a{color:var(--accent)}
     $('d-chg').innerHTML = `<span class="${d}">${d === 'up' ? '▲' : d === 'down' ? '▼' : ''}${money(Math.abs(it.chg || 0), it.cur)} (${pct(it.pct)})</span><small>전일 대비</small>`;
     $('d-krw').textContent = !kr && it.cur === 'USD' && fx() ? '≈ ' + money(toKRW(it.price, it.cur), 'KRW') + ' (환율 ' + nf(fx(), 2) + ')' : '';
     $('h-cur').textContent = it.cur === 'KRW' ? '원' : it.cur === 'USD' ? '$' : it.cur;
+    const usd = it.cur === 'USD';
+    $('h-fx-f').hidden = !usd; $('h-fx-note').hidden = !usd;
+    $('h-fx').placeholder = fx() ? '지금 ' + nf(fx(), 2) : '예: 1,340';
     const h = S.hold[code] || {};
     if (!refresh || document.activeElement.tagName !== 'INPUT') {
       $('h-q').value = h.q ? String(h.q) : '';
       $('h-a').value = h.a ? String(h.a) : '';
+      $('h-fx').value = h.fx ? String(h.fx) : '';
     }
     renderHold();
     $('d-del').href = `https://github.com/${REPO}/delete/main/stocks/watch/${encodeURIComponent(code)}`;
@@ -651,28 +671,47 @@ a{color:var(--accent)}
     const it = itemOf(S.cur); if (!it) return;
     const q = num('h-q'), a = num('h-a'), cur = it.cur;
     const ro = $('h-ro');
-    if (!(q > 0)) { ro.innerHTML = '<dt>평가금액</dt><dd>수량을 넣으면 계산돼요</dd>'; return; }
+    if (!(q > 0)) { ro.innerHTML = '<dl class="ro"><dt>평가금액</dt><dd>수량을 넣으면 계산돼요</dd></dl>'; return; }
     const val = q * it.price, cost = a > 0 ? q * a : NaN, pl = val - cost, plp = a > 0 ? (it.price - a) / a * 100 : NaN;
     const today = it.prev ? q * (it.price - it.prev) : NaN;
+    const usd = cur === 'USD';
     let html = `<dt>평가금액</dt><dd class="big">${money(val, cur)}</dd>`;
     if (isFinite(cost)) html += `<dt>매입금액</dt><dd>${money(cost, cur)}</dd><dt>평가손익</dt><dd class="big ${dir(pl)}">${smoney(pl, cur)}</dd><dt>수익률</dt><dd class="${dir(plp)}">${pct(plp)}</dd>`;
     html += `<dt>오늘 손익</dt><dd class="${dir(today)}">${smoney(today, cur)}</dd>`;
-    if (cur === 'USD' && fx()) {
-      html += `<dt>원화 평가금액</dt><dd>${money(toKRW(val, cur), 'KRW')}</dd>`;
-      if (isFinite(cost)) html += `<dt>원화 손익</dt><dd class="${dir(pl)}">${smoney(toKRW(pl, cur), 'KRW')}</dd>`;
+    let out = (usd ? '<p class="ro-h">달러 기준</p>' : '') + `<dl class="ro">${html}</dl>`;
+    if (usd && fx()) {
+      const F = fx(), bf = num('h-fx'), F0 = bf > 0 ? bf : F;
+      const valK = val * F;
+      let k = `<dt>원화 평가금액</dt><dd>${money(valK, 'KRW')}</dd>`;
+      if (isFinite(cost)) {
+        const costK = cost * F0, plK = valK - costK, plpK = plK / costK * 100;
+        const byPrice = q * (it.price - a) * F0, byFx = val * (F - F0);
+        k += `<dt>원화 매입금액</dt><dd>${money(costK, 'KRW')}</dd>
+          <dt>원화 손익</dt><dd class="big ${dir(plK)}">${smoney(plK, 'KRW')}</dd>
+          <dt>원화 수익률</dt><dd class="${dir(plpK)}">${pct(plpK)}</dd>`;
+        if (bf > 0) k += `<dt>· 주가 손익</dt><dd class="${dir(byPrice)}">${smoney(byPrice, 'KRW')}</dd><dt>· 환차손익</dt><dd class="${dir(byFx)}">${smoney(byFx, 'KRW')}</dd>`;
+      }
+      const head = bf > 0
+        ? `원화 기준 <span>· 매입 ${nf(F0, 2)} → 지금 ${nf(F, 2)} (${pct((F - F0) / F0 * 100)})</span>`
+        : `원화 기준 <span>· 매입 환율이 없어 지금 환율 ${nf(F, 2)}로 계산</span>`;
+      out += `<p class="ro-h">${head}</p><dl class="ro">${k}</dl>`;
     }
-    ro.innerHTML = html;
+    ro.innerHTML = out;
   }
   function saveHold() {
     const code = S.cur; if (!code) return;
-    const q = num('h-q'), a = num('h-a');
-    if (q > 0) S.hold[code] = { q, a: a > 0 ? a : 0 }; else delete S.hold[code];
+    const q = num('h-q'), a = num('h-a'), f = num('h-fx');
+    if (q > 0) {
+      S.hold[code] = { q, a: a > 0 ? a : 0 };
+      if (f > 0 && !$('h-fx-f').hidden) S.hold[code].fx = f;
+    } else delete S.hold[code];
     store.set('hold', S.hold);
     renderHold();
   }
   $('h-q').addEventListener('input', saveHold);
   $('h-a').addEventListener('input', saveHold);
-  $('h-clear').addEventListener('click', () => { $('h-q').value = ''; $('h-a').value = ''; saveHold(); toast('보유 정보를 지웠어요'); });
+  $('h-fx').addEventListener('input', saveHold);
+  $('h-clear').addEventListener('click', () => { $('h-q').value = ''; $('h-a').value = ''; $('h-fx').value = ''; saveHold(); toast('보유 정보를 지웠어요'); });
   $('d-hide').addEventListener('click', () => {
     const code = S.cur; if (!code) return;
     if (S.hidden.includes(code)) { S.hidden = S.hidden.filter(c => c !== code); toast('목록에 다시 보여요'); }
