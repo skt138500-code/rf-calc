@@ -111,11 +111,15 @@ def news(path, stocks, ua):
     for code, name, kr in stocks:
         rows = []
         hangul = re.search(r'[가-힣]', name or '')
-        q = f'"{name}" when:{NEWS_DAYS}d' if hangul else f'"{name}" 주식 when:7d'
+        # a Korean name searches well as is; a bare ticker (MAIN, O) matches too much, so keep only
+        # headlines that carry the ticker itself, e.g. "뱅크 오브 아메리카(BAC) 주가"
+        q = f'"{name}" when:{NEWS_DAYS}d' if hangul else f'"{code}" 주가 when:7d'
         try:
             rows = _rss(_google(q), ua)
         except Exception as e:
             print(f'news {code}: {e}')
+        if not hangul:
+            rows = [r for r in rows if re.search(r'(?<![A-Za-z])' + re.escape(code) + r'(?![A-Za-z])', r['title'])]
         time.sleep(0.6)
         picked = _pick(rows, PER_STOCK, since if hangul else time.time() - 7 * 86400)
         if not kr and len(picked) < 3:

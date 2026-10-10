@@ -218,7 +218,7 @@ a{color:var(--accent)}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--ground);font-size:13px;font-weight:500;padding:8px 14px;border-radius:999px;pointer-events:none;opacity:0;transition:opacity .18s;max-width:calc(100% - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .toast.show{opacity:1}
 /* tabs (same look as the calculator's 계산/RF/전원) */
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
 .tab{border:0;background:transparent;border-radius:8px;padding:8px 4px;font-size:14px;font-weight:600;color:var(--ink-soft)}
 .tab[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 0 var(--line),0 0 0 1px var(--line)}
 .panel{display:flex;flex-direction:column;gap:14px}
@@ -306,6 +306,39 @@ a{color:var(--accent)}
 .msub span{display:inline-flex;align-items:center}
 .mlist li.exp b{color:var(--ink-soft);font-weight:400}
 .drow .v small{display:inline-flex;align-items:center}
+/* market tab */
+.brief p{margin:0;font-size:14.5px;line-height:1.65}
+.brief .b-title{font-size:16px;font-weight:700;line-height:1.45}
+.brief h4{margin:4px 0 -4px;font-size:13px;font-weight:700;color:var(--ink-soft)}
+.b-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.b-list li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;align-items:start}
+.b-list .b-h{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700}
+.b-list p{font-size:13.5px;line-height:1.55;color:var(--ink)}
+.tone{font-size:11px;font-weight:700;padding:2px 6px;border-radius:999px;border:1px solid currentColor}
+.tone.up{color:var(--up)} .tone.down{color:var(--down)} .tone.neutral{color:var(--flat)}
+.b-cal{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.b-cal b{font:600 12.5px var(--font-num);display:inline-block;min-width:44px;color:var(--accent)}
+.brief details{font-size:13px;color:var(--ink-soft)}
+.brief details summary{cursor:pointer}
+.brief details ol{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.idx{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ix{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 11px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n s" "v s" "c s";column-gap:6px;row-gap:1px;align-items:center}
+.ix .n{grid-area:n;font-size:12px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ix .v{grid-area:v;font:600 15px var(--font-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ix .c{grid-area:c;font:500 12px var(--font-num);white-space:nowrap}
+.ix svg{grid-area:s;width:44px;height:30px}
+.nchips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nchips::-webkit-scrollbar{display:none}
+.nchip{flex:none;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 11px 5px 6px;font-size:13px;font-weight:600;color:var(--ink)}
+.nchip.txt{padding-left:11px}
+.nchip[aria-pressed="true"]{background:var(--accent);border-color:transparent;color:var(--on-accent)}
+.nlist{display:flex;flex-direction:column}
+.nitem{display:block;padding:11px 12px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none}
+.nitem:first-child{border-top:0}
+.nitem:active{background:var(--press)}
+.nitem b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14.5px;font-weight:600;line-height:1.45}
+.nitem small{display:block;margin-top:3px;font-size:12px;color:var(--ink-soft)}
+.nitem .en{font:600 10px var(--font-num);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin-left:4px;vertical-align:1px}
 /* sector tab */
 .seg.s3{grid-template-columns:repeat(3,1fr)}
 .stack{display:flex;gap:2px;height:16px;border-radius:6px;overflow:hidden;background:var(--surface)}
@@ -368,6 +401,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     <button class="tab" role="tab" id="tab-list" data-tab="list" aria-controls="p-list">종목</button>
     <button class="tab" role="tab" id="tab-div" data-tab="div" aria-controls="p-div">배당</button>
     <button class="tab" role="tab" id="tab-sec" data-tab="sec" aria-controls="p-sec">섹터</button>
+    <button class="tab" role="tab" id="tab-mkt" data-tab="mkt" aria-controls="p-mkt">시장</button>
   </nav>
   <div class="panel" id="p-list" role="tabpanel" aria-labelledby="tab-list">
     <section class="sum" id="sum" aria-live="polite"></section>
@@ -377,6 +411,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
   </div>
   <div class="panel" id="p-div" role="tabpanel" aria-labelledby="tab-div" hidden></div>
   <div class="panel" id="p-sec" role="tabpanel" aria-labelledby="tab-sec" hidden></div>
+  <div class="panel" id="p-mkt" role="tabpanel" aria-labelledby="tab-mkt" hidden></div>
   <p class="foot">시세·배당은 Yahoo Finance 기준이며 15~30분 늦을 수 있어요.<br>보유 수량·평단가·분류는 이 폰에만 저장돼요. <button class="linkish" id="bak-btn">백업·복원</button></p>
 </div>
 
@@ -411,6 +446,8 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     </section>
 
     <section class="card" id="d-div" aria-label="배당"></section>
+
+    <section class="card" id="d-news" aria-label="뉴스" hidden></section>
 
     <section class="card">
       <h3>분류·목록 관리</h3>
@@ -520,6 +557,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     data: store.get('last', null), hold: store.get('hold', {}), hidden: store.get('hidden', []),
     pending: store.get('pending', []), krw: store.get('krw', false), showHidden: false,
     amt: store.get('amt', true), tab: store.get('tab', 'list'), cls: store.get('cls', {}),
+    news: store.get('news', null), ai: store.get('ai', null), newsFor: 'mkt',
     gone: store.get('gone', []), secBy: store.get('secBy', 's'), tax: store.get('tax', 'net'), divMonth: new Date().getMonth(), clsCode: null,
     loading: false, err: '', fetchedAt: 0, cur: null, range: 'd1', hist: {}
   };
@@ -676,6 +714,19 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
   function toast(m) { const t = $('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1800); }
 
   /* ---------- data ---------- */
+  async function loadExtras() {
+    const get = async (url, key) => {
+      try {
+        const r = await fetch(url + '?ts=' + Date.now(), { cache: 'no-store' });
+        if (!r.ok) return;
+        S[key] = await r.json(); store.set(key, S[key]);
+      } catch (e) {}
+    };
+    await Promise.all([get('data/news.json', 'news'), get('analysis/latest.json', 'ai')]);
+    if (S.tab === 'mkt') renderMktTab();
+    if (S.cur && !$('detail').hidden) renderNewsCard(itemOf(S.cur));
+  }
+
   async function load(manual) {
     if (S.loading) return;
     S.loading = true; $('refresh').classList.add('spin');
@@ -693,6 +744,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
       goneSet.forEach(c => { if (d.errors) delete d.errors[c]; });
       S.data = d; S.err = ''; S.fetchedAt = Date.now(); S.hist = {};
       store.set('last', d);
+      loadExtras();
       const have = new Set((d.items || []).map(i => i.code).concat(Object.keys(d.errors || {})));
       const before = S.pending.length;
       S.pending = S.pending.filter(p => !have.has(p.code));
@@ -913,13 +965,14 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     if (S.tab === 'list') { renderSum(); renderList(); }
     else if (S.tab === 'div') renderDivTab();
     else if (S.tab === 'sec') renderSecTab();
+    else if (S.tab === 'mkt') renderMktTab();
   }
 
   /* ---------- tabs ---------- */
   function setTab(t) {
-    S.tab = ['list', 'div', 'sec'].includes(t) ? t : 'list'; store.set('tab', S.tab);
+    S.tab = ['list', 'div', 'sec', 'mkt'].includes(t) ? t : 'list'; store.set('tab', S.tab);
     document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === S.tab)));
-    ['list', 'div', 'sec'].forEach(k => { $('p-' + k).hidden = k !== S.tab; });
+    ['list', 'div', 'sec', 'mkt'].forEach(k => { $('p-' + k).hidden = k !== S.tab; });
     if (S.tab === 'div') S.divMonth = new Date().getMonth();
     render();
   }
@@ -973,6 +1026,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     const kr = isKR(it), d = dir(it.chg);
     $('d-name').textContent = it.name;
     $('d-logo').innerHTML = logoHTML(it, 'lg');
+    renderNewsCard(it);
     $('d-sub').textContent = (kr ? it.code : it.sym) + ' · ' + (it.market || '') + (isOpen(it) ? ' · 장중' : ' · 장 마감') + (it.time ? ' · ' + dfmt(it.time, it.tz, { month: 'numeric', day: 'numeric' }) + ' ' + hm(it.time, it.tz) + ' 현지' : '');
     $('d-price').textContent = money(it.price, it.cur);
     $('d-chg').innerHTML = `<span class="${d}">${d === 'up' ? '▲' : d === 'down' ? '▼' : ''}${money(Math.abs(it.chg || 0), it.cur)} (${pct(it.pct)})</span><small>전일 대비</small>`;
@@ -1606,6 +1660,94 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     box.innerHTML = html;
     box.querySelectorAll('#sec-by button').forEach(b => b.addEventListener('click', () => { S.secBy = b.dataset.b; store.set('secBy', S.secBy); renderSecTab(); }));
     box.querySelectorAll('.crow').forEach(b => b.addEventListener('click', () => openClasser(b.dataset.code)));
+  }
+
+  /* ---------- 시장 탭: AI 브리핑 · 지수 · 뉴스 ---------- */
+  function ago(ts) {
+    if (!ts) return '';
+    const m = Math.round((Date.now() / 1000 - ts) / 60);
+    return m < 2 ? '방금' : m < 60 ? m + '분 전' : m < 1440 ? Math.floor(m / 60) + '시간 전' : Math.floor(m / 1440) + '일 전';
+  }
+  const TONE = { up: '호재', down: '악재', neutral: '중립', mixed: '엇갈림' };
+  function toneOf(t) { return t === 'up' || t === 'down' ? t : 'neutral'; }
+  function newsHTML(rows) {
+    return rows.map(r => `<a class="nitem" href="${esc(r.link)}" target="_blank" rel="noopener"><b>${esc(r.title)}</b><small>${esc(r.src || '')}${r.src ? ' · ' : ''}${ago(r.t)}${r.en ? '<span class="en">EN</span>' : ''}</small></a>`).join('');
+  }
+  function idxValue(ix) {
+    if (ix.sym === '^TNX') return nf(ix.price, 3) + '%';
+    if (ix.sym === 'BTC-USD') return '$' + nf(ix.price, 0);
+    return nf(ix.price, 2);
+  }
+  function idxSpark(v, prev, d) {
+    if (!v || v.length < 2) return '<svg aria-hidden="true"></svg>';
+    const W = 44, H = 30, pd = 2;
+    let lo = Math.min(...v), hi = Math.max(...v);
+    if (prev) { lo = Math.min(lo, prev); hi = Math.max(hi, prev); }
+    const X = i => (pd + (W - 2 * pd) * i / (v.length - 1)).toFixed(1), Y = y => (pd + (H - 2 * pd) * (1 - (y - lo) / ((hi - lo) || 1))).toFixed(1);
+    return `<svg viewBox="0 0 ${W} ${H}" class="r-spark" aria-hidden="true">${prev ? `<line class="sb" x1="0" x2="${W}" y1="${Y(prev)}" y2="${Y(prev)}"/>` : ''}<polyline class="sl ${d}" points="${v.map((y, i) => X(i) + ',' + Y(y)).join(' ')}"/></svg>`;
+  }
+
+  function renderMktTab() {
+    const box = $('p-mkt'), A = S.ai, N = S.news;
+    const items = (S.data && S.data.items) || [];
+    let html = '';
+    // AI 브리핑
+    if (A && A.title) {
+      const dd = A.date ? new Date(A.date + 'T00:00:00+09:00') : null;
+      const when = dd ? `${dd.getMonth() + 1}월 ${dd.getDate()}일` : '';
+      const old = A.date && (Date.now() - new Date(A.date + 'T00:00:00+09:00')) / 86400000 > 3;
+      const st = (A.stocks || []).map(x => {
+        const it = items.find(i => i.code === x.code) || { code: x.code, name: x.name || x.code };
+        const t = toneOf(x.tone);
+        return `<li>${logoHTML(it, 'sm')}<div><div class="b-h">${esc(it.name)} <span class="tone ${t}">${TONE[t]}</span></div><p>${esc(x.text || '')}</p></div></li>`;
+      }).join('');
+      const cal = (A.watch || []).map(w => `<li><b>${esc(w.date || '')}</b> ${esc(w.text || '')}</li>`).join('');
+      const src = (A.sources || []).filter(x => /^https?:/.test(x.url || '')).map(x => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title || x.url)}</a></li>`).join('');
+      html += `<section class="card brief"><div class="card-h"><h3>오늘의 시장 브리핑</h3><span class="chip acc">AI · ${when} 아침</span></div>
+        ${old ? '<p class="note">최근 브리핑이 아직 없어서 지난 브리핑을 보여주고 있어요.</p>' : ''}
+        <p class="b-title">${esc(A.title)}</p>
+        ${(A.market || []).map(t => `<p>${esc(t)}</p>`).join('')}
+        ${st ? `<h4>내 종목 한 줄</h4><ul class="b-list">${st}</ul>` : ''}
+        ${cal ? `<h4>앞으로 볼 일정</h4><ul class="b-cal">${cal}</ul>` : ''}
+        ${src ? `<details><summary>출처 ${A.sources.length}개</summary><ol>${src}</ol></details>` : ''}
+        <p class="note">AI가 기사와 시세를 정리한 참고용이에요. 사고팔라는 추천이 아니에요.</p></section>`;
+    } else {
+      html += `<section class="card brief"><div class="card-h"><h3>오늘의 시장 브리핑</h3><span class="chip acc">AI</span></div><p class="note">평일 아침 7시 20분쯤 AI 브리핑이 올라와요. 미국장 마감 정리와 오늘 한국장에서 볼 점, 내 종목 소식을 담아요.</p></section>`;
+    }
+    // 지수 · 환율
+    const idx = ((S.data && S.data.indices) || []).slice();
+    const f = S.data && S.data.fx;
+    if (f && f.USDKRW) idx.splice(Math.min(4, idx.length), 0, { sym: 'KRW=X', name: '원/달러 환율', price: f.USDKRW, prev: f.prev, pct: f.prev ? (f.USDKRW - f.prev) / f.prev * 100 : NaN, cur: 'KRW' });
+    if (idx.length) {
+      html += `<section class="group"><h2>지수 · 환율</h2><div class="idx">${idx.map(ix => {
+        const d = dir(ix.pct);
+        return `<div class="ix"><span class="n">${esc(ix.name)}</span><span class="v">${idxValue(ix)}</span><span class="c ${d}">${d === 'up' ? '▲' : d === 'down' ? '▼' : ''}${pct(ix.pct).replace(/^[+−]/, '')}</span>${idxSpark(ix.spark, ix.prev, d)}</div>`;
+      }).join('')}</div></section>`;
+    }
+    // 뉴스
+    if (N) {
+      const withNews = items.filter(it => (N.stocks || {})[it.code] && N.stocks[it.code].length);
+      if (S.newsFor !== 'mkt' && !withNews.some(it => it.code === S.newsFor)) S.newsFor = 'mkt';
+      const rows = S.newsFor === 'mkt' ? (N.market || []) : (N.stocks[S.newsFor] || []);
+      html += `<section class="group"><h2>뉴스 <span class="gu">· ${ago(N.updated)} 모음</span></h2>
+        <div class="nchips" role="group" aria-label="뉴스 고르기"><button class="nchip txt" data-n="mkt" aria-pressed="${S.newsFor === 'mkt'}">시장 전체</button>${withNews.map(it => `<button class="nchip" data-n="${esc(it.code)}" aria-pressed="${S.newsFor === it.code}">${logoHTML(it, 'sm')}${esc(it.name)}</button>`).join('')}</div>
+        <div class="rows nlist" style="margin-top:8px">${rows.length ? newsHTML(rows) : '<p class="note" style="padding:12px">새 기사가 없어요.</p>'}</div>
+        <p class="note" style="margin-top:6px">기사 제목을 누르면 원문이 열려요. 1시간마다 새로 모아요.</p></section>`;
+    }
+    box.innerHTML = html;
+    box.querySelectorAll('.nchip').forEach(b => b.addEventListener('click', () => { S.newsFor = b.dataset.n; renderMktTab(); }));
+  }
+
+  function renderNewsCard(it) {
+    const box = $('d-news'); if (!it || !box) return;
+    const rows = ((S.news && S.news.stocks) || {})[it.code] || [];
+    const a = ((S.ai && S.ai.stocks) || []).find(x => x.code === it.code);
+    if (!rows.length && !a) { box.hidden = true; return; }
+    const t = a ? toneOf(a.tone) : '';
+    box.hidden = false;
+    box.innerHTML = `<div class="card-h"><h3>소식</h3>${a ? `<span class="tone ${t}">AI ${TONE[t]}</span>` : ''}</div>
+      ${a ? `<p class="note" style="color:var(--ink);font-size:13.5px">${esc(a.text || '')}</p>` : ''}
+      ${rows.length ? `<div class="rows nlist">${newsHTML(rows.slice(0, 4))}</div>` : ''}`;
   }
 
   /* ---------- 분류 바꾸기 ---------- */

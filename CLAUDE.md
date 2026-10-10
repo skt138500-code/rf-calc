@@ -22,6 +22,7 @@
 - 관심종목: `stocks/watch/` 안의 파일 하나가 한 종목. 파일 이름 = 종목코드(국내 6자리, 미국 티커), 첫 줄 = 앱에 보일 이름.
 - 앱의 "종목 추가"·"목록에서 삭제": 폰에 GitHub 토큰(fine-grained, rf-calc 저장소 Contents 쓰기)이 저장돼 있으면 GitHub Contents API로 바로 커밋한다. 토큰이 없으면 GitHub 새 파일/삭제 링크를 미리 채워서 연다. 토큰은 폰 localStorage(`stocks.gh`)에만 있다.
 - 화면: 종목 / 배당 / 섹터 탭. 종목 목록 한 줄 = 로고 · 이름(보유 수량·코드) · 당일 그래프 · 가격+등락(손익). 국내 숫자는 '원' 없이 쓰고 그룹 제목에 단위를 적는다(공간 확보). 목록 행은 subgrid로 열을 맞춘다. 배당은 `quotes.json` 각 종목의 `div`(최근 3년 [배당락일, 1주 금액])로 계산한다. 배당 탭은 올해 1~12월 기준: 지난 배당락 = 받은 금액(실제 기록), 남은 달 = 작년 같은 때 배당이 다시 나온다고 가정한 예상. 지금 보유 수량을 1월부터 가졌다고 본다. 세후/세전 선택(세후 = 미국 15%, 국내 15.4% 원천징수만 뺌).
+- 시장 탭: 지수·환율 카드(`quotes.json`의 `indices`), 뉴스 제목·링크(`data/news.json`, `stocks/tools/market.py`가 1시간마다 Google 뉴스/Yahoo RSS에서 모음 — 기사 본문은 저장하지 않음), AI 브리핑(`stocks/analysis/latest.json`). 브리핑은 평일 아침 Claude 예약 작업이 써서 main에 푸시한다. 형식: `{date:"YYYY-MM-DD", made, title, market:[문단], stocks:[{code, tone:"up|down|neutral", text}], watch:[{date:"MM-DD", text}], sources:[{title, url}]}`, 지난 것은 `stocks/analysis/YYYY-MM-DD.json`으로 14일 보관.
 - 섹터·유형 분류: 유형은 성장·모멘텀 / 경기민감주 / 가치·우량주 / 배당주 / 기타. 기본값은 `stocks/index.html`의 `CLS` 표, 사용자가 바꾼 값은 폰 localStorage(`stocks.cls`)에만 저장.
 - 백업·복원: 폰에만 있는 값(보유, 분류, 설정, 선택하면 GitHub 토큰)을 `MYSTOCK1.` + base64(JSON) 코드로 복사·붙여넣기. iOS는 홈 화면 앱을 지우면 이 값들이 지워질 수 있다.
 - 아이콘: `stocks/tools/build.py`의 `icon()`이 그린다. 아이콘 파일이 없을 때만 새로 만드니, 바꿀 땐 PNG들을 지우고 빌드한다.
