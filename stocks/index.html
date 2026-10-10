@@ -1694,7 +1694,8 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     // AI 브리핑
     if (A && A.title) {
       const dd = A.date ? new Date(A.date + 'T00:00:00+09:00') : null;
-      const when = dd ? `${dd.getMonth() + 1}월 ${dd.getDate()}일` : '';
+      const mh = A.made ? new Date(A.made).getHours() : 7;
+      const when = dd ? `${dd.getMonth() + 1}월 ${dd.getDate()}일 ${mh < 12 ? '아침' : mh < 18 ? '오후' : '저녁'}` : '';
       const old = A.date && (Date.now() - new Date(A.date + 'T00:00:00+09:00')) / 86400000 > 3;
       const st = (A.stocks || []).map(x => {
         const it = items.find(i => i.code === x.code) || { code: x.code, name: x.name || x.code };
@@ -1703,7 +1704,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
       }).join('');
       const cal = (A.watch || []).map(w => `<li><b>${esc(w.date || '')}</b> ${esc(w.text || '')}</li>`).join('');
       const src = (A.sources || []).filter(x => /^https?:/.test(x.url || '')).map(x => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title || x.url)}</a></li>`).join('');
-      html += `<section class="card brief"><div class="card-h"><h3>오늘의 시장 브리핑</h3><span class="chip acc">AI · ${when} 아침</span></div>
+      html += `<section class="card brief"><div class="card-h"><h3>오늘의 시장 브리핑</h3><span class="chip acc">AI · ${when}</span></div>
         ${old ? '<p class="note">최근 브리핑이 아직 없어서 지난 브리핑을 보여주고 있어요.</p>' : ''}
         <p class="b-title">${esc(A.title)}</p>
         ${(A.market || []).map(t => `<p>${esc(t)}</p>`).join('')}

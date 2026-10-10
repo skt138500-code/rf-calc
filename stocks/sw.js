@@ -1,6 +1,6 @@
 // 내 주식 — offline app shell. Prices (data/) always come from the network;
 // the page keeps its own last copy for offline use.
-const CACHE = 'stocks-e60b995588';
+const CACHE = 'stocks-7d922c4f11';
 const LOGOS = 'stocks-logos';   // kept across app updates
 const ASSETS = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png", "favicon.png", "../fonts/jbm-400.woff2", "../fonts/jbm-500.woff2", "../fonts/jbm-600.woff2"];
 self.addEventListener('install', e => {
