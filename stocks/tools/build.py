@@ -80,6 +80,7 @@ self.addEventListener('activate', e => {{
 self.addEventListener('fetch', e => {{
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
+  if (url.origin !== self.location.origin) return;  // GitHub API etc. go straight to the network
   if (url.pathname.includes('/stocks/data/')) return;
   e.respondWith(
     caches.match(e.request, {{ ignoreSearch: true }}).then(hit => hit || fetch(e.request).catch(() =>

@@ -9,7 +9,7 @@ https://skt138500-code.github.io/rf-calc/
 - 전원: SSPA RF 출력·DC 효율 → DC 전류, 분전반 전류, 차단기, 케이블 굵기(IEC 60364-5-52 참고), 접지선, 발열량
 
 ## 내 주식
-관심종목 현재가·등락률, 보유 수익률, 기간별 차트, 원화 환산. https://skt138500-code.github.io/rf-calc/stocks/
+관심종목 현재가·등락률, 보유 손익(금액/퍼센트, 국내·미국 나눠 보기), 기간별 차트, 원화 환산, 배당(종목별·월별 예상), 섹터 비중. 앱에서 바로 종목 추가·삭제(GitHub 연결 시). https://skt138500-code.github.io/rf-calc/stocks/
 
 ## 수정
 `main`에 푸시하면 GitHub Actions가 시세를 붙여 `gh-pages`로 배포합니다. 자세한 순서는 `CLAUDE.md`에 있습니다.
