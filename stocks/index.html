@@ -373,13 +373,15 @@ a{color:var(--accent)}
 
   function renderSum() {
     const el = $('sum');
-    let val = 0, cost = 0, today = 0, n = 0;
+    // P/L only counts holdings that have an average price; the rest add to value only
+    let val = 0, cost = 0, valWithCost = 0, today = 0, n = 0, noAvg = 0;
     const items = (S.data && S.data.items) || [];
     items.forEach(it => {
       const h = heldOf(it.code); if (!h) return;
-      const v = toKRW(h.q * it.price, it.cur), c = toKRW(h.q * (h.a || 0), it.cur);
+      const v = toKRW(h.q * it.price, it.cur);
       if (!isFinite(v)) return;
-      n++; val += v; cost += isFinite(c) ? c : 0;
+      n++; val += v;
+      if (h.a > 0) { cost += toKRW(h.q * h.a, it.cur); valWithCost += v; } else noAvg++;
       if (it.prev) today += toKRW(h.q * (it.price - it.prev), it.cur);
     });
     const f = S.data && S.data.fx;
@@ -389,13 +391,17 @@ a{color:var(--accent)}
       el.innerHTML = `<div class="sum-empty"><b>보유 수량을 넣으면 내 수익이 여기 보여요.</b><br>종목을 누르고 수량과 평단가를 입력하세요.</div>` + fxRow;
       return;
     }
-    const pl = val - cost, plp = cost > 0 ? pl / cost * 100 : NaN, prevVal = val - today;
+    const pl = valWithCost - cost, plp = cost > 0 ? pl / cost * 100 : NaN, prevVal = val - today;
+    const plRow = cost > 0
+      ? `<dd class="${dir(pl)}">${smoney(pl, 'KRW')} (${pct(plp)})</dd>`
+      : `<dd class="flat">평단가를 넣으면 계산돼요</dd>`;
+    const note = noAvg && cost > 0 ? `<div class="sum-k">평단가가 없는 ${noAvg}종목은 손익에서 빠져 있어요</div>` : '';
     el.innerHTML = `<div><div class="sum-k">총 평가금액 · ${n}종목</div><div class="sum-v">${money(val, 'KRW')}</div></div>
       <dl class="sum-rows">
-        <dt>평가손익</dt><dd class="${dir(pl)}">${smoney(pl, 'KRW')} (${pct(plp)})</dd>
+        <dt>평가손익</dt>${plRow}
         <dt>오늘</dt><dd class="${dir(today)}">${smoney(today, 'KRW')} (${pct(prevVal > 0 ? today / prevVal * 100 : NaN)})</dd>
-        <dt>매입금액</dt><dd>${money(cost, 'KRW')}</dd>
-      </dl>` + fxRow;
+        <dt>매입금액</dt><dd>${cost > 0 ? money(cost, 'KRW') : '—'}</dd>
+      </dl>${note}` + fxRow;
   }
 
   function sparkSVG(vals) {
