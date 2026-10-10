@@ -6,6 +6,7 @@ Each file in stocks/watch/ is one stock: the file name is the code
 of the file is the name shown in the app.
 
 Writes stocks/data/quotes.json and stocks/data/hist/<symbol>.json.
+Each quote item also carries its dividend history ('div': [[ex-date, amount]]).
 Uses only the Python standard library. Data source: Yahoo Finance chart API.
 If a stock fails this run, its previous data (restored from gh-pages by the
 workflow) is kept and marked stale.
@@ -36,8 +37,11 @@ class NotFound(Exception):
     pass
 
 
-def chart(sym, rng, interval):
-    query = urllib.parse.urlencode({'range': rng, 'interval': interval, 'includePrePost': 'false'})
+def chart(sym, rng, interval, events=None):
+    params = {'range': rng, 'interval': interval, 'includePrePost': 'false'}
+    if events:
+        params['events'] = events
+    query = urllib.parse.urlencode(params)
     last = None
     for attempt in range(4):
         host = HOSTS[attempt % 2]
@@ -73,6 +77,22 @@ def series(res):
     return {'t': t, 'c': c}
 
 
+def dividends(res, years=3):
+    """Dividend history as [[ex-date, amount], ...], oldest first, last few years."""
+    raw = ((res.get('events') or {}).get('dividends') or {}).values()
+    cut = time.time() - years * 366 * 86400
+    out = []
+    for d in raw:
+        try:
+            t, a = int(d.get('date')), float(d.get('amount'))
+        except (TypeError, ValueError):
+            continue
+        if t >= cut and a > 0:
+            out.append([t, round(a, 6)])
+    out.sort()
+    return out
+
+
 def candidates(code):
     if re.fullmatch(r'\d{6}', code):
         return [code + '.KS', code + '.KQ']
@@ -103,7 +123,7 @@ def fetch_one(code, name):
         prev = meta.get('chartPreviousClose') or meta.get('previousClose')
         y1 = chart(sym, '1y', '1d')
         time.sleep(0.4)
-        y5 = chart(sym, '5y', '1wk')
+        y5 = chart(sym, '5y', '1wk', events='div')
         s1, sy1, sy5 = series(d1), series(y1), series(y5)
         period = (meta.get('currentTradingPeriod') or {}).get('regular') or {}
         item = {
@@ -122,6 +142,9 @@ def fetch_one(code, name):
             'spark': sy1['c'][-30:],
             'hist': file_name(sym),
         }
+        div = dividends(y5)
+        if div:
+            item['div'] = div
         if prev:
             item['chg'] = round(price - prev, 4)
             item['pct'] = round((price - prev) / prev * 100, 3)
