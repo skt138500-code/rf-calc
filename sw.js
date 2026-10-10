@@ -11,7 +11,8 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
-  if (new URL(e.request.url).pathname.includes('/stocks/')) return;
+  const path = new URL(e.request.url).pathname;
+  if (path.includes('/stocks/') || path.includes('/car/')) return;  // the other apps have their own service workers
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then(hit => hit || fetch(e.request).catch(() =>
       e.request.mode === 'navigate' ? caches.match('index.html') : Response.error()))
