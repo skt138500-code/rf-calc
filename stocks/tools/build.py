@@ -143,19 +143,28 @@ version = h.hexdigest()[:10]
 sw = f'''// 내 주식 — offline app shell. Prices (data/) always come from the network;
 // the page keeps its own last copy for offline use.
 const CACHE = 'stocks-{version}';
+const LOGOS = 'stocks-logos';   // kept across app updates
 const ASSETS = {json.dumps(assets)};
 self.addEventListener('install', e => {{
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 }});
 self.addEventListener('activate', e => {{
   e.waitUntil(caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k.startsWith('stocks-') && k !== CACHE).map(k => caches.delete(k))))
+    .then(keys => Promise.all(keys.filter(k => k.startsWith('stocks-') && k !== CACHE && k !== LOGOS).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 }});
 self.addEventListener('fetch', e => {{
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
   if (url.origin !== self.location.origin) return;  // GitHub API etc. go straight to the network
+  if (url.pathname.includes('/stocks/data/logos/')) {{
+    // logos rarely change: saved copy first, so they show offline too
+    e.respondWith(caches.open(LOGOS).then(k => k.match(e.request).then(hit => hit || fetch(e.request).then(r => {{
+      if (r.ok) k.put(e.request, r.clone());
+      return r;
+    }}))));
+    return;
+  }}
   if (url.pathname.includes('/stocks/data/')) return;
   if (e.request.mode === 'navigate') {{
     // the page itself: newest from the network (so updates show on the first open),

@@ -90,12 +90,16 @@ a{color:var(--accent)}
 /* list */
 .group{display:flex;flex-direction:column}
 .group h2{margin:0 0 6px;font-size:12px;font-weight:600;color:var(--ink-soft);letter-spacing:.04em}
+.group h2 .gu{font-weight:400}
+/* the watch list shares its columns across rows (subgrid), so the charts and prices line up */
+.rows.watch{display:grid;grid-template-columns:3px 30px minmax(0,1fr) 42px auto 3px;column-gap:8px}
+.rows.watch > .row{grid-column:1/-1;grid-template-columns:subgrid}
 .rows{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.row{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n q" "s p";column-gap:12px;row-gap:1px;align-items:center;padding:9px 12px;background:none;border:0;border-top:1px solid var(--line);text-align:left}
+.row{width:100%;display:grid;grid-template-columns:3px 30px minmax(0,1fr) 42px auto 3px;grid-template-areas:". l n s q ." ". l t s p .";column-gap:8px;row-gap:1px;align-items:center;padding:9px 0;background:none;border:0;border-top:1px solid var(--line);text-align:left}
 .row:first-child{border-top:0}
 .row:active{background:var(--press)}
 .r-name{grid-area:n;font-size:15px;font-weight:600;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.r-sub{grid-area:s;font-size:12px;line-height:1.4;color:var(--ink-soft);display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;min-width:0}
+.r-sub{grid-area:t;font-size:12px;line-height:1.4;color:var(--ink-soft);display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;min-width:0}
 .r-sub .tx{overflow:hidden;text-overflow:ellipsis}
 .r-sub b{font-weight:600;color:var(--ink)}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--flat);flex:none}
@@ -106,7 +110,22 @@ a{color:var(--accent)}
 .r-pl small{font-size:11.5px;font-weight:400;opacity:.8;margin-left:3px}
 .pill{font:600 11.5px/1 var(--font-num);font-variant-numeric:tabular-nums;padding:3px 5px;border-radius:5px;white-space:nowrap}
 .pill.up{background:var(--up);color:var(--on-dir)} .pill.down{background:var(--down);color:var(--on-dir)} .pill.flat{background:var(--flat);color:var(--on-dir)}
-.row .tag{grid-column:2;grid-row:1/3;justify-self:end}
+.row .tag{grid-column:4/6;grid-row:1/3;justify-self:end}
+.row > .logo{grid-area:l}
+.r-spark{grid-area:s;display:block;width:42px;height:28px}
+.r-spark .sl{fill:none;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.r-spark .sl.up{stroke:var(--up)} .r-spark .sl.down{stroke:var(--down)} .r-spark .sl.flat{stroke:var(--flat)}
+.r-spark .sb{stroke:var(--ink-soft);stroke-width:1;stroke-dasharray:2 2;opacity:.55}
+/* company logos: the image over a lettered circle that shows when there is no image */
+.logo{position:relative;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;overflow:hidden;flex:none;background:var(--lg,#5a6677);color:#fff;font:700 13px/1 var(--font-ui)}
+.logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}
+.logo.pad img{object-fit:contain;padding:3px}
+.logo.dk img{background:#1f2a37}
+.logo::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(20,30,45,.10);pointer-events:none}
+.logo.sm{width:24px;height:24px;font-size:11px}
+.logo.sm.pad img{padding:2px}
+.logo.lg{width:38px;height:38px;font-size:16px}
+.logo.lg.pad img{padding:4px}
 .tag{font-size:12px;color:var(--ink-soft);border:1px dashed var(--line);border-radius:6px;padding:3px 6px;white-space:nowrap}
 .row.err .tag{color:var(--warn);border-color:var(--warn)}
 .row.hid{opacity:.55}
@@ -122,6 +141,7 @@ a{color:var(--accent)}
 .back{flex:none;width:40px;height:40px;border:0;background:transparent;border-radius:10px;font-size:28px;line-height:1;color:var(--ink);display:flex;align-items:center;justify-content:center;padding-bottom:3px}
 .back:active{background:var(--press)}
 .sh-t{min-width:0}
+#d-logo{display:flex;margin-right:4px}
 .sh-t h2{margin:0;font-size:18px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sh-t span{font-size:12px;color:var(--ink-soft)}
 .d-price{font:600 34px/1.1 var(--font-num);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
@@ -253,7 +273,8 @@ a{color:var(--accent)}
 .drow:first-child{border-top:0}
 .drow:active{background:var(--press)}
 .drow .t{display:flex;flex-direction:column;gap:2px;min-width:0}
-.drow .t b{font-size:15px;display:flex;align-items:center;gap:6px;min-width:0}
+.drow .t b{font-size:15px;display:flex;align-items:center;gap:7px;min-width:0}
+.drow .t small{padding-left:31px}
 .drow .t b span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .drow .t small{font-size:12px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .drow .v{text-align:right;display:flex;flex-direction:column;gap:2px;align-items:flex-end}
@@ -306,7 +327,9 @@ a{color:var(--accent)}
 .crow:first-child{border-top:0}
 .crow:active{background:var(--press)}
 .crow .t{display:flex;flex-direction:column;gap:1px;min-width:0}
-.crow .t b{font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crow .t b{font-size:14.5px;display:flex;align-items:center;gap:8px;min-width:0}
+.crow .t b span:not(.logo){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crow .t small{padding-left:32px}
 .crow .t small{font-size:12px;color:var(--ink-soft)}
 .crow.solo{border:1px solid var(--line);border-radius:10px;background:var(--surface);grid-template-columns:auto minmax(0,1fr) auto;padding:10px 12px}
 .chev{color:var(--ink-soft);font-size:18px;line-height:1}
@@ -330,7 +353,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
 .btn[disabled]{opacity:.55}
 .inwrap input.tok{font:400 14px var(--font-num)}
 @media (prefers-reduced-motion: reduce){.spin svg{animation:none}.toast{transition:none}}
-@media (max-width:360px){.r-pl small{display:none}.r-price{font-size:14px}}
+@media (max-width:370px){.rows.watch,.row{grid-template-columns:3px 28px minmax(0,1fr) auto 3px}.row{grid-template-areas:". l n q ." ". l t p ."}.r-spark{display:none}.row .tag{grid-column:4/5}.r-pl small{display:none}}
 </style>
 </head>
 <body>
@@ -359,7 +382,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
 
 <div class="sheet" id="detail" hidden role="dialog" aria-modal="true" aria-labelledby="d-name">
   <div class="sheet-in">
-    <div class="sh-top"><button class="back" data-close aria-label="뒤로">‹</button><div class="sh-t"><h2 id="d-name"></h2><span id="d-sub"></span></div></div>
+    <div class="sh-top"><button class="back" data-close aria-label="뒤로">‹</button><span id="d-logo"></span><div class="sh-t"><h2 id="d-name"></h2><span id="d-sub"></span></div></div>
     <div>
       <div class="d-price" id="d-price"></div>
       <div class="d-chg" id="d-chg"></div>
@@ -761,18 +784,71 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
       </dl>${note}` + fxRow;
   }
 
+  /* ---------- logos & small charts ---------- */
+  const LOGO_META = store.get('logoMeta', {});   // per logo file: pad (transparent edges) / dk (light logo, needs a dark circle)
+  const LOGO_BG = ['#3b6fb6', '#c2523c', '#2f8a6a', '#b07a1e', '#8a4fa8', '#4a7d8c', '#a8455f', '#5b6b7d'];
+  function logoHTML(it, size) {
+    const name = String(it.name || it.code || '?').trim();
+    const ch = /^[A-Za-z]/.test(name) ? name[0].toUpperCase() : name.slice(0, 1);
+    let hsh = 0; for (const c of String(it.code || name)) hsh = (hsh * 31 + c.charCodeAt(0)) >>> 0;
+    const m = it.logo ? LOGO_META[it.logo] : null;
+    const cls = 'logo' + (size ? ' ' + size : '') + (m && m.pad ? ' pad' : '') + (m && m.dk ? ' dk' : '');
+    return `<span class="${cls}" style="--lg:${LOGO_BG[hsh % LOGO_BG.length]}" aria-hidden="true">${esc(ch)}${it.logo ? `<img class="logo-img" src="data/${esc(it.logo)}" data-k="${esc(it.logo)}" alt="" decoding="async">` : ''}</span>`;
+  }
+  // look at a logo once: transparent edges → pad it; a white logo on transparent → dark circle behind it
+  document.addEventListener('load', e => {
+    const img = e.target;
+    if (!(img instanceof HTMLImageElement) || !img.classList.contains('logo-img')) return;
+    const k = img.dataset.k;
+    let m = LOGO_META[k];
+    if (!m) {
+      try {
+        const c = document.createElement('canvas'); c.width = c.height = 24;
+        const x = c.getContext('2d', { willReadFrequently: true });
+        x.drawImage(img, 0, 0, 24, 24);
+        const px = x.getImageData(0, 0, 24, 24).data;
+        let op = 0, lum = 0;
+        for (let i = 0; i < px.length; i += 4) if (px[i + 3] > 128) { op++; lum += (0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2]) / 255; }
+        const cover = op / 576;
+        m = { pad: cover < 0.92, dk: cover < 0.92 && op > 0 && lum / op > 0.85 };
+      } catch (err) { m = { pad: true, dk: false }; }
+      LOGO_META[k] = m; store.set('logoMeta', LOGO_META);
+    }
+    img.parentNode.classList.toggle('pad', m.pad);
+    img.parentNode.classList.toggle('dk', m.dk);
+  }, true);
+  document.addEventListener('error', e => {
+    if (e.target instanceof HTMLImageElement && e.target.classList.contains('logo-img')) e.target.remove();   // the letter circle shows instead
+  }, true);
+
+  function sparkSVG(it) {
+    // today's line, coloured by today's move (up red, down blue), dotted line = yesterday's close
+    const v = it.spark1d;
+    if (!v || v.length < 2) return '<span class="r-spark"></span>';
+    const base = it.prev, W = 42, H = 28, pd = 2;
+    let lo = Math.min(...v), hi = Math.max(...v);
+    if (base) { lo = Math.min(lo, base); hi = Math.max(hi, base); }
+    const X = i => (pd + (W - 2 * pd) * i / (v.length - 1)).toFixed(1);
+    const Y = y => (pd + (H - 2 * pd) * (1 - (y - lo) / ((hi - lo) || 1))).toFixed(1);
+    return `<svg class="r-spark" viewBox="0 0 ${W} ${H}" aria-hidden="true">${base ? `<line class="sb" x1="0" x2="${W}" y1="${Y(base)}" y2="${Y(base)}"/>` : ''}<polyline class="sl ${dir(it.chg)}" points="${v.map((y, i) => X(i) + ',' + Y(y)).join(' ')}"/></svg>`;
+  }
+
+  // list numbers: 원 단위는 그룹 제목에 한 번만 (국내 · 원), 달러는 $ 그대로
+  function rowMoney(v, cur) { return cur === 'KRW' ? (v < 0 ? '−' : '') + nf(Math.round(v), 0) : money(v, cur); }
+  function rowSigned(v, cur) { return isFinite(v) ? (v > 0 ? '+' : '') + rowMoney(v, cur) : '—'; }
+
   function rowHTML(it, hid) {
-    // two lines:  이름 ........ 가격 [등락]
-    //             코드 · 시장 · 보유 ........ 내 손익
+    // [로고]  이름 ........ [당일 그래프]  가격 [등락]
+    //         코드 · 보유 ...............  내 손익
     const cur = it.cur, d = dir(it.chg);
     const kr = isKR(it);
     const showKRW = !kr && S.krw && fx() && cur === 'USD';
-    const price = showKRW ? money(toKRW(it.price, cur), 'KRW') : money(it.price, cur);
+    const price = showKRW ? rowMoney(toKRW(it.price, cur), 'KRW') : rowMoney(it.price, cur);
     const open = isOpen(it);
     const h = heldOf(it.code);
     let qty = '', pl = '';
     if (h) {
-      qty = ` · <b>${nf(h.q, h.q % 1 ? 2 : 0)}주</b>`;
+      qty = `<b>${nf(h.q, h.q % 1 ? 2 : 0)}주</b> · `;
       if (h.a > 0) {
         // 금액: 국내는 원, 미국은 ₩ 버튼을 켜면 원(매입 환율 반영), 끄면 달러
         let v, c, p;
@@ -780,19 +856,21 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
           const F = fx(), F0 = h.fx > 0 ? h.fx : F;
           v = h.q * (it.price * F - h.a * F0); c = 'KRW'; p = (it.price * F - h.a * F0) / (h.a * F0) * 100;
         } else { v = h.q * (it.price - h.a); c = cur; p = (it.price - h.a) / h.a * 100; }
-        const amt = smoney(v, c), pc = sgn(p) + nf(p, 1) + '%';
-        pl = `<span class="r-pl ${dir(v)}">${S.amt ? amt + `<small>${pc}</small>` : pc + `<small>${amt}</small>`}</span>`;
+        const amt = rowSigned(v, c), pc = sgn(p) + nf(p, 1) + '%';
+        pl = `<span class="r-pl ${dir(v)}">${S.amt ? amt : pc}</span>`;   // one number keeps the row narrow; % 버튼으로 전환
       }
     }
     let pillTxt = pct(it.pct).replace(/^[+−]/, '');
     if (S.amt && isFinite(it.chg)) {
       const c = Math.abs(it.chg);
-      pillTxt = showKRW ? money(c * fx(), 'KRW') : cur === 'USD' ? '$' + nf(c, c < 0.1 ? 3 : 2) : money(c, cur);
+      pillTxt = showKRW ? rowMoney(c * fx(), 'KRW') : cur === 'USD' ? '$' + nf(c, c < 0.1 ? 3 : 2) : rowMoney(c, cur);
     }
     return `<button class="row${hid ? ' hid' : ''}" data-code="${esc(it.code)}">
+      ${logoHTML(it)}
       <span class="r-name">${esc(it.name)}</span>
+      ${sparkSVG(it)}
       <span class="r-q"><span class="r-price">${price}</span><span class="pill ${d}">${d === 'up' ? '▲' : d === 'down' ? '▼' : ''}${pillTxt}</span></span>
-      <span class="r-sub"><span class="dot${open ? ' open' : ''}"></span><span class="tx">${esc(kr ? it.code : it.sym)} · ${esc(it.market || '')}${open ? ' · 장중' : ''}${it.stale ? ' · 지연' : ''}${qty}</span></span>
+      <span class="r-sub">${open ? '<span class="dot open" title="장중"></span>' : ''}<span class="tx">${qty}${esc(kr ? it.code : it.sym)}${it.stale ? ' · 지연' : ''}</span></span>
       ${pl}
     </button>`;
   }
@@ -807,16 +885,16 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     let html = '';
     const group = (title, arr, extra) => {
       if (!arr.length && !extra) return '';
-      return `<section class="group"><h2>${title}</h2><div class="rows">${arr.map(it => rowHTML(it, hidden.has(it.code))).join('')}${extra || ''}</div></section>`;
+      return `<section class="group"><h2>${title}</h2><div class="rows watch">${arr.map(it => rowHTML(it, hidden.has(it.code))).join('')}${extra || ''}</div></section>`;
     };
     const waitRows = S.pending.filter(p => !items.some(i => i.code === p.code)).map(p => {
       const old = !p.at || Date.now() - p.at > 10 * 60000;
-      return `<button class="row wait${old ? ' err' : ''}" data-pend="${esc(p.code)}"><span class="r-name">${esc(p.name || p.code)}</span><span class="r-sub"><span class="tx">${esc(p.code)}${old ? ' · 저장이 안 됐을 수 있어요 · 눌러서 지우기' : ' · 보통 1~2분 걸려요'}</span></span><span class="tag">${old ? '확인 필요' : '시세 기다리는 중'}</span></button>`;
+      return `<button class="row wait${old ? ' err' : ''}" data-pend="${esc(p.code)}">${logoHTML({ code: p.code, name: p.name || p.code })}<span class="r-name">${esc(p.name || p.code)}</span><span class="r-sub"><span class="tx">${esc(p.code)}${old ? ' · 저장이 안 됐을 수 있어요 · 눌러서 지우기' : ' · 보통 1~2분 걸려요'}</span></span><span class="tag">${old ? '확인 필요' : '시세 기다리는 중'}</span></button>`;
     }).join('');
     const errRows = Object.keys(errors).map(code =>
-      `<button class="row err" data-err="${esc(code)}"><span class="r-name">${esc(code)}</span><span class="r-sub"><span class="tx">${esc(errors[code])} · 눌러서 목록에서 빼기</span></span><span class="tag">확인 필요</span></button>`).join('');
-    html += group('국내', kr);
-    html += group('미국', us);
+      `<button class="row err" data-err="${esc(code)}">${logoHTML({ code, name: code })}<span class="r-name">${esc(code)}</span><span class="r-sub"><span class="tx">${esc(errors[code])} · 눌러서 목록에서 빼기</span></span><span class="tag">확인 필요</span></button>`).join('');
+    html += group('국내 <span class="gu">· 원</span>', kr);
+    html += group(`미국 <span class="gu">· ${S.krw && fx() ? '원화로 환산' : '달러'}</span>`, us);
     if (waitRows || errRows) html += group('대기 · 확인 필요', [], waitRows + errRows);
     if (!html) {
       html = S.data
@@ -894,6 +972,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     S.cur = code;
     const kr = isKR(it), d = dir(it.chg);
     $('d-name').textContent = it.name;
+    $('d-logo').innerHTML = logoHTML(it, 'lg');
     $('d-sub').textContent = (kr ? it.code : it.sym) + ' · ' + (it.market || '') + (isOpen(it) ? ' · 장중' : ' · 장 마감') + (it.time ? ' · ' + dfmt(it.time, it.tz, { month: 'numeric', day: 'numeric' }) + ' ' + hm(it.time, it.tz) + ' 현지' : '');
     $('d-price').textContent = money(it.price, it.cur);
     $('d-chg').innerHTML = `<span class="${d}">${d === 'up' ? '▲' : d === 'down' ? '▼' : ''}${money(Math.abs(it.chg || 0), it.cur)} (${pct(it.pct)})</span><small>전일 대비</small>`;
@@ -1420,7 +1499,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
         const right = tot > 0
           ? `<b>${money(tot, 'KRW')}</b><small><i class="st got"></i>받음 ${money(r.got, 'KRW')}</small>`
           : `<small>${r.h ? '올해 배당 없음' : '보유 없음'}</small>`;
-        return `<button class="drow${tot > 0 ? '' : ' off'}" data-code="${esc(r.it.code)}"><div class="t"><b><span>${esc(r.it.name)}</span><span class="chip">${r.di.active ? r.di.label : '중단?'}</span></b><small>${sub}</small></div>
+        return `<button class="drow${tot > 0 ? '' : ' off'}" data-code="${esc(r.it.code)}"><div class="t"><b>${logoHTML(r.it, 'sm')}<span>${esc(r.it.name)}</span><span class="chip">${r.di.active ? r.di.label : '중단?'}</span></b><small>${sub}</small></div>
           <div class="v">${right}</div>${tot > 0 ? `<div class="prog sm" aria-hidden="true"><span style="width:${(r.got / tot * 100).toFixed(1)}%"></span></div>` : ''}</button>`;
       }).join('')}</div></section>`;
     }
@@ -1520,7 +1599,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     items.sort((a, b) => w(b) - w(a));
     html += `<section class="group"><h2>종목별 분류 · 눌러서 바꾸기</h2><div class="rows">${items.map(it => {
       const c = clsOf(it), v = w(it);
-      return `<button class="crow" data-code="${esc(it.code)}"><div class="t"><b>${esc(it.name)}</b><small>${v > 0 && R.total > 0 ? '비중 ' + nf(v / R.total * 100, 1) + '%' : '보유 없음'}</small></div>
+      return `<button class="crow" data-code="${esc(it.code)}"><div class="t"><b>${logoHTML(it, 'sm')}<span>${esc(it.name)}</span></b><small>${v > 0 && R.total > 0 ? '비중 ' + nf(v / R.total * 100, 1) + '%' : '보유 없음'}</small></div>
         <span class="chips"><span class="chip${c.s === '미분류' ? ' acc' : ''}">${esc(c.s)}</span><span class="chip">${esc(c.t)}</span></span></button>`;
     }).join('')}</div></section>`;
     html += '<p class="note">비중은 평가금액(미국 주식은 지금 환율로 원화 환산) 기준이에요. 분류는 이 폰에만 저장되고 언제든 바꿀 수 있어요.</p>';
