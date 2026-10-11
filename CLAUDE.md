@@ -34,7 +34,7 @@
 ## 차량관리 앱 고칠 때
 1. `car/index.html` 수정 → `python3 car/tools/build.py` (sw.js 캐시 버전, manifest, 아이콘)
 2. 커밋 → `git push origin main`
-- 사용자의 차 두 대(SM7, 올란도)를 관리한다. 차량 정보·정비 기록은 폰 localStorage(`car.cars`, `car.logs`)에만 있다. 저장소(공개)에 기록·번호판을 올리지 않는다.
+- 사용자의 차 두 대(SM6, 올란도)를 관리한다. (예전 기록·백업에 SM7로 잘못 들어간 차 이름은 앱이 열릴 때·복원할 때 `fixModel()`이 SM6으로 고친다.) 차량 정보·정비 기록은 폰 localStorage(`car.cars`, `car.logs`)에만 있다. 저장소(공개)에 기록·번호판을 올리지 않는다.
 - 기록 한 건: `{car, date:"YYYY-MM-DD", cat, title, km, cost, nextKm, nextDate, memo, todo, done, doneDate?, ts}`. `cat`은 oil / atf / brake / tire / battery / inspect / parts / repair / etc / odo(주행거리만 적은 기록). `todo:true`는 할 일(`nextDate` = 기한).
 - 화면: 현황 / 이력 / 비용 / 차량 탭. 현황 = 계기판식 주행거리(마지막 기록 이후는 최근 2년 하루 평균으로 추정, "추정" 표시) + 챙길 정비(지남·곧) + 할 일 + 관리 항목. 항목마다 가장 최근 기록의 다음 교체 km·날짜로 상태를 매기고, 다음 교체가 비어 있으면 차량 탭의 교체 주기(기본: 엔진오일 7,000km, 미션·브레이크오일 50,000km, 타이어 20,000km, 배터리·정기검사 24개월)로 계산한다. "곧" = 1,500km 또는 45일 이내. 정기검사는 다음 검사일 앞 90일 ~ 뒤 31일이 받을 수 있는 기간(사용자 검사서 문구)이라 그 기간에 들어서면 "곧", 끝나면 "지남".
 - 백업·복원: `MYCAR1.` + base64(JSON `{v, at, cars, logs}`). Claude 아티팩트 "두 대 차계부"의 `CARLOG1.` 코드도 같은 모양이라 그대로 불러온다.

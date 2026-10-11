@@ -339,6 +339,15 @@ textarea.code{font:400 12px/1.4 var(--font-num);word-break:break-all}
     sel: store.get('sel', null), tab: store.get('tab', 'home'), filter: 'all',
   };
   const save = () => { store.set('cars', S.cars); store.set('logs', S.logs); };
+  // 차종 바로잡기: 사용자의 차는 SM7이 아니라 SM6 (예전 기록·백업 코드에 SM7로 들어간 것 고침)
+  function fixModel(cars) {
+    let changed = false;
+    for (const c of Object.values(cars || {})) for (const k of ['name', 'memo']) {
+      if (typeof c?.[k] === 'string' && /SM\s?7/i.test(c[k])) { c[k] = c[k].replace(/SM\s?7/gi, 'SM6'); changed = true; }
+    }
+    return changed;
+  }
+  if (fixModel(S.cars)) save();
 
   /* ---------- helpers ---------- */
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -760,7 +769,7 @@ textarea.code{font:400 12px/1.4 var(--font-num);word-break:break-all}
     if (!d) { hint.textContent = '백업 코드가 아니에요. MYCAR1. 이나 CARLOG1. 로 시작하는 코드 전체를 붙여넣어 주세요.'; return; }
     const n = Object.keys(d.logs).length, nc = Object.keys(d.cars).length;
     if ((Object.keys(S.logs).length || Object.keys(S.cars).length) && !confirm(`이 폰의 차량·기록을 백업 내용(차 ${nc}대, 기록 ${n}건)으로 바꿀까요?`)) return;
-    S.cars = d.cars; S.logs = d.logs; save();
+    S.cars = d.cars; S.logs = d.logs; fixModel(S.cars); save();
     S.sel = carList()[0]?.id ?? null; store.set('sel', S.sel);
     if (stack.length) closeSheet(false); else render();
     toast(`불러왔어요 · 차 ${nc}대 · 기록 ${n}건`);
