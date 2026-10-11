@@ -1,39 +1,96 @@
 {
-  "date": "2026-10-10",
-  "made": "2026-10-10T18:25:04+09:00",
-  "title": "미국은 기술주 반등, 한국은 연휴 전 급락 후 쉬어가기",
+  "date": "2026-10-12",
+  "made": "2026-10-12T07:28:45+09:00",
+  "title": "한글날 연휴 뒤 첫 거래일, 외국인 수급과 미 CPI가 관건",
   "mood": "mixed",
   "market": [
-    "오늘은 토요일이고, 한국 증시는 9일(금) 한글날로 휴장했습니다. 그래서 한국 숫자는 8일(목) 마감 기준, 미국 숫자는 9일(금) 마감 기준입니다.",
-    "금요일 미국장은 3대 지수가 모두 올랐습니다. 다우 +0.83%(51,655), S&P 500 +0.59%(7,812), 나스닥 +0.64%(27,366)입니다. 목요일 AI 매출 우려로 빠졌던 기술주가 되살아났고, 트럼프 대통령이 중간선거 전 이란 공격은 없다고 말하면서 유가 부담도 줄었습니다. 다만 필라델피아 반도체 지수는 -0.41%로 약했고, VIX는 14.8로 낮아졌습니다.",
-    "한국은 8일 코스피가 -2.62%(6,625.93), 코스닥이 -0.69%(892.27)로 마쳤습니다. 삼성전자가 3분기 영업이익 107조 원대로 시장 예상을 넘었지만, 외국인 약 2.4조 원·기관 약 1.9조 원 순매도에 반도체가 하락을 이끌었습니다. 다음 거래일(12일)에는 미국 기술주 반등이 위안이지만, 외국인 매도가 멈출지가 관건입니다.",
-    "미국 10년 금리는 5.24%로 여전히 높습니다. 시장은 14일(수) 미국 9월 CPI를 보고 연준이 9월 인상 뒤 멈출 수 있을지 판단하려 합니다. 물가가 예상보다 낮으면 오를 요인, 높으면 금리 부담이 커지는 내릴 요인입니다. 원/달러는 1,340원 근처입니다."
+    "오늘은 월요일이고, 한국 증시는 9일(금) 한글날과 주말을 쉬고 나흘 만에 다시 엽니다. 그래서 한국 숫자는 8일(목) 마감, 미국 숫자는 9일(금) 마감 기준입니다. 미국은 오늘 콜럼버스 데이로 채권시장과 은행은 쉬지만 주식시장은 정상 개장합니다.",
+    "미국은 금요일 S&P 500이 +0.59%(7,811.54), 나스닥이 +0.64%(27,366.17)로 올랐습니다. 목요일 AI 매출 우려로 빠졌던 기술주가 반등했지만, 필라델피아 반도체 지수는 -0.41%(12,572)로 반등에 끼지 못했습니다. VIX는 14.8로 낮은 편입니다. 주말에는 리야드 공항 공격(사망 12명)이 있었고, 러시아 경유 공급을 늘리는 미·러 합의도 나와 유가 방향이 엇갈릴 수 있습니다.",
+    "한국은 8일 코스피 -2.62%(6,625.93), 코스닥 -0.69%(892.27)로 마쳤고, 지난주 코스피는 5% 넘게 빠졌습니다. 삼성전자 자사주 매입은 6일 끝났고 SK하이닉스도 마무리 단계라, 그동안 매도를 받아주던 힘이 빠지는 점이 부담입니다. 오를 요인은 미국 기술주 반등과 메모리 업황, 내릴 요인은 외국인·기관 매도가 이어지는 경우입니다.",
+    "미국 10년 금리는 5.24%로 2002년 이후 최고 수준 근처입니다. 14일(수) 9월 CPI는 전년비 3.6%(근원 2.5%)가 예상치이고, 연준이 9월 인상 뒤 10월(27~28일)에 또 올릴지 가늠하는 잣대가 됩니다. 원/달러는 1,340원으로 조금 내렸습니다(원화 강세)."
   ],
   "stocks": [
-    {"code": "005930", "tone": "up", "text": "3분기 잠정 매출 195조 원, 영업이익 107.4조 원으로 처음 분기 100조 원을 넘었습니다(HBM4·D램 가격 상승). 그래도 8일 주가는 외국인 매도에 -2.42%(262,000)였습니다."},
-    {"code": "012450", "tone": "down", "text": "8일 -8.33%(891,000)로 90만 원선을 내줬고, 6일부터 사흘 연속 4~8%씩 빠졌습니다. 뚜렷한 악재 공시는 없어 차익 실현과 시장 변동성이 꼽힙니다. 다가오는 실적 발표가 다음 고비입니다."},
-    {"code": "SPCX", "tone": "up", "text": "그레인 매니지먼트로부터 미국 전국 800MHz 저대역 주파수를 사들이기로 해 스타링크가 이동통신 사업자로 나설 길을 넓혔습니다(보도된 규모 약 80억 달러, FCC 승인 필요). 금요일 +1.25%."},
-    {"code": "000660", "tone": "neutral", "text": "8일 반도체 매도에 삼성전자와 함께 -2.44%(1,681,000)였습니다. 같은 업종인 삼성전자 실적이 좋게 나와 업황 자체는 탄탄하다는 평가와 외국인 매도가 맞서고 있습니다."},
-    {"code": "TSLA", "tone": "neutral", "text": "유럽에서 'FSD(감독형)' 이름을 '테슬라 보조 주행'으로 바꿨습니다. 독일 교통부가 이름이 오해를 준다고 지적했고, 독일은 EU 전체 승인을 지지하기로 했습니다. 금요일 +2.05%."},
-    {"code": "BAC", "tone": "neutral", "text": "14일(수) 개장 전 3분기 실적을 발표합니다. 하루 전 JP모건 등 대형 은행 실적이 먼저 나와 분위기를 가늠할 수 있습니다. 금요일 +1.32%."},
-    {"code": "042660", "tone": "neutral", "text": "거제 사업장 하청 노동자 고공농성(9월 30일 시작)이 일부 풀렸고, 8일 원청과의 첫 공동교섭이 열렸습니다. 8일 주가는 -2.83%(72,000)."}
+    {
+      "code": "005930",
+      "tone": "neutral",
+      "text": "3분기 잠정 영업이익 107.4조 원으로 예상을 넘었지만 8일 주가는 -2.42%(262,000)였습니다. 자사주 매입이 6일 끝나 이번 주는 외국인 수급이 주가를 더 직접 움직일 수 있습니다."
+    },
+    {
+      "code": "000660",
+      "tone": "neutral",
+      "text": "8일 -2.44%(1,681,000). 자사주 매입이 80% 넘게 체결돼 거의 끝났습니다. 메모리 공급 부족이 2028년까지 간다는 업계 전망은 버팀목, 실적 증가율 둔화 우려는 부담입니다."
+    },
+    {
+      "code": "012450",
+      "tone": "down",
+      "text": "8일 -8.33%(891,000)로 크게 빠져 90만 원선을 내줬습니다. 연휴 뒤 첫날 낙폭을 되돌릴지가 관심입니다."
+    },
+    {
+      "code": "SPCX",
+      "tone": "up",
+      "text": "그레인 매니지먼트의 미국 전국 저대역 주파수를 사들이기로 해, 통신 3사와 경쟁할 길을 넓혔습니다. 금요일 +1.25%(162.57)."
+    },
+    {
+      "code": "BAC",
+      "tone": "neutral",
+      "text": "14일(수) 개장 전 3분기 실적을 발표합니다. 하루 앞서 13일 JP모건·골드만삭스·씨티·웰스파고가 먼저 발표해 분위기를 미리 볼 수 있습니다. 금요일 +1.32%."
+    },
+    {
+      "code": "TSLA",
+      "tone": "neutral",
+      "text": "유럽 사이트에서 'FSD(감독형)' 이름을 '테슬라 보조 주행'으로 바꿨습니다(독일 당국이 오해 소지 지적). 9월 중국산 인도는 95,366대로 늘었습니다. 금요일 +2.05%."
+    }
   ],
   "watch": [
-    {"date": "10-12", "text": "한국 증시 연휴 뒤 첫 거래일 (외국인 수급 확인)"},
-    {"date": "10-13", "text": "미국 은행 실적: JP모건·골드만삭스·씨티·웰스파고"},
-    {"date": "10-14", "text": "미국 9월 CPI (예상 전년비 3.6%, 근원 2.5%), 뱅크오브아메리카 실적, 연준 베이지북"},
-    {"date": "10-15", "text": "미국 9월 PPI·소매판매"},
-    {"date": "10-16", "text": "미국 9월 산업생산"}
+    {
+      "date": "10-12",
+      "text": "한국 증시 연휴 뒤 첫 거래일 · 미국 채권시장 휴장(주식은 개장)"
+    },
+    {
+      "date": "10-13",
+      "text": "미국 은행 실적: JP모건·골드만삭스·씨티·웰스파고"
+    },
+    {
+      "date": "10-14",
+      "text": "미국 9월 CPI(예상 3.6%, 근원 2.5%) · BAC·모건스탠리 실적 · 베이지북"
+    },
+    {
+      "date": "10-15",
+      "text": "미국 9월 PPI·소매판매"
+    },
+    {
+      "date": "10-16",
+      "text": "워시 연준 의장 발언 · 지역은행 실적"
+    }
   ],
   "sources": [
-    {"title": "Stock Market Today (Oct. 9, 2026): Dow, S&P 500 end week higher - TheStreet", "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-09-2026"},
-    {"title": "[마감시황] '107조 실적'도 역부족…코스피 2.6% 내린 6625.93 마감 - 뉴스핌", "url": "https://www.newspim.com/news/view/20261008000948"},
-    {"title": "삼성전자, 분기 영업이익 100조원 시대 개막 - MTN", "url": "https://news.mtn.co.kr/news-detail/2026100808173585427"},
-    {"title": "[마감분석] 한화에어로스페이스 8%대 급락 89만1000원 마감 - 재경일보", "url": "https://news.jkn.co.kr/post/1012339"},
-    {"title": "SpaceX adquiere espectro de banda baja para convertir a Starlink en operador móvil - Bloomberg Línea", "url": "https://www.bloomberglinea.com/negocios/spacex-adquiere-espectro-de-banda-baja-para-convertir-a-starlink-en-operador-movil/"},
-    {"title": "Tesla renames 'Full Self-Driving' to 'Tesla Assisted Driving' in Europe - TechCrunch", "url": "https://techcrunch.com/2026/10/09/tesla-renames-full-self-driving-to-tesla-assisted-driving-in-europe/"},
-    {"title": "Bank of America to Report Third Quarter 2026 Financial Results", "url": "https://newsroom.bankofamerica.com/content/newsroom/press-releases/2026/09/bank-of-america-to-report-third-quarter-2026-financial-results-a.html"},
-    {"title": "한화오션 하청 고공농성·공동교섭 - 파이낸셜뉴스", "url": "https://www.fnnews.com/news/202610080911133909"},
-    {"title": "Week in Focus 12-16th October 2026 - Newsquawk", "url": "https://www.newsquawk.com/headlines/week-in-focus-12-16th-october-2026-us-cpi-us-retail-sales-start-of-q3-earnings-china-cpi-uk-jobs-rba-minutes-and-aussie-jobs"}
+    {
+      "title": "The Week Ahead: JPMorgan, Goldman Sachs Earnings and CPI Test Stock Market Strength - FXEmpire",
+      "url": "https://www.fxempire.com/forecasts/article/the-week-ahead-jpmorgan-goldman-sachs-earnings-and-cpi-test-stock-market-strength-1637135"
+    },
+    {
+      "title": "Fundies Cheat Sheet: Oct. 12 - BabyPips",
+      "url": "https://www.babypips.com/analysis/fundies-cheat-sheet-2026-10-12-cpi-warsh-yields-oil"
+    },
+    {
+      "title": "\"월요일 국장 비상\"?…삼성전자·SK하이닉스, 연휴 직후 주가 향방은 - 아주경제",
+      "url": "https://www.ajunews.com/view/20261010184637139"
+    },
+    {
+      "title": "6600까지 밀린 코스피… 반도체 실적 주목 [주간 증시 전망] - 파이낸셜뉴스",
+      "url": "https://www.fnnews.com/news/202610111808262101"
+    },
+    {
+      "title": "[주간증시전망] 삼전·닉스 자사주 매입 종료 임박…이번주 美 물가·실적 분수령 - EBN",
+      "url": "https://www.ebn.co.kr/news/articleView.html?idxno=1727304"
+    },
+    {
+      "title": "Saudi Arabia airport attacked again during US-Iran war - Fox News",
+      "url": "https://www.foxnews.com/live-news/us-iran-war-saudi-arabia-trump-putin-oil-energy-prices-10-10-26"
+    },
+    {
+      "title": "Consumer Tech (Oct 5-9): SpaceX Expands Wireless Ambitions - Benzinga",
+      "url": "https://benzinga.com/markets/tech/26/10/62288601/consumer-tech-oct-5-9-spacex-expands-wireless-ambitions-amazon-cuts-jobs-openai-reports-lower-revenue-more"
+    }
   ]
 }
