@@ -15,7 +15,7 @@ https://skt138500-code.github.io/rf-calc/
 차 여러 대의 다음 정비(엔진오일·타이어·배터리·정기검사 등), 정비 이력, 연도별·항목별 비용. 주행거리는 마지막 기록 이후 평소 달린 거리로 추정합니다. 기록은 폰에만 저장되고 백업 코드로 옮길 수 있습니다. https://skt138500-code.github.io/rf-calc/car/
 
 ## 영어 입 트레이너
-학회 발표·질의응답 표현을 듣고 따라 말하기(마이크로 채점), CNN 스크립트나 발표 대본을 문장별 해석과 함께 듣기, 예상 질문에 답하고 코칭 받기. 매일 10분 할 일과 연속 학습 기록. AI는 API 키를 넣으면 앱 안에서, 없으면 Claude 앱으로 넘겨서 씁니다. https://skt138500-code.github.io/rf-calc/english/
+학회 발표·질의응답 표현을 듣고 따라 말하기(마이크로 채점), 국제 뉴스(쉬운 영어·BBC·NPR·Physics World 등 오늘 기사 목록)나 발표 대본을 문장별 해석과 함께 듣기, 예상 질문에 답하고 코칭 받기. 매일 10분 할 일과 연속 학습 기록. AI는 API 키를 넣으면 앱 안에서, 없으면 Claude 앱으로 넘겨서 씁니다. https://skt138500-code.github.io/rf-calc/english/
 
 ## 수정
 `main`에 푸시하면 GitHub Actions가 시세를 붙여 `gh-pages`로 배포합니다. 자세한 순서는 `CLAUDE.md`에 있습니다.

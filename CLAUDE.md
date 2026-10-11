@@ -10,7 +10,7 @@
 | 영어 입 트레이너 | https://skt138500-code.github.io/rf-calc/english/ | `english/index.html` |
 
 ## 배포
-- **main에만 푸시한다.** `.github/workflows/stocks.yml`이 푸시마다(그리고 장 시간 15분마다) 시세를 받아 main + `stocks/data/`를 `gh-pages`에 강제 푸시하고, GitHub Pages가 `gh-pages`를 서비스한다.
+- **main에만 푸시한다.** `.github/workflows/stocks.yml`이 푸시마다(그리고 장 시간 15분마다) 시세와 영어 뉴스 제목을 받아 main + `stocks/data/` + `english/data/`를 `gh-pages`에 강제 푸시하고, GitHub Pages가 `gh-pages`를 서비스한다.
 - `gh-pages`에 직접 푸시하지 않는다(다음 실행 때 덮어써진다).
 
 ## 계산기 고칠 때
@@ -44,9 +44,10 @@
 ## 영어 입 트레이너 고칠 때
 1. `english/index.html` 수정 → `python3 english/tools/build.py` (sw.js 캐시 버전, manifest, 아이콘)
 2. 커밋 → `git push origin main`
-- 학회 발표·질의응답 영어 연습 + 뉴스 듣기. 탭: 오늘(연속 학습일·14일 기록·할 일 3개·날마다 바뀌는 표현 5개) / 표현(묶음별 44문장, RAON RF 표현 포함) / 듣기(붙여넣은 글 → 문장별 해석) / 질문(청중 질문 듣고 답하기, 코칭) / 저장.
+- 학회 발표·질의응답 영어 연습 + 국제 뉴스 듣기. 탭: 오늘(연속 학습일·14일 기록·할 일 3개·날마다 바뀌는 표현 5개) / 표현(묶음별 44문장, RAON RF 표현 포함) / 듣기(붙여넣은 글 → 문장별 해석) / 질문(청중 질문 듣고 답하기, 코칭) / 저장.
 - 문장 카드: 듣기(speechSynthesis), 천천히(0.7배), 말해보기(Web Speech 음성 인식 en-US → 원문과 단어 맞춤 채점, 70% 이상이면 1회 기록), +1회(오늘의 표현 3회씩 → 할 일 자동 완료), 별(저장).
 - AI는 두 방식. ① 설정에 Claude API 키(폰 localStorage `english.key`에만, 백업 코드에도 안 넣음)가 있으면 브라우저에서 `api.anthropic.com/v1/messages`를 바로 부른다(`anthropic-dangerous-direct-browser-access` 헤더). 해석·코칭은 `claude-sonnet-5-5`(설정에서 `claude-haiku-5-5`로 바꿀 수 있음), 질문 만들기는 항상 Haiku. 응답은 JSON으로 받는다. ② 키가 없으면 버튼이 사용자의 Claude 아티팩트 "영어 입 트레이너"(https://claude.ai/artifact/4LbZ53zfg5xzeJvdYBSvoz, `#listen`·`#qa`)를 열어 Pro 요금제로 쓰게 한다. 코칭은 요청문을 복사하고 claude.ai/new를 연다.
 - 아티팩트의 "홈 화면 앱으로 보내기" 코드: `ENGLIST1.` + base64(UTF-8 JSON `{v, items:[{title, ts, sentences:[{en, ko, keys}], vocab}], saved:[{en, ko, src}]}`). 듣기 탭 "Claude에서 만든 자료 가져오기"가 읽는다.
 - 기록: 폰 localStorage(`english.state` = `{days:{YYYY-MM-DD:{p,n,q,reps}}, saved, library, settings}`). 백업·복원 코드는 `MYENG1.` + base64(JSON).
+- 듣기 탭 "오늘의 영어 뉴스": `english/tools/news.py`(표준 라이브러리)가 배포 작업 때 최대 1시간에 한 번 RSS에서 **제목·링크만** 모아 `english/data/news.json`(`{made, sources:[{id,name,group,ok,n}], items:[{src,t,url,ts,lv?}]}`)을 쓴다. 기사 본문은 저장하지 않는다(사용자가 사이트에서 직접 복사). 묶음: easy = News in Levels(레벨 1~3을 한 줄로 묶어 `lv`), Breaking News English / world = BBC World, NPR World, The Guardian / science = Physics World. 실패한 소스는 이전 제목을 유지한다. `english/data`는 main에 커밋하지 않고(.gitignore) 워크플로가 gh-pages에서 불러와 `git add -f`로 배포한다. 앱은 `data/news.json`을 네트워크로 받고 마지막 목록을 localStorage(`english.feed`)에 둔다.
 - 아이콘: `english/tools/build.py`의 `icon()`(말풍선 안 음성 파형). 파일이 없을 때만 새로 만든다.

@@ -30,11 +30,16 @@ jobs:
         run: |
           if git fetch -q --depth=1 origin gh-pages; then
             git checkout FETCH_HEAD -- stocks/data 2>/dev/null || echo "이전 시세 없음"
+            git checkout FETCH_HEAD -- english/data 2>/dev/null || echo "이전 영어 뉴스 없음"
             git reset -q
           fi
 
       - name: 시세 받기
         run: python3 stocks/tools/fetch.py
+
+      - name: 영어 뉴스 제목 받기
+        continue-on-error: true    # 뉴스가 실패해도 시세 배포는 계속
+        run: python3 english/tools/news.py
 
       - name: gh-pages에 배포
         run: |
@@ -43,6 +48,7 @@ jobs:
           git checkout -q --orphan site
           git add -A
           git add -f stocks/data
+          git add -f english/data 2>/dev/null || true
           git rm -r -q --cached .github
           git commit -q -m "배포 $(date -u +%Y-%m-%dT%H:%MZ)"
           git push -q -f origin site:gh-pages

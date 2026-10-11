@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>영어 입 트레이너</title>
-<meta name="description" content="학회 발표·질의응답 영어와 CNN 뉴스 듣기 — 듣고, 해석 보고, 따라 말하기">
+<meta name="description" content="학회 발표·질의응답 영어와 국제 뉴스 듣기 — 듣고, 해석 보고, 따라 말하기">
 <meta name="theme-color" content="#e3e7ed" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1116" media="(prefers-color-scheme: dark)">
 <meta name="mobile-web-app-capable" content="yes">
@@ -183,6 +183,14 @@ details.card:not([open]){gap:0}
 .lrow b{font-weight:600;overflow-wrap:anywhere}
 .lrow small{font:400 11.5px var(--font-num);color:var(--ink-soft);white-space:nowrap}
 .lrow[aria-current="true"] b{color:var(--accent)}
+.frow{display:grid;gap:4px;padding:11px 14px;border-top:1px solid var(--grid)}
+.frow:first-child{border-top:0}
+.frow .ft{font:400 16.5px/1.4 var(--font-en);color:var(--ink);text-decoration:none;overflow-wrap:anywhere}
+.frow .ft:active{color:var(--accent)}
+.fm{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:12px;color:var(--ink-soft)}
+.lvs{display:inline-flex;gap:4px}
+.lvs a{font:500 11.5px var(--font-num);padding:2px 8px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--accent);text-decoration:none}
+.frow-more{display:block;width:100%;padding:10px 14px;border-top:1px solid var(--grid);text-align:center}
 .tag{font:500 10.5px var(--font-num);letter-spacing:.05em;padding:1px 6px;border-radius:5px;background:var(--surface);border:1px solid var(--line);color:var(--ink-soft);vertical-align:2px;margin-left:6px}
 
 /* Q&A */
@@ -267,7 +275,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     <div class="group">
       <h2>뉴스 · 대본 넣기 <span class="ai-pill" id="lis-ai"><i></i><em></em></span></h2>
       <div class="card">
-        <textarea class="in en-in" id="news-in" rows="5" placeholder="CNN 스크립트, 기사, 내 발표 대본을 붙여넣기 (한글 대본도 돼요)" aria-label="영어 글"></textarea>
+        <textarea class="in en-in" id="news-in" rows="5" placeholder="뉴스 기사나 내 발표 대본을 붙여넣기 (한글 대본도 돼요)" aria-label="영어 글"></textarea>
         <div class="btns">
           <button class="btn primary" id="news-go">AI 해석 만들기</button>
           <button class="btn" id="news-paste">붙여넣기</button>
@@ -277,20 +285,30 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
         <span class="cnt" id="news-cnt">0자 · 한 번에 4,000자까지, 넘으면 이어서 만들어요</span>
       </div>
     </div>
-    <details class="card">
-      <summary>CNN 영어 스크립트 가져오는 법</summary>
-      <ol class="steps">
-        <li><b>폰에서 제일 쉬운 길: CNN 방송 원고.</b> 아래 버튼으로 열고 프로그램과 날짜를 고른 뒤, 글을 길게 눌러 <b>전체 선택 → 복사</b>. 일반 웹페이지라 폰에서도 복사가 돼요. 국제 뉴스는 One World, Connect the World 쪽이 들을 만해요.</li>
-        <li><b>CNN 기사</b>도 본문을 길게 눌러 복사하면 돼요.</li>
-        <li><b>CNN 10(유튜브)</b>은 폰 유튜브 앱에서 스크립트 복사가 안 되고, 원고 사이트에도 없어요. PC 브라우저에서 <b>더보기 → 스크립트 표시</b>를 열고 드래그해서 복사하세요. 폰에서는 스크립트 화면을 캡처한 뒤 갤러리나 Google 렌즈의 <b>텍스트 인식 → 전체 선택 → 복사</b>로 가져올 수 있어요.</li>
-        <li>위 칸에 붙여넣고 해석 만들기. 0:03 같은 시간 표시와 진행자 이름은 자동으로 지워요.</li>
-        <li>영상으로 볼 때 한글 자막: 자막(CC) → 설정 → 자막 → <b>자동 번역 → 한국어</b> (PC 유튜브).</li>
-      </ol>
-      <a class="btn sm primary" href="https://transcripts.cnn.com/" target="_blank" rel="noopener">CNN 방송 원고 열기</a>
-      <div class="btns">
-        <a class="btn sm" href="https://www.youtube.com/results?search_query=CNN+10" target="_blank" rel="noopener">CNN 10 찾기</a>
-        <a class="btn sm" href="https://edition.cnn.com/world" target="_blank" rel="noopener">CNN 국제 기사</a>
+    <div class="group" id="feed">
+      <h2>오늘의 영어 뉴스 <span id="feed-upd"></span></h2>
+      <div class="panel" style="gap:8px">
+        <div class="seg" id="feed-seg" role="group" aria-label="뉴스 종류">
+          <button data-g="easy">쉬운 영어</button>
+          <button data-g="world">국제 뉴스</button>
+          <button data-g="science">과학</button>
+        </div>
+        <p class="note" id="feed-desc"></p>
+        <div class="rows" id="feed-list"></div>
+        <p class="note">제목을 누르면 기사가 열려요. 본문을 길게 눌러 <b>전체 선택 → 복사</b>하고 돌아와서 위의 <b>붙여넣기</b>를 누르세요. 메뉴나 광고 글이 섞여도 해석할 때 걸러져요.</p>
       </div>
+    </div>
+    <details class="card">
+      <summary>뉴스 사이트 바로가기</summary>
+      <div class="btns">
+        <a class="btn sm" href="https://www.newsinlevels.com/" target="_blank" rel="noopener">News in Levels</a>
+        <a class="btn sm" href="https://breakingnewsenglish.com/" target="_blank" rel="noopener">Breaking News English</a>
+        <a class="btn sm" href="https://www.bbc.com/news/world" target="_blank" rel="noopener">BBC World</a>
+        <a class="btn sm" href="https://www.npr.org/sections/world/" target="_blank" rel="noopener">NPR World</a>
+        <a class="btn sm" href="https://www.theguardian.com/world" target="_blank" rel="noopener">The Guardian</a>
+        <a class="btn sm" href="https://physicsworld.com/" target="_blank" rel="noopener">Physics World</a>
+      </div>
+      <p class="note">쉬운 영어 두 곳은 학습자용으로 다시 쓴 뉴스라 문장이 짧고 원어민 음성이 있어요. 익숙해지면 BBC·NPR처럼 원어민 기사로 넘어가세요.</p>
     </details>
     <details class="card" id="imp-box">
       <summary>Claude에서 만든 자료 가져오기</summary>
@@ -903,12 +921,13 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
   function renderListen() {
     aiPill($('lis-ai'));
     $('news-go').textContent = AI.has() ? 'AI 해석 만들기' : 'Claude로 해석';
+    renderFeed(); loadFeed();
     if (!S.library.some(x => x.id === newsCur.id) && newsCur !== SAMPLE) newsCur = SAMPLE;
     const it = newsCur, res = $('news-res');
     const list = h('div', { class: 'list' }, it.sentences.map((s, i) => card(s, { label: pad(i + 1), src: it.title })));
     const kids = [h('div', { class: 'group' }, h('h2', null, h('b', { style: 'font-weight:600' }, it.title, it.sample ? h('span', { class: 'tag' }, '예시') : null), h('span', null, `${it.sentences.length}문장`)),
       h('div', { class: 'panel' }, h('div', { class: 'tools' }, playAll(list, () => it.sentences.map(s => s.en), () => markTask('n')), ...maskBtns()),
-        it.sample ? h('p', { class: 'note' }, '직접 쓴 뉴스 스타일 연습 글이에요. 위에 CNN 스크립트를 넣으면 같은 모양으로 바뀝니다.') : null, list))];
+        it.sample ? h('p', { class: 'note' }, '직접 쓴 뉴스 스타일 연습 글이에요. 아래 뉴스 목록에서 기사를 복사해 넣으면 같은 모양으로 바뀝니다.') : null, list))];
     if (it.vocab && it.vocab.length) kids.push(h('div', { class: 'group' }, h('h2', null, '핵심 단어'), h('div', { class: 'rows' }, it.vocab.map(v => h('div', { class: 'vrow' },
       h('div', null, h('div', { class: 'w', lang: 'en' }, String(v.en || '')), h('div', { class: 'k' }, String(v.ko || ''))),
       h('button', { class: 'ab', 'aria-label': '발음 듣기', onclick: () => TTS.one(String(v.en || '')) }, icon('play')))))));
@@ -952,6 +971,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       'SOURCE TEXT (may be a news transcript without punctuation, an article, or a talk script; if it is mostly Korean, first translate it into natural spoken English suitable for a conference talk and use that English):',
       '"""', chunk, '"""', '', 'Instructions:',
       '- Split the English into sentences a person would say in one breath. Keep the original wording; only add missing punctuation, fix caption line breaks, and drop noise such as [MUSIC], speaker labels, or timestamps. Split any sentence longer than about 30 words at a natural clause boundary.',
+      '- The text may have been copied from a whole web page: ignore menus, ads, quizzes, word lists, comments and anything that is not the story itself.',
       '- For each sentence give a natural Korean translation (not word-for-word).',
       '- keys: 0 to 2 useful expressions from that sentence (phrasal verbs, idioms, collocations) with short Korean meanings. Skip obvious words.',
       '- vocab: up to 8 words or phrases from the whole text worth memorizing, with Korean meanings.',
@@ -997,6 +1017,45 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     if (ni) newsCur = S.library[0];
     renderListen(); toast(`가져왔어요 · 자료 ${ni}개 · 문장 ${ns}개`);
   }
+
+  /* ---------- 오늘의 영어 뉴스 (제목·링크만, english/tools/news.py가 1시간마다 모음) ---------- */
+  const SRC_NAME = { nil: 'News in Levels', bne: 'Breaking News English', bbc: 'BBC', npr: 'NPR', guardian: 'Guardian', pw: 'Physics World' };
+  const FEED_DESC = {
+    easy: '학습자용으로 쉽게 다시 쓴 뉴스예요. 문장이 짧고 원어민 음성이 있어요. L1이 가장 쉬워요.',
+    world: 'BBC·NPR·Guardian 원어민 기사 그대로예요. NPR은 라디오 방송이라 기사에 음성이 붙은 경우가 많아요.',
+    science: 'Physics World의 물리·가속기 분야 소식이에요. 학회에서 쓰는 단어가 많이 나와요.'
+  };
+  let feed = store.get('feed', null), feedAt = 0, feedErr = false, feedGroup = store.get('feedGroup', 'easy'), feedAll = false;
+  const ago = ts => { if (!ts) return ''; const m = Math.max(1, Math.round((Date.now() / 1000 - ts) / 60)); return m < 60 ? `${m}분 전` : m < 1440 ? `${Math.round(m / 60)}시간 전` : `${Math.round(m / 1440)}일 전`; };
+  async function loadFeed() {
+    if (Date.now() - feedAt < 20 * 60 * 1000) return;
+    feedAt = Date.now();
+    try {
+      const r = await fetch('data/news.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) throw 0;
+      const d = await r.json();
+      if (!d || !Array.isArray(d.items)) throw 0;
+      feed = d; feedErr = false; store.set('feed', d);
+    } catch (e) { feedErr = true; feedAt = 0; }
+    if (cur === 'lis') renderFeed();
+  }
+  function renderFeed() {
+    $('feed-seg').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.g === feedGroup)));
+    $('feed-desc').textContent = FEED_DESC[feedGroup] || '';
+    const list = $('feed-list'), msg = t => h('p', { class: 'empty', style: 'border:0;border-radius:0' }, t);
+    if (!feed) { $('feed-upd').textContent = ''; list.replaceChildren(msg(feedErr ? '뉴스 목록을 불러오지 못했어요. 인터넷 연결을 확인하거나 아래 사이트 바로가기를 쓰세요.' : '불러오는 중…')); return; }
+    $('feed-upd').textContent = (feedErr ? '저장본 · ' : '') + ago(feed.made) + ' 업데이트';
+    const ids = new Set((feed.sources || []).filter(x => x.group === feedGroup).map(x => x.id));
+    const items = feed.items.filter(i => ids.has(i.src));
+    if (!items.length) { list.replaceChildren(msg('지금은 이 묶음에 새 기사가 없어요. 아래 사이트 바로가기를 써 보세요.')); return; }
+    const kids = (feedAll ? items : items.slice(0, 6)).map(it => h('div', { class: 'frow' },
+      h('a', { class: 'ft', href: it.url, target: '_blank', rel: 'noopener', lang: 'en' }, it.t),
+      h('div', { class: 'fm' }, h('span', null, (SRC_NAME[it.src] || it.src) + (it.ts ? ' · ' + ago(it.ts) : '')),
+        it.lv ? h('span', { class: 'lvs', 'aria-label': '난이도별 글' }, Object.entries(it.lv).map(([k, u]) => h('a', { href: u, target: '_blank', rel: 'noopener' }, 'L' + k))) : null)));
+    if (items.length > 6) kids.push(h('button', { class: 'go frow-more', onclick: () => { feedAll = !feedAll; renderFeed(); } }, feedAll ? '접기' : `${items.length - 6}개 더 보기`));
+    list.replaceChildren(...kids);
+  }
+  $('feed-seg').querySelectorAll('button').forEach(b => b.addEventListener('click', () => { feedGroup = b.dataset.g; feedAll = false; store.set('feedGroup', feedGroup); renderFeed(); }));
 
   const QA = { cur: null, level: 'mid', asked: [], bankIdx: -1, fb: null };
   const LV = { easy: 'Easy: a friendly clarification question with simple words.', mid: 'Medium: a specific technical question about performance, reliability, or operation.', hard: 'Hard: a challenging or critical question (comparison with other labs, a weakness, or exact numbers), a bit long, the way a native speaker asks quickly.' };
