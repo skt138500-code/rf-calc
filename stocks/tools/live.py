@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""장중 시세: refresh prices every 10 minutes while the Korean or the US market is open.
+"""장중 시세: refresh prices every 5 minutes while the Korean or the US market is open.
 
 GitHub runs scheduled workflows only when it has capacity (often hours late, sometimes not
 at all), so a cron every 10 minutes does not work. Instead one run of
@@ -7,9 +7,14 @@ at all), so a cron every 10 minutes does not work. Instead one run of
 gh-pages itself. A job may run at most 6 hours, so before that it starts the next run
 (workflow_dispatch with the job's own token, which GitHub allows) and stops.
 
-Each round: take the newest main (new stocks, app changes), run fetch.py, publish main +
-the data folders to gh-pages. A change on main is picked up within a minute.
-Standard library only.
+Each round (5 minutes): take the newest main, run fetch.py (--quick: today's prices only;
+a full fetch with 1-year/5-year history once an hour), then
+- push quotes.json alone to the `live` branch — no site rebuild; the app reads it through
+  the GitHub API, so prices are at most ~5 minutes old;
+- every 10 minutes (or when main changed) publish main + the data folders to gh-pages.
+  GitHub Pages allows about 10 site rebuilds an hour, which is why the site itself is not
+  rebuilt every 5 minutes.
+A change on main is picked up within a minute. Standard library only.
 """
 import datetime as dt
 import json
@@ -23,10 +28,12 @@ import urllib.request
 from zoneinfo import ZoneInfo
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-EVERY = 10 * 60                   # seconds between price refreshes
+EVERY = 5 * 60                    # seconds between price refreshes (→ live branch)
+SITE_EVERY = 10 * 60              # seconds between full site publishes (→ gh-pages)
+FULL_EVERY = 60 * 60              # seconds between full fetches (1-year/5-year history, dividends)
 POLL = 60                         # how often to look for a new commit on main
 MAX_RUN = 5 * 3600 + 40 * 60      # hand over to a fresh run before GitHub's 6-hour limit
-WAIT_FOR_OPEN = 25 * 60           # started a little early: wait at most this long for the open
+WAIT_FOR_OPEN = 80 * 60           # started early (US winter time opens an hour later): wait this long at most
 DATA_DIRS = ['stocks/data', 'english/data']   # git-ignored, produced by the fetch scripts
 # (exchange time zone, open, last refresh) on weekdays. The end is a little after the close
 # so the closing price arrives (Yahoo shows Korean prices about 20 minutes late).
@@ -105,20 +112,34 @@ def publish():
     git('push', '-q', '-f', 'origin', f'{commit}:refs/heads/gh-pages')
 
 
-def one_round(head):
-    """Newest main → fresh prices → publish. Returns False if main moved meanwhile."""
+def publish_live():
+    """quotes.json alone, as the whole `live` branch (one commit, replaced every time)."""
+    blob = git('hash-object', '-w', 'stocks/data/quotes.json')
+    r = subprocess.run(['git', 'mktree'], cwd=ROOT, input=f'100644 blob {blob}\tquotes.json\n',
+                       capture_output=True, text=True, check=True)
+    commit = git('commit-tree', r.stdout.strip(), '-m', '시세 ' + time.strftime('%Y-%m-%dT%H:%MZ', time.gmtime()))
+    git('push', '-q', '-f', 'origin', f'{commit}:refs/heads/live')
+
+
+def one_round(head, full, site):
+    """Newest main → fresh prices → live branch (+ site). Returns False if main moved meanwhile."""
     git('fetch', '-q', '--depth=1', 'origin', 'main')
     git('reset', '-q', '--hard', 'FETCH_HEAD')   # untracked data folders stay
-    r = subprocess.run([sys.executable, 'stocks/tools/fetch.py'], cwd=ROOT, capture_output=True, text=True)
+    cmd = [sys.executable, 'stocks/tools/fetch.py'] + ([] if full else ['--quick'])
+    r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
     tail = (r.stdout.strip().splitlines() or [''])[-1]
     if r.returncode:
         log(f'시세 받기 실패, 배포 안 함: {r.stderr.strip()[-300:]}')
+        return True
+    publish_live()
+    if not site:
+        log(f'시세 올림{" (전체)" if full else ""} · {tail}')
         return True
     if main_head() != head:
         log('그 사이 main이 바뀌어서 다시 받음')
         return False
     publish()
-    log(f'배포 완료 · {tail}')
+    log(f'시세 + 사이트 배포{" (전체)" if full else ""} · {tail}')
     return True
 
 
@@ -140,7 +161,7 @@ def start_next_run():
 
 def main():
     started = time.time()
-    last_round, last_head, holiday = 0.0, None, set()
+    last_round, last_site, last_full, last_head, holiday = 0.0, 0.0, 0.0, None, set()
     while True:
         session = session_now()
         if session in holiday:
@@ -158,14 +179,22 @@ def main():
             return
         head = main_head()
         if time.time() - last_round >= EVERY or head != last_head:
-            began = time.time()   # rounds start every 10 minutes, however long a fetch takes
+            began = time.time()   # rounds start every 5 minutes, however long a fetch takes
+            full = began - last_full >= FULL_EVERY - 30
+            site = head != last_head or began - last_site >= SITE_EVERY - 30
             try:
-                ok = one_round(head)
-            except Exception as e:  # one bad round must not end the session
+                ok = one_round(head, full, site)
+            except Exception as e:  # one bad round must not end the session; try again next round
                 log(f'이번 회차 실패: {e}')
-                ok = True
-            if ok:
                 last_round, last_head = began, head
+                time.sleep(POLL)
+                continue
+            if ok:
+                last_round = began
+                if full:
+                    last_full = began
+                if site:
+                    last_site, last_head = began, head
                 if not traded_recently(session) and time.time() - started > 45 * 60:
                     log(f'{session} 시장 휴장으로 보여서 이 시장은 그만 받음')
                     holiday.add(session)

@@ -1,9 +1,10 @@
-# 장중 시세: keeps prices fresh every 10 minutes while the Korean or US market is open.
+# 장중 시세: keeps prices fresh every 5 minutes while the Korean or US market is open.
 # GitHub runs scheduled workflows best-effort (often hours late), so rather than a cron every
 # 10 minutes, one run stays up for the whole session (stocks/tools/live.py) and hands over to
 # a fresh run before the 6-hour job limit. Several start times are listed so that one dropped
 # schedule does not lose the day; extra starts just wait in the queue and end quietly.
-name: 장중 시세 (10분마다)
+# GitHub's cron is often hours late, so a Claude scheduled task also starts this at 08:20 and 22:20 KST.
+name: 장중 시세 (5분마다)
 
 on:
   schedule:
@@ -36,7 +37,7 @@ jobs:
             git reset -q
           fi
 
-      - name: 장 열린 동안 10분마다 받아서 배포
+      - name: 장 열린 동안 5분마다 받아서 배포
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |

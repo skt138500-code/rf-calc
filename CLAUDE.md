@@ -11,7 +11,7 @@
 
 ## 배포
 - **main에만 푸시한다.** `.github/workflows/stocks.yml`이 푸시마다(그리고 장 밖에서는 3시간마다) 시세와 영어 뉴스 제목을 받아 main + `stocks/data/` + `english/data/`를 `gh-pages`에 강제 푸시하고, GitHub Pages가 `gh-pages`를 서비스한다.
-- 장중 10분 업데이트: GitHub 예약 실행은 몇 시간씩 밀리거나 빠지므로 짧은 cron을 쓰지 않는다. `.github/workflows/stocks-live.yml`이 장 시작 때 한 번 떠서 `stocks/tools/live.py`가 장이 열린 동안(국내 09:00–15:55 KST, 미국 09:30–16:15 ET) 10분마다 main을 받아 시세를 받고 gh-pages에 배포한다. main이 바뀌면 1분 안에 다시 배포. 6시간 작업 한도 전에 스스로 다음 실행을 띄운다(workflow_dispatch). 휴장일(시세가 3시간 넘게 그대로)은 45분 뒤 스스로 끝낸다. 배포할 때 git으로 관리하지 않는 데이터 폴더(`stocks/data`, `english/data`)를 같이 올린다 — 새 앱이 데이터 폴더를 쓰면 `live.py`의 `DATA_DIRS`와 두 workflow의 '지난 시세 불러오기'에 추가할 것.
+- 장중 시세 (5분): GitHub 예약 실행은 몇 시간씩 밀리거나 빠지므로 짧은 cron을 쓰지 않는다. `.github/workflows/stocks-live.yml`이 장 시작 때 한 번 떠서 `stocks/tools/live.py`가 장이 열린 동안(국내 09:00–15:55 KST, 미국 09:30–16:15 ET) 5분마다 main을 받고 `fetch.py --quick`(당일 시세만, 1년·5년 기록과 배당은 1시간마다 전체로)으로 시세를 받아 **`quotes.json`만 `live` 브랜치에** 올린다(사이트 재빌드 없음). 앱은 GitHub API(`/contents/quotes.json?ref=live`, 폰에 열쇠가 있으면 같이 보냄)와 사이트의 `data/quotes.json` 중 새것을 쓴다. 전체 사이트(gh-pages)는 10분마다 — GitHub Pages가 시간당 재빌드 약 10번까지라서. main이 바뀌면 1분 안에 다시 배포. 6시간 작업 한도 전에 스스로 다음 실행을 띄운다(workflow_dispatch). 장 시작은 GitHub cron이 늦으니 Claude 예약 작업 "내 주식 장 시작 깨우기"(평일 08:20·22:20 KST)가 이 workflow를 실행하고, 실행은 장 시작까지 최대 80분 기다린다(겨울 미국장 23:30). 휴장일(시세가 3시간 넘게 그대로)은 45분 뒤 스스로 끝낸다. 배포할 때 git으로 관리하지 않는 데이터 폴더(`stocks/data`, `english/data`)를 같이 올린다 — 새 앱이 데이터 폴더를 쓰면 `live.py`의 `DATA_DIRS`와 두 workflow의 '지난 시세 불러오기'에 추가할 것.
 - `gh-pages`에 직접 푸시하지 않는다(다음 실행 때 덮어써진다).
 
 ## 계산기 고칠 때

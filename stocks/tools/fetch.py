@@ -215,7 +215,35 @@ def fetch_one(code, name):
     raise NotFound(last_err or '종목을 찾지 못했어요')
 
 
+def quick_one(old_item, name):
+    """Today's price only (one request), reusing the 1-year/5-year history and dividends
+    from the last full fetch. Used by live.py between full fetches."""
+    sym = old_item['sym']
+    hist_path = HIST / old_item['hist']
+    hist = json.loads(hist_path.read_text(encoding='utf-8'))
+    d1 = chart(sym, '1d', '5m')
+    meta = d1.get('meta') or {}
+    price = meta.get('regularMarketPrice')
+    if price is None:
+        raise RuntimeError('가격 정보가 없어요')
+    prev = meta.get('chartPreviousClose') or meta.get('previousClose')
+    s1 = series(d1)
+    period = (meta.get('currentTradingPeriod') or {}).get('regular') or {}
+    item = dict(old_item)
+    item.pop('stale', None)
+    item.update({'price': price, 'prev': prev, 'time': meta.get('regularMarketTime'),
+                 'open': period.get('start'), 'close': period.get('end'), 'spark1d': thin(s1['c'])})
+    if name:
+        item['name'] = name
+    if prev:
+        item['chg'] = round(price - prev, 4)
+        item['pct'] = round((price - prev) / prev * 100, 3)
+    hist.update({'d1': s1, 'prev': prev})
+    return item, hist
+
+
 def main():
+    quick = '--quick' in sys.argv
     OUT.mkdir(exist_ok=True)
     HIST.mkdir(exist_ok=True)
     LOGOS.mkdir(exist_ok=True)
@@ -239,7 +267,11 @@ def main():
     items, errors, used = [], {}, set()
     for code, name in entries:
         try:
-            item, hist = fetch_one(code, name)
+            o = old_items.get(code)
+            if quick and o and not o.get('stale') and o.get('sym') and (HIST / str(o.get('hist'))).exists():
+                item, hist = quick_one(o, name)
+            else:
+                item, hist = fetch_one(code, name)
             (HIST / item['hist']).write_text(json.dumps(hist, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
             items.append(item)
             used.add(item['hist'])

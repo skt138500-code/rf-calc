@@ -727,14 +727,35 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     if (S.cur && !$('detail').hidden) renderNewsCard(itemOf(S.cur));
   }
 
+  // prices: the `live` branch (refreshed every 5 minutes while a market is open, read through the
+  // GitHub API) or the site's copy (rebuilt every 10 minutes) — whichever is newer
+  let liveOff = 0;   // after a refusal (rate limit), use only the site's copy for a while
+  async function liveQuotes() {
+    if (Date.now() < liveOff) return null;
+    const h = { Accept: 'application/vnd.github.raw+json' };
+    const tok = token();
+    if (tok) h.Authorization = 'Bearer ' + tok;
+    try {
+      const r = await fetch(API + '/contents/quotes.json?ref=live', { headers: h, cache: 'no-store' });
+      if (r.ok) return await r.json();
+      liveOff = Date.now() + (r.status === 403 || r.status === 429 ? 15 : 5) * 60000;
+    } catch (e) { liveOff = Date.now() + 5 * 60000; }
+    return null;
+  }
+  async function siteQuotes() {
+    const r = await fetch('data/quotes.json?ts=' + Date.now(), { cache: 'no-store' });
+    if (r.status === 404) throw new Error('nodata');
+    if (!r.ok) throw new Error('http');
+    return r.json();
+  }
+
   async function load(manual) {
     if (S.loading) return;
     S.loading = true; $('refresh').classList.add('spin');
     try {
-      const r = await fetch('data/quotes.json?ts=' + Date.now(), { cache: 'no-store' });
-      if (r.status === 404) throw new Error('nodata');
-      if (!r.ok) throw new Error('http');
-      const d = await r.json();
+      const [lv, st] = await Promise.all([liveQuotes(), siteQuotes().catch(e => e)]);
+      if (!lv && st instanceof Error) throw st;
+      const d = lv && (st instanceof Error || (lv.updated || 0) > (st.updated || 0)) ? lv : st;
       // stocks just deleted from the app stay hidden until the published data catches up
       const listed = new Set((d.items || []).map(i => i.code).concat(Object.keys(d.errors || {})));
       S.gone = S.gone.filter(g => listed.has(g.code) && Date.now() - g.at < 20 * 60000);
@@ -1813,7 +1834,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
 
   /* ---------- refresh policy ---------- */
   document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - S.fetchedAt > 60000) load(false); });
-  setInterval(() => { if (!document.hidden) load(false); }, 5 * 60000);
+  setInterval(() => { if (!document.hidden) load(false); }, 150000);   // prices change every 5 minutes while a market is open
   setInterval(() => { if (!document.hidden) renderTop(); }, 30000);
 
   setTab(S.tab);
