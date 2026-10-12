@@ -158,18 +158,19 @@ def main():
             return
         head = main_head()
         if time.time() - last_round >= EVERY or head != last_head:
+            began = time.time()   # rounds start every 10 minutes, however long a fetch takes
             try:
                 ok = one_round(head)
             except Exception as e:  # one bad round must not end the session
                 log(f'이번 회차 실패: {e}')
                 ok = True
             if ok:
-                last_round, last_head = time.time(), head
+                last_round, last_head = began, head
                 if not traded_recently(session) and time.time() - started > 45 * 60:
                     log(f'{session} 시장 휴장으로 보여서 이 시장은 그만 받음')
                     holiday.add(session)
                 continue
-        time.sleep(POLL)
+        time.sleep(max(1, min(POLL, last_round + EVERY - time.time())))
 
 
 if __name__ == '__main__':
