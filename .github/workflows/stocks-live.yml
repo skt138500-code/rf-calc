@@ -1,0 +1,45 @@
+# 장중 시세: keeps prices fresh every 10 minutes while the Korean or US market is open.
+# GitHub runs scheduled workflows best-effort (often hours late), so rather than a cron every
+# 10 minutes, one run stays up for the whole session (stocks/tools/live.py) and hands over to
+# a fresh run before the 6-hour job limit. Several start times are listed so that one dropped
+# schedule does not lose the day; extra starts just wait in the queue and end quietly.
+name: 장중 시세 (10분마다)
+
+on:
+  schedule:
+    - cron: '50 23 * * 0-4'     # 한국장 시작 전 08:50 KST (월~금)
+    - cron: '13 0-6 * * 1-5'    # 한국장 중 예비
+    - cron: '20 13 * * 1-5'     # 미국장 시작 전 (서머타임 22:20 KST)
+    - cron: '13 14-20 * * 1-5'  # 미국장 중 예비 (겨울에는 23:30 KST 시작)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write       # to start the next run before the 6-hour limit
+
+concurrency:
+  group: live-quotes
+  cancel-in-progress: false
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 358
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 지난 시세 불러오기
+        run: |
+          if git fetch -q --depth=1 origin gh-pages; then
+            git checkout FETCH_HEAD -- stocks/data 2>/dev/null || echo "이전 시세 없음"
+            git checkout FETCH_HEAD -- english/data 2>/dev/null || echo "이전 영어 뉴스 없음"
+            git reset -q
+          fi
+
+      - name: 장 열린 동안 10분마다 받아서 배포
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          python3 stocks/tools/live.py

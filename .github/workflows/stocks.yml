@@ -1,15 +1,14 @@
 # Publishes the site to the gh-pages branch with fresh stock prices.
 # Runs on every push to main (code changes, a stock added in stocks/watch/)
-# and on a schedule around Korean and US market hours.
+# and every few hours for exchange rates and news. While a market is open,
+# stocks-live.yml refreshes prices every 10 minutes instead.
 name: 주식 시세 업데이트
 
 on:
   push:
     branches: [main]
   schedule:
-    - cron: '7,22,37,52 0-7 * * 1-5'    # 한국장 09:00–16:59 KST
-    - cron: '7,22,37,52 13-21 * * 1-5'  # 미국장 22:00–06:59 KST
-    - cron: '41 */3 * * *'              # 그 밖의 시간, 환율 등
+    - cron: '41 */3 * * *'              # 장 밖의 시간: 환율, 뉴스 등
   workflow_dispatch:
 
 permissions:
