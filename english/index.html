@@ -218,6 +218,9 @@ details.card:not([open]){gap:0}
 .vctl button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--hl)}
 .vctl button:disabled{opacity:.45}
 .vc{cursor:pointer;scroll-margin-top:var(--vtop-h,330px)}
+.lns{display:flex;flex-direction:column;gap:12px}
+.ln{display:flex;flex-direction:column;gap:3px}
+.ln .ko{padding-left:10px;border-left:2px solid color-mix(in srgb,var(--accent) 45%,transparent)}
 .vh{display:flex;align-items:center;gap:8px}
 .vt{border:1px solid var(--grid);background:var(--surface);border-radius:6px;padding:2px 8px;font:500 12px var(--font-num);color:var(--accent)}
 .vc.on .vt{background:var(--accent);color:var(--on-accent);border-color:transparent}
@@ -1140,6 +1143,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       const sentences = it.sentences.filter(s => s && s.en).map(s => {
         const o = { en: String(s.en), ko: String(s.ko || ''), keys: Array.isArray(s.keys) ? s.keys.filter(k => k && k.en).slice(0, 2).map(k => ({ en: String(k.en), ko: String(k.ko || '') })) : [] };
         if (typeof s.t === 'number' && isFinite(s.t) && s.t >= 0) o.t = s.t;
+        if (Array.isArray(s.lines)) { const ls = s.lines.filter(l => l && l.en).slice(0, 40).map(l => ({ en: String(l.en), ko: String(l.ko || '') })); if (ls.length) o.lines = ls; }
         return o;
       });
       if (!sentences.length) continue;
@@ -1273,52 +1277,80 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
   function groupTimed(units, endT) {
     const out = []; let c = null;
     units.forEach((u, k) => {
-      if (!c) c = { t: u.t, en: '', ko: '', keys: [] };
+      if (!c) c = { t: u.t, en: '', ko: '', keys: [], lines: [] };
       c.en = (c.en + ' ' + u.en).trim();
       if (u.ko) c.ko = (c.ko + ' ' + u.ko).trim();
+      c.lines.push({ en: u.en, ko: u.ko || '' });
       if (Array.isArray(u.keys)) c.keys.push(...u.keys);
       const next = units[k + 1], len = (next ? next.t : (endT || u.t + 4)) - c.t;
       if (!next || (len >= BLOCK * 0.85 && /[.?!]["'”’)]?$/.test(c.en)) || len >= BLOCK * 1.2) { out.push(c); c = null; }
     });
     const last = out[out.length - 1], tailEnd = endT || (units.length ? units[units.length - 1].t + 4 : 0);
-    if (out.length > 1 && tailEnd - last.t < 10) { const prev = out[out.length - 2]; prev.en += ' ' + last.en; prev.ko = (prev.ko + ' ' + last.ko).trim(); prev.keys.push(...last.keys); out.pop(); }   // a short tail joins the block before it
-    return out.map(b => ({ en: capFirst(b.en), ko: b.ko, keys: b.keys.slice(0, 3), t: b.t }));
+    if (out.length > 1 && tailEnd - last.t < 10) { const prev = out[out.length - 2]; prev.en += ' ' + last.en; prev.ko = (prev.ko + ' ' + last.ko).trim(); prev.keys.push(...last.keys); prev.lines.push(...last.lines); out.pop(); }   // a short tail joins the block before it
+    return out.map(blockOut);
+  }
+  // a block keeps its sentence pairs (lines) only when they carry translations; untranslated blocks are split for display
+  const blockOut = b => { const o = { en: capFirst(b.en), ko: b.ko, keys: b.keys.slice(0, 3) }; if (b.t != null) o.t = b.t; if (b.lines && b.lines.some(l => l.ko)) o.lines = b.lines.map(l => ({ en: capFirst(l.en), ko: l.ko })); return o; };
+  /* caption chunks (or old blocks) -> sentence units with start times spread over each chunk by length.
+     Some videos come back as one long caption chunk; without this they became a single block. */
+  function expandUnits(items, endT) {
+    const out = [];
+    items.forEach((f, k) => {
+      const next = items[k + 1];
+      let d = f.d > 0 ? f.d : next ? next.t - f.t : endT ? endT - f.t : 0;
+      const parts = Array.isArray(f.lines) && f.lines.length ? f.lines.map(l => ({ en: l.en, ko: l.ko || '' }))
+        : f.ko ? [{ en: f.en, ko: f.ko }] : splitRaw(f.en).map(en => ({ en, ko: '' }));
+      const tot = parts.reduce((a, x) => a + x.en.length + 1, 0) || 1;
+      if (!(d > 0)) d = tot / 15;
+      let acc = 0;
+      for (const x of parts) { out.push({ t: f.t + d * acc / tot, en: x.en, ko: x.ko }); acc += x.en.length + 1; }
+    });
+    return out;
   }
   function groupWords(units) {
     const out = []; let c = null;
     units.forEach((u, k) => {
-      if (!c) c = { en: '', ko: '', keys: [] };
+      if (!c) c = { en: '', ko: '', keys: [], lines: [] };
       c.en = (c.en + ' ' + u.en).trim();
       if (u.ko) c.ko = (c.ko + ' ' + u.ko).trim();
+      c.lines.push({ en: u.en, ko: u.ko || '' });
       if (Array.isArray(u.keys)) c.keys.push(...u.keys);
       if (k === units.length - 1 || c.en.split(' ').length >= BLOCK_WORDS * 0.85) { out.push(c); c = null; }
     });
     const last = out[out.length - 1];
-    if (out.length > 1 && last.en.split(' ').length < 25) { const prev = out[out.length - 2]; prev.en += ' ' + last.en; prev.ko = (prev.ko + ' ' + last.ko).trim(); prev.keys.push(...last.keys); out.pop(); }
-    return out.map(b => ({ en: capFirst(b.en), ko: b.ko, keys: b.keys.slice(0, 3) }));
+    if (out.length > 1 && last.en.split(' ').length < 25) { const prev = out[out.length - 2]; prev.en += ' ' + last.en; prev.ko = (prev.ko + ' ' + last.ko).trim(); prev.keys.push(...last.keys); prev.lines.push(...last.lines); out.pop(); }
+    return out.map(blockOut);
   }
-  const mergeTimed = frags => groupTimed(frags.map(f => ({ t: f.t, en: f.text })));
-  /* scripts saved before blocks existed (one sentence each) are regrouped when opened */
+  const mergeTimed = frags => groupTimed(expandUnits(frags.map(f => ({ t: f.t, d: f.d, en: f.text }))));
+  /* scripts saved one sentence per item (too short) or as one huge chunk (too long) are regrouped when opened */
   function regroupIfNeeded(it) {
-    const ss = it.sentences, n = ss.length; if (n < 4) return false;
+    const ss = it.sentences, n = ss.length; if (!n) return false;
     if (it.timed) {
-      const t = sentenceTimes(it, 0);
-      if ((t[n - 1] - t[0]) / (n - 1) >= 15) return false;
-      it.sentences = groupTimed(ss.map((x, i) => ({ t: t[i], en: x.en, ko: x.ko, keys: x.keys })));
+      // the last block's length is estimated from its words (news speech ≈ 150 words a minute)
+      const t = sentenceTimes(it, 0), durs = ss.map((x, i) => i + 1 < n ? t[i + 1] - t[i] : x.en.split(' ').length * 0.4);
+      const short = n >= 4 && (t[n - 1] - t[0]) / (n - 1) < 15, long = durs.some(d => d > 40);
+      if (!short && !long) return false;
+      const next = groupTimed(expandUnits(ss.map((x, i) => ({ t: t[i], d: durs[i], en: x.en, ko: x.ko, lines: x.lines }))));
+      if (next.length === n) return false;   // nothing to gain (e.g. one very long sentence)
+      it.sentences = next;
     } else {
-      if (ss.reduce((a, x) => a + x.en.split(' ').length, 0) / n >= 35) return false;
-      it.sentences = groupWords(ss); it.anchors = [];
+      const words = ss.map(x => x.en.split(' ').length);
+      if (!(n >= 4 && words.reduce((a, b) => a + b, 0) / n < 35) && !words.some(w => w > 120)) return false;
+      const next = groupWords(expandUnits(ss.map((x, i) => ({ t: i, d: 1, en: x.en, ko: x.ko, lines: x.lines }))));
+      if (next.length === n) return false;
+      it.sentences = next; it.anchors = [];
     }
     return true;
   }
-  function splitSentences(text) {
+  function splitRaw(text) {
     // keep "Mr. Kim", "U.S. President", "J. Smith" together while splitting at sentence ends
     const safe = String(text).replace(/\s+/g, ' ').trim().replace(/\b(Mr|Mrs|Ms|Dr|Prof|Sr|Jr|St|No|vs|etc|e\.g|i\.e|U\.S|U\.K|U\.N|[A-Z])\.(?= )/g, '$1․');
     const parts = safe.split(/(?<=[.?!]["'”’)]?)\s+(?=["“'(]?[A-Z0-9])/).map(x => x.replace(/․/g, '.'));
     const out = [];
     for (const x of parts) { if (out.length && out[out.length - 1].split(' ').length < 3) out[out.length - 1] += ' ' + x; else if (x) out.push(x); }
-    return groupWords(out.map(en => ({ en })));
+    return out;
   }
+  const splitSentences = text => groupWords(splitRaw(text).map(en => ({ en })));
   /* start time of every block */
   function sentenceTimes(it, dur) {
     const ss = it.sentences, n = ss.length;
@@ -1515,12 +1547,20 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 
   function vcard(s, i) {
     const c = h('article', { class: 'sc vc' + (i === Vid.loopI ? ' loop' : '') });
-    const en = h('p', { class: 'en', lang: 'en' }, s.en);
-    if (S.settings.hideEn) maskable(en, '영어 문장 보기');
     c.append(h('div', { class: 'vh' },
-      h('button', { class: 'vt', 'aria-label': '이 문장부터 재생', onclick: ev => { ev.stopPropagation(); seekTo(i); } }, fmtT(Vid.times[i])),
-      h('span', { class: 'no' }, String(i + 1))), en);
-    if (s.ko) { const ko = h('p', { class: 'ko' }, s.ko); if (S.settings.hideKo) maskable(ko, '해석 보기'); c.append(ko); }
+      h('button', { class: 'vt', 'aria-label': '이 구간부터 재생', onclick: ev => { ev.stopPropagation(); seekTo(i); } }, fmtT(Vid.times[i])),
+      h('span', { class: 'no' }, String(i + 1))));
+    const lines = Array.isArray(s.lines) && s.lines.length ? s.lines : splitRaw(s.en).map(en => ({ en, ko: '' }));
+    const box = h('div', { class: 'lns' });
+    for (const l of lines) {
+      const g = h('div', { class: 'ln' }), pe = h('p', { class: 'en', lang: 'en' }, l.en);
+      if (S.settings.hideEn) maskable(pe, '영어 문장 보기');
+      g.append(pe);
+      if (l.ko) { const pk = h('p', { class: 'ko' }, l.ko); if (S.settings.hideKo) maskable(pk, '해석 보기'); g.append(pk); }
+      box.append(g);
+    }
+    c.append(box);
+    if (s.ko && !lines.some(l => l.ko)) { const ko = h('p', { class: 'ko' }, s.ko); if (S.settings.hideKo) maskable(ko, '해석 보기'); c.append(ko); }   // older blocks with one joined translation
     if (Array.isArray(s.keys) && s.keys.length) c.append(h('ul', { class: 'keys' }, s.keys.slice(0, 3).map(k => h('li', null, h('b', { lang: 'en' }, String(k.en || '')), ' ' + String(k.ko || '')))));
     const on = isSaved(s.en);
     const st = h('button', { class: 'ab', 'aria-pressed': String(on), 'aria-label': '내 문장에 저장' }, icon(on ? 'starOn' : 'star'));
@@ -1609,13 +1649,22 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       'Video title: ' + (vt || 'unknown'), '',
       'Below is the video script in blocks of about 30 seconds, each written as "index| text". Captions may lack punctuation and may contain recognition errors.',
       Q3, lines.map(x => x.i + '| ' + x.en).join('\n'), Q3, '', 'Instructions:',
-      '- Return exactly one item per block, in the same order, with "i" = that block\'s index. Do not split or merge blocks.',
-      '- "en": the block\'s text with punctuation, casing and obvious caption errors fixed; keep the speaker\'s wording and drop [Music], >> and speaker labels.',
-      '- "ko": a natural Korean translation of the whole block (not word-for-word).',
+      '- Return exactly one item per block, in the same order, with "i" = that block\'s index. Do not move text between blocks.',
+      '- "lines": the block split into its sentences, in order, keeping every word of the block. For each sentence give "en" (punctuation, casing and obvious caption errors fixed; drop [Music], >> and speaker labels) and "ko" (a natural Korean translation of that sentence, not word-for-word).',
       '- "keys": 1 to 3 useful expressions from that block (phrasal verbs, idioms, collocations) with short Korean meanings. Skip obvious words.',
       '- vocab: up to 6 words or phrases from this part worth memorizing, with Korean meanings.',
       '- title: a short Korean title for the topic, under 20 characters.', '',
-      'Reply with only JSON in this shape: {"title":"...","sentences":[{"i":0,"en":"...","ko":"...","keys":[{"en":"...","ko":"..."}]}],"vocab":[{"en":"...","ko":"..."}]}'].join('\n');
+      'Reply with only JSON in this shape: {"title":"...","sentences":[{"i":0,"lines":[{"en":"...","ko":"..."}],"keys":[{"en":"...","ko":"..."}]}],"vocab":[{"en":"...","ko":"..."}]}'].join('\n');
+  }
+  /* one translated block from the AI: {i, lines:[{en, ko}], keys} (or an older {en, ko}) */
+  function blockFromAI(x) {
+    if (!x) return null;
+    const lines = Array.isArray(x.lines) ? x.lines.filter(l => l && typeof l.en === 'string' && l.en.trim()).slice(0, 40).map(l => ({ en: l.en.trim(), ko: String(l.ko || '').trim() })) : [];
+    const en = lines.length ? lines.map(l => l.en).join(' ') : String(x.en || '').trim();
+    if (!en) return null;
+    const o = { i: x.i, en, ko: lines.length ? lines.map(l => l.ko).join(' ') : String(x.ko || ''), keys: Array.isArray(x.keys) ? x.keys.filter(q => q && q.en).slice(0, 3).map(q => ({ en: String(q.en), ko: String(q.ko || '') })) : [] };
+    if (lines.length) o.lines = lines;
+    return o;
   }
   async function translateVideo() {
     const it = Vid.it; if (!it || !it.sentences.length || Vid.busy) return;
@@ -1638,9 +1687,9 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
         const ch = chunks[k], lo = ch[0].i, hi = ch[ch.length - 1].i;
         const d = await AI.json(videoPrompt(ch, it.video.title || it.title), { maxTokens: 14000, signal: ctl.signal });
         let last = lo;
-        const out = (d && Array.isArray(d.sentences) ? d.sentences : []).filter(x => x && typeof x.en === 'string' && x.en.trim()).map(x => {
-          let i = Math.round(Number(x.i)); if (!isFinite(i) || i < last || i > hi) i = last; last = i;
-          const o = { en: x.en.trim(), ko: String(x.ko || ''), keys: Array.isArray(x.keys) ? x.keys.filter(q => q && q.en).slice(0, 3).map(q => ({ en: String(q.en), ko: String(q.ko || '') })) : [] };
+        const out = (d && Array.isArray(d.sentences) ? d.sentences : []).map(blockFromAI).filter(Boolean).map(o => {
+          let i = Math.round(Number(o.i)); if (!isFinite(i) || i < last || i > hi) i = last; last = i;
+          delete o.i;
           if (times) o.t = times[i];
           return o;
         });
@@ -1774,7 +1823,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     try {
       const body = await sdFetch(it.video.id, mode, ctl.signal, k => { if (Vid.it === it) { Vid.sdMsg = (gen ? 'AI가 받아쓰는 중… ' : '자막 준비 중… ') + Math.round((k + 1) * 1.5) + '초'; renderVidAuto(); } });
       if (Vid.it !== it) return;
-      const frags = body.content.map(c => ({ t: Math.max(0, (Number(c.offset) || 0) / 1000), text: cleanCap(unent(String(c.text || ''))) })).filter(f => f.text);
+      const frags = body.content.map(c => ({ t: Math.max(0, (Number(c.offset) || 0) / 1000), d: Math.max(0, (Number(c.duration) || 0) / 1000), text: cleanCap(unent(String(c.text || ''))) })).filter(f => f.text);
       if (!frags.length) { Object.assign(Vid, { sdErr: true, sdNone: !gen, sdMsg: '받은 자막에 글자가 없어요. 말소리가 없는 영상일 수 있어요.' }); return; }
       const sentences = mergeTimed(frags);
       Object.assign(it, { sentences, timed: true, anchors: [], vocab: [], ts: Date.now() });
