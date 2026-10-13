@@ -127,6 +127,17 @@ def publish_live():
     git('push', '-q', '-f', 'origin', f'{commit}:refs/heads/live')
 
 
+def refresh_english():
+    """This run republishes english/data every 10 minutes, so it must keep that copy fresh itself
+    (otherwise it would overwrite what stocks.yml publishes). news.py refreshes at most hourly."""
+    try:
+        r = subprocess.run([sys.executable, 'english/tools/news.py'], cwd=ROOT, capture_output=True, text=True, timeout=180)
+        if r.returncode:
+            log(f'영어 뉴스 받기 실패: {r.stderr.strip()[-200:]}')
+    except Exception as e:
+        log(f'영어 뉴스 받기 실패: {e}')
+
+
 def one_round(head, full, site):
     """Newest main → fresh prices → live branch (+ site). Returns False if main moved meanwhile."""
     git('fetch', '-q', '--depth=1', 'origin', 'main')
@@ -144,6 +155,7 @@ def one_round(head, full, site):
     if main_head() != head:
         log('그 사이 main이 바뀌어서 다시 받음')
         return False
+    refresh_english()
     publish()
     log(f'시세 + 사이트 배포{" (전체)" if full else ""} · {tail}')
     return True
