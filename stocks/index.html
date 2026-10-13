@@ -91,6 +91,12 @@ a{color:var(--accent)}
 .group{display:flex;flex-direction:column}
 .group h2{margin:0 0 6px;font-size:12px;font-weight:600;color:var(--ink-soft);letter-spacing:.04em}
 .group h2 .gu{font-weight:400}
+/* sort bar: five orders, tap the active one again to flip high/low (looks like the chart-period picker) */
+.sortbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;padding:3px;background:var(--surface);border:1px solid var(--line);border-radius:10px;margin:-4px 0 -6px}
+.sortbar button{border:0;background:transparent;border-radius:7px;padding:7px 1px;font-size:12.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:clip}
+.sortbar button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.sortbar button i{font-style:normal;font-size:9.5px;margin-left:2px;color:var(--accent)}
+.r-sub .sk{font:500 12px var(--font-num);color:var(--ink)}
 /* the watch list shares its columns across rows (subgrid), so the charts and prices line up */
 .rows.watch{display:grid;grid-template-columns:3px 30px minmax(0,1fr) 42px auto 3px;column-gap:8px}
 .rows.watch > .row{grid-column:1/-1;grid-template-columns:subgrid}
@@ -405,6 +411,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
   </nav>
   <div class="panel" id="p-list" role="tabpanel" aria-labelledby="tab-list">
     <section class="sum" id="sum" aria-live="polite"></section>
+    <div class="sortbar" id="sortbar" role="group" aria-label="목록 정렬"></div>
     <div id="list"></div>
     <button class="add" id="add-btn">+ 종목 추가</button>
     <button class="linkish" id="hidden-btn" hidden></button>
@@ -557,6 +564,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     data: store.get('last', null), hold: store.get('hold', {}), hidden: store.get('hidden', []),
     pending: store.get('pending', []), krw: store.get('krw', false), showHidden: false,
     amt: store.get('amt', true), tab: store.get('tab', 'list'), cls: store.get('cls', {}),
+    sort: store.get('sort', { k: 'cap', d: -1 }),
     news: store.get('news', null), ai: store.get('ai', null), newsFor: 'mkt',
     gone: store.get('gone', []), secBy: store.get('secBy', 's'), tax: store.get('tax', 'net'), divMonth: new Date().getMonth(), clsCode: null,
     loading: false, err: '', fetchedAt: 0, cur: null, range: 'd1', hist: {}
@@ -944,6 +952,61 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
   function rowMoney(v, cur) { return cur === 'KRW' ? (v < 0 ? '−' : '') + nf(Math.round(v), 0) : money(v, cur); }
   function rowSigned(v, cur) { return isFinite(v) ? (v > 0 ? '+' : '') + rowMoney(v, cur) : '—'; }
 
+  /* ---------- 목록 정렬 ---------- */
+  const SORTS = [['cap', '시총'], ['val', '평가금액'], ['cost', '매입금액'], ['ret', '수익률'], ['day', '오늘등락']];
+  const SORT_NAME = { cap: '시가총액', val: '평가금액', cost: '매입금액', ret: '수익률', day: '오늘 등락' };
+  function sortValue(it, k) {
+    const h = heldOf(it.code), usdK = it.cur === 'USD' && S.krw && fx();
+    if (k === 'cap') return it.mcap ? it.mcap * (it.mcapPx && it.price ? it.price / it.mcapPx : 1) : null;   // follows today's price
+    if (k === 'day') return isFinite(it.pct) ? it.pct : null;
+    if (!h) return null;
+    if (k === 'val') return h.q * it.price;
+    if (!(h.a > 0)) return null;
+    if (k === 'cost') return usdK ? h.q * h.a * (h.fx > 0 ? h.fx : fx()) : h.q * h.a;   // 원화로 보면 매입 환율로
+    if (k === 'ret') {
+      if (usdK) { const F0 = h.fx > 0 ? h.fx : fx(); return (it.price * fx() - h.a * F0) / (h.a * F0); }
+      return (it.price - h.a) / h.a;
+    }
+    return null;
+  }
+  function sortItems(arr) {
+    const { k, d } = S.sort;
+    return arr.map((it, i) => ({ it, i, v: sortValue(it, k) }))
+      .sort((a, b) => (a.v == null) - (b.v == null) || (a.v != null && b.v != null && d * (a.v - b.v)) || a.i - b.i)
+      .map(x => x.it);
+  }
+  function capText(v, cur) {
+    // 국내: 1,026조 / 9,851억, 미국: $1.48T / $45.3B / $950M
+    if (cur === 'KRW') return v >= 1e12 ? nf(v / 1e12, v >= 1e14 ? 0 : 1) + '조' : nf(v / 1e8, 0) + '억';
+    if (v >= 1e12) return '$' + nf(v / 1e12, 2) + 'T';
+    if (v >= 1e9) return '$' + nf(v / 1e9, v >= 1e11 ? 0 : 1) + 'B';
+    return '$' + nf(v / 1e6, 0) + 'M';
+  }
+  function sortNote(it) {
+    // the value the list is sorted by, when it is not already on the row
+    const k = S.sort.k, v = sortValue(it, k);
+    if (v == null) return '';
+    if (k === 'cap') return `<span class="sk" title="${it.mcapKind === 'aum' ? 'ETF 순자산' : '시가총액'}">${capText(v, it.cur)}</span>`;
+    const c = it.cur === 'USD' && S.krw && fx() ? 'KRW' : it.cur;
+    if (k === 'val') return `<span class="sk">${c === 'KRW' ? compactKRW(c === it.cur ? v : v * fx()) : '$' + nf(v, 0)}</span>`;
+    if (k === 'cost') return `<span class="sk">${c === 'KRW' ? compactKRW(v) : '$' + nf(v, 0)}</span>`;
+    return '';
+  }
+  function renderSortBar() {
+    const bar = $('sortbar'); if (!bar) return;
+    bar.innerHTML = SORTS.map(([k, label]) =>
+      `<button data-k="${k}" aria-pressed="${S.sort.k === k}" aria-label="${SORT_NAME[k]} 순으로 보기">${label}${S.sort.k === k ? `<i>${S.sort.d < 0 ? '▼' : '▲'}</i>` : ''}</button>`).join('');
+  }
+  $('sortbar').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const k = b.dataset.k;
+    S.sort = S.sort.k === k ? { k, d: -S.sort.d } : { k, d: -1 };
+    store.set('sort', S.sort);
+    renderList();
+    const label = SORT_NAME[k];
+    toast(`${label} ${S.sort.d < 0 ? (k === 'day' ? '많이 오른 순' : '큰 순') : (k === 'day' ? '많이 내린 순' : '작은 순')}`);
+  });
+
   function rowHTML(it, hid) {
     // [로고]  이름 ........ [당일 그래프]  가격 [등락]
     //         코드 · 보유 ...............  내 손익
@@ -977,7 +1040,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
       <span class="r-name">${esc(it.name)}</span>
       ${sparkSVG(it)}
       <span class="r-q"><span class="r-price">${price}</span><span class="pill ${d}">${d === 'up' ? '▲' : d === 'down' ? '▼' : ''}${pillTxt}</span></span>
-      <span class="r-sub">${open ? '<span class="dot open" title="장중"></span>' : ''}<span class="tx">${qty}${esc(kr ? it.code : it.sym)}${it.stale ? ' · 지연' : ''}</span></span>
+      <span class="r-sub">${open ? '<span class="dot open" title="장중"></span>' : ''}<span class="tx">${(note => note ? note + (qty ? ' · ' + qty.replace(/ · $/, '') : '') : qty + esc(kr ? it.code : it.sym))(sortNote(it))}${it.stale ? ' · 지연' : ''}</span></span>
       ${pl}
     </button>`;
   }
@@ -988,7 +1051,9 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     const errors = (S.data && S.data.errors) || {};
     const hidden = new Set(S.hidden);
     const visible = items.filter(it => S.showHidden || !hidden.has(it.code));
-    const kr = visible.filter(isKR), us = visible.filter(it => !isKR(it));
+    const kr = sortItems(visible.filter(isKR)), us = sortItems(visible.filter(it => !isKR(it)));
+    renderSortBar();
+    $('sortbar').hidden = !visible.length;
     let html = '';
     const group = (title, arr, extra) => {
       if (!arr.length && !extra) return '';
