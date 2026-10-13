@@ -36,7 +36,6 @@ FEEDS = [
 CHANNELS = [
     ('arirang', 'Arirang News', '@arirangcokrarirangnews', ''),
     ('cnn', 'CNN', '@CNN', 'UCupvZG-5ko_eiXAupbDfxWw'),
-    ('cnn10', 'CNN 10', '@cnn10', 'UCTOoRgpHTjAQPk6Ak70u-pA'),
     ('bbcnews', 'BBC News', '@bbcnews', 'UC16niRr50-MSBwiO3YDb3RA'),
     ('dw', 'DW News', '@DWNews', 'UCknLrEdhRCp1aegoMqRaCZg'),
     ('bbcle', 'BBC Learning English', '@bbclearningenglish', 'UCHaHD477h-FeBbVh9Sh7syA'),
@@ -130,7 +129,8 @@ def videos(cid):
         link = e.find('a:link', ATOM)
         href = link.get('href', '') if link is not None else ''
         title = clean(e.findtext('a:title', namespaces=ATOM))
-        if not re.fullmatch(r'[\w-]{11}', vid) or '/shorts/' in href or re.search(r'#shorts?\b', title, re.I):
+        if not re.fullmatch(r'[\w-]{11}', vid) or '/shorts/' in href or re.search(r'#shorts?\b', title, re.I) \
+                or re.search(r'\[\s*live\s*\]|^\s*live\b|\blive stream|\blivestream|🔴', title, re.I):   # live streams have no fixed script
             continue
         ts = 0
         try:
