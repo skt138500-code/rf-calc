@@ -500,7 +500,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
       <ol class="steps">
         <li>아래 버튼으로 GitHub 열기. 오른쪽 위 계정이 <b>skt138500-code</b>인지 확인</li>
         <li><b>Repository access</b>에서 <b>Only select repositories</b> → <b>rf-calc</b> 고르기</li>
-        <li>아래 <b>Permissions</b>에서 <b>Contents</b>가 <b>Read and write</b>인지 확인 (미리 골라뒀어요)</li>
+        <li>아래 <b>Permissions</b>에서 <b>Contents</b>와 <b>Actions</b>가 <b>Read and write</b>인지 확인 (미리 골라뒀어요)</li>
         <li>맨 아래 초록색 <b>Generate token</b> → 한 번 더 확인 → 나온 열쇠 <b>복사</b></li>
         <li>이 앱으로 돌아와 아래에 붙여넣고 <b>연결하기</b></li>
       </ol>
@@ -749,6 +749,39 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     return r.json();
   }
 
+  // 장중인데 시세가 오래됐으면 (GitHub의 예약 실행이 늦을 때) 이 폰의 열쇠로 장중 시세 실행을 깨운다.
+  // 열쇠에 Actions 쓰기 권한이 있어야 해요.
+  const SESSIONS = [['Asia/Seoul', 9 * 60, 15 * 60 + 55], ['America/New_York', 9 * 60 + 30, 16 * 60 + 15]];
+  function marketOpenNow() {
+    return SESSIONS.some(([tz, a, b]) => {
+      try {
+        const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
+          .formatToParts(new Date()).map(x => [x.type, x.value]));
+        const m = +parts.hour * 60 + +parts.minute;
+        return !['Sat', 'Sun'].includes(parts.weekday) && m >= a && m < b;
+      } catch (e) { return false; }
+    });
+  }
+  async function wakeIfStale(d) {
+    const tok = token();
+    if (!tok || !d || !marketOpenNow()) return;
+    if (Date.now() / 1000 - (d.updated || 0) < 15 * 60) return;
+    if (Date.now() - store.get('wakeAt', 0) < 10 * 60000) return;
+    store.set('wakeAt', Date.now());
+    try {
+      const r = await fetch(API + '/actions/workflows/stocks-live.yml/dispatches', {
+        method: 'POST', cache: 'no-store',
+        headers: { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ref: 'main' })
+      });
+      if (r.status === 204) { toast('시세 업데이트를 깨웠어요. 1~2분 뒤 새 시세가 와요'); setTimeout(() => load(false), 100000); }
+      else if ((r.status === 403 || r.status === 404) && !store.get('wakeHint', false)) {
+        store.set('wakeHint', true);
+        toast('시세가 멈춰 있어요. GitHub 열쇠에 Actions 권한을 더하면 앱이 깨울 수 있어요');
+      }
+    } catch (e) {}
+  }
+
   async function load(manual) {
     if (S.loading) return;
     S.loading = true; $('refresh').classList.add('spin');
@@ -771,6 +804,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
       S.pending = S.pending.filter(p => !have.has(p.code));
       if (S.pending.length !== before) store.set('pending', S.pending);
       if (manual) toast('시세를 새로 받았어요');
+      wakeIfStale(d);
     } catch (e) {
       S.err = e.message === 'nodata' ? '아직 시세가 준비되지 않았어요' : (navigator.onLine === false ? '오프라인' : '시세를 받지 못했어요');
       if (manual) toast(S.err);
@@ -1420,7 +1454,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     $('g-token').value = ''; $('g-hint').textContent = '';
     $('g-make').href = 'https://github.com/settings/personal-access-tokens/new?' + new URLSearchParams({
       name: '내 주식 앱', description: '내 주식 앱에서 관심종목 추가·삭제 (rf-calc 저장소만)',
-      target_name: REPO.split('/')[0], expires_in: 'none', contents: 'write'
+      target_name: REPO.split('/')[0], expires_in: 'none', contents: 'write', actions: 'write'
     }).toString();
     showSheet('ghs');
   }

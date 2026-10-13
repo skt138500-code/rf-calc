@@ -3,7 +3,8 @@
 # 10 minutes, one run stays up for the whole session (stocks/tools/live.py) and hands over to
 # a fresh run before the 6-hour job limit. Several start times are listed so that one dropped
 # schedule does not lose the day; extra starts just wait in the queue and end quietly.
-# GitHub's cron is often hours late, so a Claude scheduled task also starts this at 08:20 and 22:20 KST.
+# GitHub's cron is often hours late, so a run also waits through the weekday gaps between sessions
+# (it keeps itself going Monday → Saturday morning), and the app starts this when it sees old prices.
 name: 장중 시세 (5분마다)
 
 on:

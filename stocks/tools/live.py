@@ -14,7 +14,13 @@ a full fetch with 1-year/5-year history once an hour), then
 - every 10 minutes (or when main changed) publish main + the data folders to gh-pages.
   GitHub Pages allows about 10 site rebuilds an hour, which is why the site itself is not
   rebuilt every 5 minutes.
-A change on main is picked up within a minute. Standard library only.
+A change on main is picked up within a minute.
+
+Between sessions on weekdays (Korean close → US open, US close → next Korean open) the run
+stays up and waits, handing over every ~6 hours, so once started on a Monday it keeps
+going until Saturday morning without relying on GitHub's late cron. Over the weekend it
+ends; Monday is started by the cron backups or by the app (it wakes this workflow when
+opened during market hours with old prices). Standard library only.
 """
 import datetime as dt
 import json
@@ -33,7 +39,7 @@ SITE_EVERY = 10 * 60              # seconds between full site publishes (→ gh-
 FULL_EVERY = 60 * 60              # seconds between full fetches (1-year/5-year history, dividends)
 POLL = 60                         # how often to look for a new commit on main
 MAX_RUN = 5 * 3600 + 40 * 60      # hand over to a fresh run before GitHub's 6-hour limit
-WAIT_FOR_OPEN = 80 * 60           # started early (US winter time opens an hour later): wait this long at most
+BRIDGE = 8 * 3600                 # keep waiting through gaps up to this long (weekday gaps are 3¾h and 6½h)
 DATA_DIRS = ['stocks/data', 'english/data']   # git-ignored, produced by the fetch scripts
 # (exchange time zone, open, last refresh) on weekdays. The end is a little after the close
 # so the closing price arrives (Yahoo shows Korean prices about 20 minutes late).
@@ -162,21 +168,28 @@ def start_next_run():
 def main():
     started = time.time()
     last_round, last_site, last_full, last_head, holiday = 0.0, 0.0, 0.0, None, set()
+    waiting = False
     while True:
         session = session_now()
         if session in holiday:
             session = None
-        if not session:
-            wait = seconds_to_open()
-            if last_round or wait is None or wait > WAIT_FOR_OPEN:
-                log('장이 닫혀서 끝냄')
-                return
-            log(f'장 시작까지 {int(wait // 60)}분 기다림')
-            time.sleep(min(wait + 5, POLL))
-            continue
+        wait = None if session else seconds_to_open()
         if time.time() - started > MAX_RUN:
-            start_next_run()
+            if session or (wait is not None and wait <= BRIDGE):
+                start_next_run()
+            else:
+                log('다음 장이 멀어서 끝냄')
             return
+        if not session:
+            if wait is None or wait > BRIDGE:
+                log('다음 장이 멀어서 끝냄 (주말)')
+                return
+            if not waiting:
+                log(f'다음 장 시작까지 {int(wait // 60)}분 기다림')
+                waiting = True
+            time.sleep(min(wait + 5, 300))
+            continue
+        waiting = False
         head = main_head()
         if time.time() - last_round >= EVERY or head != last_head:
             began = time.time()   # rounds start every 5 minutes, however long a fetch takes
