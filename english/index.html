@@ -217,6 +217,10 @@ details.card:not([open]){gap:0}
 .vctl button b{font:600 14px var(--font-num);color:var(--ink)}
 .vctl button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--hl)}
 .vctl button:disabled{opacity:.45}
+.vtg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.vtg button{height:34px;border:1px solid var(--line);background:var(--surface);border-radius:9px;font-size:13px;font-weight:600;color:var(--ink-soft);padding:0 4px;white-space:nowrap}
+.vtg button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--hl)}
+.vtg button:disabled{opacity:.45}
 .vc{cursor:pointer;scroll-margin-top:var(--vtop-h,330px)}
 .lns{display:flex;flex-direction:column;gap:12px}
 .ln{display:flex;flex-direction:column;gap:3px}
@@ -563,6 +567,11 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
         <button id="vc-next" aria-label="다음 구간"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 3v10" stroke="currentColor" stroke-width="1.6"/><path d="M3 3l8 5-8 5z" fill="currentColor"/></svg>다음</button>
         <button id="vc-rate" aria-label="재생 속도"><b>1×</b>속도</button>
         <button id="vc-step" aria-pressed="false" aria-label="구간마다 멈추기"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="3" width="3" height="10" rx="1" fill="currentColor"/><rect x="9.5" y="3" width="3" height="10" rx="1" fill="currentColor"/></svg>구간마다</button>
+      </div>
+      <div class="vtg" id="vid-tg" role="group" aria-label="보기 설정">
+        <button id="vt-en" aria-pressed="false">영어 가리기</button>
+        <button id="vt-ko" aria-pressed="false">해석 가리기</button>
+        <button id="vt-cc" aria-pressed="false">영상 자막</button>
       </div>
     </div>
     <div class="card" id="vid-get">
@@ -1458,7 +1467,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     box.replaceChildren(h('div', { id: 'yt-el' }));
     const pv = { playsinline: 1, rel: 0, modestbranding: 1, hl: 'ko', cc_lang_pref: 'en', cc_load_policy: it.sentences.length ? 0 : 1, origin: location.origin };
     if (start > 0) pv.start = Math.floor(start);
-    Vid.cc = !it.sentences.length;
+    Vid.cc = !it.sentences.length; renderVtg();
     try {
       Vid.player = new YT.Player('yt-el', { videoId: it.video.id, width: '100%', height: '100%', playerVars: pv,
         events: { onReady: onPReady, onStateChange: onPState, onError: onPError } });
@@ -1582,7 +1591,8 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     const n = it.sentences.length;
     $('vid-get').hidden = n > 0 && !Vid.replace;
     renderVidAuto();
-    ['vc-prev', 'vc-next', 'vc-step'].forEach(id => { $(id).disabled = !n; });
+    ['vc-prev', 'vc-next', 'vc-step', 'vt-en', 'vt-ko'].forEach(id => { $(id).disabled = !n; });
+    renderVtg();
     if (!n) { body.replaceChildren(); updVtop(); return; }
     if (!Vid.times.length) recompute();
     const kids = [];
@@ -1597,9 +1607,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       bar.append(h('p', { class: 'hint', id: 'vid-tr-hint' }, Vid.trMsg || ''));
       kids.push(bar);
     }
-    const tg = (k, l) => h('button', { class: 'btn sm', 'aria-pressed': String(!!S.settings[k]), onclick: () => { S.settings[k] = !S.settings[k]; save(); renderVidList(); renderVid(); } }, l);
-    kids.push(h('div', { class: 'tools' }, tg('hideEn', '영어 가리기'), tg('hideKo', '해석 가리기'),
-      h('button', { class: 'btn sm', 'aria-pressed': String(Vid.cc), onclick: toggleCC }, '영상 자막'),
+    kids.push(h('div', { class: 'tools' },
       !it.timed ? h('button', { class: 'btn sm', 'aria-pressed': String(Vid.sync), onclick: () => { Vid.sync = !Vid.sync; renderVid(); if (Vid.sync) toast('지금 들리는 구간을 누르세요'); } }, '자막 맞추기') : null,
       h('button', { class: 'btn sm', onclick: () => { Vid.replace = !Vid.replace; renderVid(); if (Vid.replace) $('vid-get').scrollIntoView({ block: 'start', behavior: reduce() ? 'auto' : 'smooth' }); } }, Vid.replace ? '바꾸기 취소' : '스크립트 바꾸기')));
     kids.push(h('p', { class: 'vmeta' }, `${n}구간 (약 30초씩) · ` + (it.timed ? '영상 시간에 맞춤 · 구간을 누르면 그 위치로 가요'
@@ -1620,9 +1628,26 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     try {
       if (Vid.cc) p.unloadModule('captions');
       else { p.loadModule('captions'); try { p.setOption('captions', 'track', { languageCode: 'en' }); } catch (e) {} }
-      Vid.cc = !Vid.cc; renderVid();
+      Vid.cc = !Vid.cc; renderVtg();
     } catch (e) { toast('이 영상은 자막을 바꿀 수 없어요'); }
   }
+  /* 영어·해석 가리기 sit in the pinned bar so they can be flipped while reading anywhere in the script.
+     Blurring does not change heights, so the list is redrawn in place and the scroll position kept. */
+  function renderVtg() {
+    $('vt-en').setAttribute('aria-pressed', String(!!S.settings.hideEn));
+    $('vt-ko').setAttribute('aria-pressed', String(!!S.settings.hideKo));
+    $('vt-cc').setAttribute('aria-pressed', String(!!Vid.cc));
+  }
+  function toggleHide(k) {
+    S.settings[k] = !S.settings[k]; save();
+    const sh = $('sh-vid'), y = sh.scrollTop;
+    renderVidList(); renderVtg();
+    sh.scrollTop = y;
+    toast(k === 'hideEn' ? (S.settings[k] ? '영어를 가렸어요 · 문장을 누르면 하나씩 보여요' : '영어를 다시 보여 줘요') : (S.settings[k] ? '해석을 가렸어요 · 문장을 누르면 하나씩 보여요' : '해석을 다시 보여 줘요'));
+  }
+  $('vt-en').addEventListener('click', () => toggleHide('hideEn'));
+  $('vt-ko').addEventListener('click', () => toggleHide('hideKo'));
+  $('vt-cc').addEventListener('click', toggleCC);
   function delVideo() {
     const it = Vid.it; if (!it) return;
     if (!confirm('이 영상의 스크립트와 해석을 지울까요?')) return;
