@@ -191,6 +191,41 @@ details.card:not([open]){gap:0}
 .lvs{display:inline-flex;gap:4px}
 .lvs a{font:500 11.5px var(--font-num);padding:2px 8px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--accent);text-decoration:none}
 .frow-more{display:block;width:100%;padding:10px 14px;border-top:1px solid var(--grid);text-align:center}
+/* video study */
+.urlrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.vrow2{width:100%;display:grid;grid-template-columns:116px minmax(0,1fr);gap:12px;align-items:start;padding:10px 12px;border:0;border-top:1px solid var(--grid);background:none;text-align:left;color:var(--ink)}
+.vrow2:first-child{border-top:0}
+.vrow2:active{background:var(--press)}
+.vrow2 .th{width:116px;max-width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:var(--grid);display:block}
+.vrow2 .vt2{display:grid;gap:3px;min-width:0}
+.vrow2 b{font:400 15px/1.35 var(--font-en);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.vrow2 small{font-size:12px;color:var(--ink-soft)}
+.vrow2 .has{color:var(--ok);font-weight:600}
+.vsheet{gap:12px;padding-top:0}
+.vtop{position:sticky;top:0;z-index:3;background:var(--ground);display:flex;flex-direction:column;gap:8px;margin-inline:-16px;padding-inline:16px;padding-block:0 10px;border-bottom:1px solid var(--line)}
+.vtop .sh-top{position:static;padding-block:6px 0}
+.sh-t{min-width:0}
+.sh-t span{display:block;font-size:12px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#vid-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pwrap{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden}
+.pwrap iframe,.pwrap > div{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pwrap .pmsg{display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;color:#d6dde6;font-size:13.5px;line-height:1.5}
+.vmsg{margin:0;font-size:13px;line-height:1.5;color:var(--warn)}
+.vctl{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.vctl button{height:46px;border:1px solid var(--line);background:var(--card);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;color:var(--ink-soft);padding:0}
+.vctl button svg{width:17px;height:17px;color:var(--ink)}
+.vctl button b{font:600 14px var(--font-num);color:var(--ink)}
+.vctl button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--hl)}
+.vctl button:disabled{opacity:.45}
+.vc{cursor:pointer;scroll-margin-top:var(--vtop-h,330px)}
+.vh{display:flex;align-items:center;gap:8px}
+.vt{border:1px solid var(--grid);background:var(--surface);border-radius:6px;padding:2px 8px;font:500 12px var(--font-num);color:var(--accent)}
+.vc.on .vt{background:var(--accent);color:var(--on-accent);border-color:transparent}
+.vc.loop{outline:2px dashed var(--accent);outline-offset:-2px}
+.syncing .vc{border-style:dashed}
+.tbar{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid var(--accent)}
+.tbar b{font-size:14px}
+.vmeta{margin:0;font-size:12.5px;color:var(--ink-soft)}
 .tag{font:500 10.5px var(--font-num);letter-spacing:.05em;padding:1px 6px;border-radius:5px;background:var(--surface);border:1px solid var(--line);color:var(--ink-soft);vertical-align:2px;margin-left:6px}
 
 /* Q&A */
@@ -273,7 +308,26 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 
   <section class="panel" id="p-lis" role="tabpanel" aria-labelledby="tab-lis" hidden>
     <div class="group">
-      <h2>뉴스 · 대본 넣기 <span class="ai-pill" id="lis-ai"><i></i><em></em></span></h2>
+      <h2>영상으로 듣기 <span>영상 + 영어 스크립트 + 해석</span></h2>
+      <div class="card">
+        <div class="urlrow">
+          <input class="in" id="vid-url" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="유튜브 링크 붙여넣기" aria-label="유튜브 링크">
+          <button class="btn" id="vid-url-paste">붙여넣기</button>
+        </div>
+        <button class="btn primary" id="vid-url-go">영상 열기</button>
+        <p class="hint" id="vid-url-hint"></p>
+        <p class="note">유튜브 앱에서 <b>공유 → 링크 복사</b>하고 붙여넣으세요. 아래 목록에서 바로 골라도 돼요.</p>
+      </div>
+    </div>
+    <div class="group">
+      <h2>오늘의 뉴스 영상 <span id="vfeed-upd"></span></h2>
+      <div class="panel" style="gap:8px">
+        <div class="chips" id="vfeed-chips" role="group" aria-label="채널"></div>
+        <div class="rows" id="vfeed-list"></div>
+      </div>
+    </div>
+    <div class="group">
+      <h2>글로 듣기 · 기사나 대본 <span class="ai-pill" id="lis-ai"><i></i><em></em></span></h2>
       <div class="card">
         <textarea class="in en-in" id="news-in" rows="5" placeholder="뉴스 기사나 내 발표 대본을 붙여넣기 (한글 대본도 돼요)" aria-label="영어 글"></textarea>
         <div class="btns">
@@ -455,6 +509,38 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       <p class="words" id="say-words" lang="en"></p>
       <p class="note" id="say-note"></p>
     </div>
+  </div>
+</div>
+
+<!-- 영상으로 듣기 -->
+<div class="sheet" id="sh-vid" hidden role="dialog" aria-modal="true" aria-labelledby="vid-title">
+  <div class="sheet-in vsheet">
+    <div class="vtop" id="vid-top">
+      <div class="sh-top"><button class="back" data-close aria-label="뒤로">‹</button><div class="sh-t"><h2 id="vid-title">영상</h2><span id="vid-ch"></span></div></div>
+      <div class="pwrap" id="vid-player"></div>
+      <p class="vmsg" id="vid-msg" hidden></p>
+      <div class="vctl" id="vid-ctl">
+        <button id="vc-prev" aria-label="이전 문장"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3v10" stroke="currentColor" stroke-width="1.6"/><path d="M13 3 5 8l8 5z" fill="currentColor"/></svg>이전</button>
+        <button id="vc-play" aria-label="재생"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8 13 8l-8.5 5.2z" fill="currentColor"/></svg><span>재생</span></button>
+        <button id="vc-next" aria-label="다음 문장"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 3v10" stroke="currentColor" stroke-width="1.6"/><path d="M3 3l8 5-8 5z" fill="currentColor"/></svg>다음</button>
+        <button id="vc-rate" aria-label="재생 속도"><b>1×</b>속도</button>
+        <button id="vc-step" aria-pressed="false" aria-label="한 문장씩 멈추기"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="3" width="3" height="10" rx="1" fill="currentColor"/><rect x="9.5" y="3" width="3" height="10" rx="1" fill="currentColor"/></svg>한 문장씩</button>
+      </div>
+    </div>
+    <div class="card" id="vid-get">
+      <h3>스크립트 가져오기 <span>한 번만 하면 저장돼요</span></h3>
+      <ol class="steps">
+        <li><b>자막 사이트 열기</b>를 누르면 이 영상 링크가 복사돼요. 사이트 입력칸에 붙여넣고 <b>Get Transcript</b>.</li>
+        <li><b>Include timestamps(시간 표시)</b>를 켜고 <b>Copy</b>.</li>
+        <li>돌아와서 아래 <b>붙여넣기 → 자막 만들기</b>. 시간 표시가 있으면 영상과 문장이 정확히 맞춰져요.</li>
+      </ol>
+      <div class="btns"><button class="btn primary" id="vid-tool">자막 사이트 열기</button><button class="btn" id="vid-tool2">다른 사이트</button></div>
+      <textarea class="in en-in" id="vid-in" rows="5" placeholder="스크립트 붙여넣기" aria-label="영상 스크립트"></textarea>
+      <div class="btns"><button class="btn" id="vid-paste">붙여넣기</button><button class="btn dark" id="vid-make">자막 만들기</button></div>
+      <p class="hint" id="vid-hint" aria-live="polite"></p>
+      <p class="note">아리랑 뉴스처럼 방송사 홈페이지에 원고가 있으면 그 글을 넣어도 돼요. 시간 표시가 없는 글은 위치를 어림해서 맞추고, <b>자막 맞추기</b>로 고칠 수 있어요. 스크립트 없이도 영상의 영어 자막(CC)은 볼 수 있어요.</p>
+    </div>
+    <div class="panel" id="vid-body"></div>
   </div>
 </div>
 
@@ -791,6 +877,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
   function closeSheet(fromPop) {
     const id = stack.pop(); if (!id) return;
     $(id).hidden = true; Rec.stop();
+    if (id === 'sh-vid') vidTeardown();
     if (!fromPop) { skipPop++; setTimeout(() => { skipPop = 0; }, 1200); try { history.back(); } catch (e) { skipPop = 0; } }
     if (stack.length) $(stack[stack.length - 1]).hidden = false; else document.body.style.overflow = '';
   }
@@ -894,7 +981,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     const tp = todayPhrases(), reps = tp.reduce((a, x) => a + Math.min(3, d.reps[x.pid] || 0), 0);
     const T = [
       { k: 'p', t: '학회 표현 5개, 소리 내서 3번씩', m: `아래 5문장 · ${reps}/15회` },
-      { k: 'n', t: '뉴스나 대본 1개 끝까지 듣기', m: '전체 듣기를 끝까지 들으면 자동 체크', go: 'lis' },
+      { k: 'n', t: '뉴스 영상이나 글 1개 끝까지 듣기', m: '영상을 끝까지 보거나 전체 듣기를 끝내면 자동 체크', go: 'lis' },
       { k: 'q', t: '예상 질문 1개에 답해 보기', m: '코칭이나 예시 답변을 보면 자동 체크', go: 'qa' }
     ];
     const rows = h('div', { class: 'rows' }, T.map(t => {
@@ -921,8 +1008,8 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
   function renderListen() {
     aiPill($('lis-ai'));
     $('news-go').textContent = AI.has() ? 'AI 해석 만들기' : 'Claude로 해석';
-    renderFeed(); loadFeed();
-    if (!S.library.some(x => x.id === newsCur.id) && newsCur !== SAMPLE) newsCur = SAMPLE;
+    renderFeed(); renderVidFeed(); loadFeed();
+    if ((!S.library.some(x => x.id === newsCur.id) || newsCur.video) && newsCur !== SAMPLE) newsCur = SAMPLE;
     const it = newsCur, res = $('news-res');
     const list = h('div', { class: 'list' }, it.sentences.map((s, i) => card(s, { label: pad(i + 1), src: it.title })));
     const kids = [h('div', { class: 'group' }, h('h2', null, h('b', { style: 'font-weight:600' }, it.title, it.sample ? h('span', { class: 'tag' }, '예시') : null), h('span', null, `${it.sentences.length}문장`)),
@@ -935,6 +1022,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     const rows = [SAMPLE, ...S.library];
     $('news-lib').replaceChildren(h('h2', null, '내 듣기 자료', h('span', null, `${S.library.length}개`)), h('div', { class: 'rows' }, rows.map(r => {
       const dt = r.sample ? '예시' : `${new Date(r.ts).getMonth() + 1}/${new Date(r.ts).getDate()} · ${r.sentences.length}문장`;
+      if (r.video) return h('button', { class: 'lrow', onclick: () => openVideo(r.video) }, h('b', null, r.title, h('span', { class: 'tag' }, '영상')), h('small', null, dt));
       const b = h('button', { class: 'lrow', 'aria-current': String(r.id === it.id), onclick: () => { TTS.stop(); newsCur = r; renderListen(); $('news-res').scrollIntoView({ block: 'start', behavior: reduce() ? 'auto' : 'smooth' }); } }, h('b', null, r.title), h('small', null, dt));
       return b;
     })), S.library.length ? h('button', { class: 'go', style: 'align-self:flex-end', onclick: delNews }, '지금 보는 자료 지우기') : null);
@@ -999,23 +1087,43 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     if (!raw.startsWith('ENGLIST1.')) return null;
     try { const d = JSON.parse(unb64(raw.slice(9))); return d && (Array.isArray(d.items) || Array.isArray(d.saved)) ? d : null; } catch (e) { return null; }
   }
-  function doImport() {
-    const hint = $('imp-hint'), d = importCode($('imp-in').value);
-    if (!d) { hint.className = 'hint bad'; hint.textContent = 'ENGLIST1. 로 시작하는 코드 전체를 붙여넣어 주세요.'; return; }
-    let ni = 0, ns = 0;
+  function importItems(d) {
+    let ni = 0, ns = 0, video = null, text = null;
     for (const it of d.items || []) {
       if (!it || !Array.isArray(it.sentences)) continue;
-      const sentences = it.sentences.filter(s => s && s.en).map(s => ({ en: String(s.en), ko: String(s.ko || ''), keys: Array.isArray(s.keys) ? s.keys.filter(k => k && k.en).slice(0, 2).map(k => ({ en: String(k.en), ko: String(k.ko || '') })) : [] }));
+      const sentences = it.sentences.filter(s => s && s.en).map(s => {
+        const o = { en: String(s.en), ko: String(s.ko || ''), keys: Array.isArray(s.keys) ? s.keys.filter(k => k && k.en).slice(0, 2).map(k => ({ en: String(k.en), ko: String(k.ko || '') })) : [] };
+        if (typeof s.t === 'number' && isFinite(s.t) && s.t >= 0) o.t = s.t;
+        return o;
+      });
       if (!sentences.length) continue;
+      const vocab = (it.vocab || []).filter(v => v && v.en).slice(0, 10).map(v => ({ en: String(v.en), ko: String(v.ko || '') }));
+      const vid = it.video && ytId(String(it.video.id || ''));
+      if (vid) {
+        const old = S.library.find(x => x.video && x.video.id === vid);
+        const v = { id: vid, title: String(it.video.title || (old && old.video.title) || ''), ch: String(it.video.ch || (old && old.video.ch) || '') };
+        const item = { id: 'v' + vid, ts: Date.now(), title: String(v.title || it.title || '유튜브 영상').slice(0, 80), video: v, timed: sentences.filter(s => s.t != null).length >= sentences.length * 0.6, sentences, vocab, anchors: [] };
+        S.library = S.library.filter(x => !(x.video && x.video.id === vid)); S.library.unshift(item); video = item; ni++;
+        continue;
+      }
       const id = 'c' + hid(sentences.map(s => s.en).join(' '));
       if (S.library.some(x => x.id === id)) continue;
-      S.library.unshift({ id, ts: Number(it.ts) || Date.now(), title: String(it.title || '듣기 자료').slice(0, 40), sentences, vocab: (it.vocab || []).filter(v => v && v.en).slice(0, 8).map(v => ({ en: String(v.en), ko: String(v.ko || '') })) });
+      text = { id, ts: Number(it.ts) || Date.now(), title: String(it.title || '듣기 자료').slice(0, 40), sentences, vocab: vocab.slice(0, 8) };
+      S.library.unshift(text);
       ni++;
     }
     for (const s of d.saved || []) { if (!s || !s.en || isSaved(String(s.en))) continue; S.saved.unshift({ id: hid(String(s.en)), en: String(s.en), ko: String(s.ko || ''), src: String(s.src || 'Claude'), ts: Date.now() }); ns++; }
-    save(); $('imp-in').value = ''; hint.className = 'hint'; hint.textContent = '';
-    if (ni) newsCur = S.library[0];
-    renderListen(); toast(`가져왔어요 · 자료 ${ni}개 · 문장 ${ns}개`);
+    save();
+    return { ni, ns, video, text };
+  }
+  function doImport() {
+    const hint = $('imp-hint'), d = importCode($('imp-in').value);
+    if (!d) { hint.className = 'hint bad'; hint.textContent = 'ENGLIST1. 로 시작하는 코드 전체를 붙여넣어 주세요.'; return; }
+    const r = importItems(d);
+    $('imp-in').value = ''; hint.className = 'hint'; hint.textContent = '';
+    if (r.text) newsCur = r.text;
+    renderListen(); toast(`가져왔어요 · 자료 ${r.ni}개 · 문장 ${r.ns}개`);
+    if (r.video) openVideo(r.video.video);
   }
 
   /* ---------- 오늘의 영어 뉴스 (제목·링크만, english/tools/news.py가 1시간마다 모음) ---------- */
@@ -1037,7 +1145,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       if (!d || !Array.isArray(d.items)) throw 0;
       feed = d; feedErr = false; store.set('feed', d);
     } catch (e) { feedErr = true; feedAt = 0; }
-    if (cur === 'lis') renderFeed();
+    if (cur === 'lis') { renderFeed(); renderVidFeed(); }
   }
   function renderFeed() {
     $('feed-seg').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.g === feedGroup)));
@@ -1056,6 +1164,501 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     list.replaceChildren(...kids);
   }
   $('feed-seg').querySelectorAll('button').forEach(b => b.addEventListener('click', () => { feedGroup = b.dataset.g; feedAll = false; store.set('feedGroup', feedGroup); renderFeed(); }));
+
+
+  /* ---------- 영상으로 듣기 ----------
+     YouTube refuses caption requests from servers, so the script comes from the user (a free transcript
+     site, a broadcaster's own script page, or YouTube on a PC). Timestamps in it line sentences up with
+     the video exactly; a script without them is spread over the video by length and can be pinned with
+     '자막 맞추기'. Scripts stay in this phone's storage. */
+  const TOOL_URL = 'https://supadata.ai/youtube-transcript', TOOL2_URL = 'https://vidiq.com/youtube-transcript-generator/';
+  const CH_NAME = { arirang: 'Arirang News', cnn: 'CNN', cnn10: 'CNN 10', bbcnews: 'BBC News', dw: 'DW News', bbcle: 'BBC Learning English' };
+  const CH_SHORT = { arirang: '아리랑', cnn: 'CNN', cnn10: 'CNN 10', bbcnews: 'BBC', dw: 'DW', bbcle: 'BBC 영어학습' };
+  function ytId(s) {
+    s = String(s || '').trim();
+    if (/^[\w-]{11}$/.test(s)) return s;
+    const m = s.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#\s]*&)?v=|embed\/|shorts\/|live\/|v\/))([\w-]{11})/i);
+    return m ? m[1] : '';
+  }
+  const ytUrl = (id, t) => `https://www.youtube.com/watch?v=${id}${t ? '&t=' + Math.floor(t) + 's' : ''}`;
+  const fmtT = sec => { sec = Math.max(0, Math.floor(sec || 0)); const hh = Math.floor(sec / 3600), mm = Math.floor(sec % 3600 / 60), ss = sec % 60; return (hh ? hh + ':' + pad(mm) : mm) + ':' + pad(ss); };
+
+  /* script parsing: "0:03" lines, "[00:03] text", "00:03 - text", SRT/VTT, "1 minute, 5 seconds" (YouTube mobile) */
+  const NOISE_LINE = /^(transcript|show transcript|chapters?|search in video|follow along using the transcript\.?|in this video|description|스크립트|스크립트 표시|자막|webvtt|kind:.*|language:.*|english( \(auto-generated\))?|영어( \(자동 생성됨\))?|copy|copied!?)$/i;
+  function parseStamp(x) {
+    x = String(x).trim();
+    let m = x.match(/^[\[(]?(?:(\d{1,2}):)?(\d{1,2}):(\d{2})(?:[.,]\d{1,3})?[\])]?$/);
+    if (m) return (+(m[1] || 0)) * 3600 + (+m[2]) * 60 + (+m[3]);
+    m = x.match(/^(?:(\d+)\s*hours?,?\s*)?(?:(\d+)\s*minutes?,?\s*)?(\d+)\s*seconds?$/i) || x.match(/^(?:(\d+)\s*시간\s*)?(?:(\d+)\s*분\s*)?(\d+)\s*초$/);
+    if (m) return (+(m[1] || 0)) * 3600 + (+(m[2] || 0)) * 60 + (+m[3]);
+    m = x.match(/^(\d+)\s*(?:minutes?|분)$/i);
+    if (m) return (+m[1]) * 60;
+    return null;
+  }
+  const cleanCap = t => String(t).replace(/\[(?:music|applause|laughter|cheering|inaudible|음악|박수|웃음)[^\]]*\]|\((?:music|applause|laughter|inaudible)[^)]*\)|[♪♫]+|>>+/gi, ' ').replace(/\s+/g, ' ').trim();
+  function parseScript(raw) {
+    const frags = []; let pend = null;
+    for (let line of String(raw || '').replace(/\r/g, '').split('\n')) {
+      line = line.trim();
+      if (!line || NOISE_LINE.test(line) || /^\d+$/.test(line)) continue;
+      let m = line.match(/^((?:\d{1,2}:)?\d{1,2}:\d{2})[.,]\d{1,3}\s*-->/);
+      if (m) { pend = parseStamp(m[1]); continue; }
+      const only = parseStamp(line);
+      if (only != null) { pend = only; continue; }
+      let t = pend, text = line;
+      m = line.match(/^[\[(]?((?:\d{1,2}:)?\d{1,2}:\d{2})(?:[.,]\d{1,3})?[\])]?\s*(?:[-–—:|]\s*)?(.+)$/);
+      if (m && parseStamp(m[1]) != null) { t = parseStamp(m[1]); text = m[2]; }
+      text = cleanCap(text);
+      if (!text) continue;
+      if (t != null) { frags.push({ t, text }); pend = null; }
+      else if (frags.length) frags[frags.length - 1].text += ' ' + text;
+      else frags.push({ t: null, text });
+    }
+    const st = frags.filter(f => f.t != null);
+    let up = 0; for (let i = 1; i < st.length; i++) if (st[i].t >= st[i - 1].t) up++;
+    const timed = st.length >= 3 && st.length >= frags.length * 0.6 && up >= (st.length - 1) * 0.8;
+    if (timed) return { timed: true, sentences: mergeTimed(st) };
+    return { timed: false, sentences: splitSentences(frags.map(f => f.text).join(' ')) };
+  }
+  function mergeTimed(frags) {
+    const out = []; let c = null;
+    frags.forEach((f, k) => {
+      if (!c) c = { t: f.t, en: '' };
+      c.en = (c.en + ' ' + f.text).trim();
+      const next = frags[k + 1], dur = (next ? next.t : f.t + 3) - c.t, words = c.en.split(' ').length;
+      if ((/[.?!]["'”’)]?$/.test(c.en) && words >= 3) || dur >= 10 || words >= 30) { out.push(c); c = null; }
+    });
+    if (c) out.push(c);
+    return out.map(x => ({ en: x.en.charAt(0).toUpperCase() + x.en.slice(1), ko: '', keys: [], t: x.t }));
+  }
+  function splitSentences(text) {
+    // keep "Mr. Kim", "U.S. President", "J. Smith" together while splitting at sentence ends
+    const safe = String(text).replace(/\s+/g, ' ').trim().replace(/\b(Mr|Mrs|Ms|Dr|Prof|Sr|Jr|St|No|vs|etc|e\.g|i\.e|U\.S|U\.K|U\.N|[A-Z])\.(?= )/g, '$1․');
+    const parts = safe.split(/(?<=[.?!]["'”’)]?)\s+(?=["“'(]?[A-Z0-9])/).map(x => x.replace(/․/g, '.'));
+    const out = [];
+    for (const x of parts) { if (out.length && out[out.length - 1].split(' ').length < 3) out[out.length - 1] += ' ' + x; else if (x) out.push(x); }
+    return out.map(en => ({ en, ko: '', keys: [] }));
+  }
+  /* start time of every sentence */
+  function sentenceTimes(it, dur) {
+    const ss = it.sentences, n = ss.length;
+    if (!n) return [];
+    if (it.timed) {
+      const t = ss.map(x => typeof x.t === 'number' && isFinite(x.t) ? x.t : null);
+      const known = t.map((v, i) => v == null ? -1 : i).filter(i => i >= 0);
+      if (!known.length) return ss.map((x, i) => i * 4);
+      for (let i = 0; i < n; i++) {
+        if (t[i] != null) continue;
+        let a = i - 1; while (a >= 0 && t[a] == null) a--;
+        let b = i + 1; while (b < n && t[b] == null) b++;
+        if (a < 0) t[i] = Math.max(0, t[b] - (b - i) * 3);
+        else if (b >= n) t[i] = t[a] + (i - a) * 4;
+        else t[i] = t[a] + (t[b] - t[a]) * (i - a) / (b - a);
+      }
+      // sentences that share one start (a caption line split in two) are spread by length up to the next start
+      for (let i = 0; i < n;) {
+        let j = i; while (j + 1 < n && t[j + 1] <= t[i]) j++;
+        if (j > i) {
+          const end = j + 1 < n ? t[j + 1] : t[i] + 3 * (j - i + 1), L = ss.slice(i, j + 1).map(x => x.en.length + 1), tot = L.reduce((p, q) => p + q, 0);
+          let acc = 0; for (let k = i; k <= j; k++) { t[k] = t[i] + (end - t[i]) * acc / tot; acc += L[k - i]; }
+        }
+        i = j + 1;
+      }
+      return t;
+    }
+    const cum = [0]; for (const x of ss) cum.push(cum[cum.length - 1] + x.en.length + 1);
+    const C = cum[n], A = (it.anchors || []).filter(a => a[0] >= 0 && a[0] < n).sort((x, y) => x[0] - y[0]);
+    let rate = dur ? C / Math.max(10, dur * 0.95) : 15;
+    if (A.length >= 2) { const f = A[0], l = A[A.length - 1]; if (l[1] > f[1] && cum[l[0]] > cum[f[0]]) rate = (cum[l[0]] - cum[f[0]]) / (l[1] - f[1]); }
+    const pts = A.map(a => [cum[a[0]], a[1]]);
+    if (!pts.length) pts.push([0, dur ? Math.min(1.5, dur * 0.01) : 0]);
+    const at = c => {
+      if (c <= pts[0][0]) return pts[0][1] - (pts[0][0] - c) / rate;
+      for (let k = 1; k < pts.length; k++) if (c <= pts[k][0]) { const [c0, s0] = pts[k - 1], [c1, s1] = pts[k]; return c1 === c0 ? s0 : s0 + (s1 - s0) * (c - c0) / (c1 - c0); }
+      const [cl, sl] = pts[pts.length - 1]; return sl + (c - cl) / rate;
+    };
+    return cum.slice(0, n).map(c => { const v = Math.max(0, at(c)); return dur ? Math.min(dur, v) : v; });
+  }
+
+  /* YouTube player */
+  let ytP = null;
+  function loadYT() {
+    if (window.YT && window.YT.Player) return Promise.resolve();
+    if (ytP) return ytP;
+    ytP = new Promise((res, rej) => {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { try { prev && prev(); } catch (e) {} res(); };
+      const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; sc.async = true;
+      sc.onerror = () => { ytP = null; rej(new Error('load')); };
+      document.head.appendChild(sc);
+      setTimeout(() => { if (!(window.YT && window.YT.Player)) { ytP = null; rej(new Error('timeout')); } }, 15000);
+    });
+    return ytP;
+  }
+  const Vid = { it: null, player: null, ready: false, times: [], dur: 0, curI: -1, loopI: -1, step: false, stepStop: -1, sync: false, timer: 0, userAt: 0, rate: 0, ended: false, busy: null, trMsg: '', replace: false, cc: false, st: -1 };
+  const RATES = [1, 0.75, 0.5];
+  const PLAY_SVG = '<path d="M4.5 2.8 13 8l-8.5 5.2z" fill="currentColor"/>', PAUSE_SVG = '<rect x="3.5" y="3" width="3" height="10" rx="1" fill="currentColor"/><rect x="9.5" y="3" width="3" height="10" rx="1" fill="currentColor"/>';
+
+  function openVideo(meta) {
+    if (!meta || !ytId(meta.id)) return;
+    TTS.stop(); Rec.stop();
+    const id = ytId(meta.id);
+    let it = S.library.find(x => x.video && x.video.id === id);
+    if (!it) it = { id: 'v' + id, ts: Date.now(), title: meta.title || '유튜브 영상', video: { id, title: meta.title || '', ch: meta.ch || '' }, timed: false, sentences: [], vocab: [], anchors: [] };
+    Object.assign(Vid, { it, curI: -1, loopI: -1, step: false, stepStop: -1, sync: false, ended: false, replace: false, trMsg: '', times: [], dur: 0, rate: 0, st: -1 });
+    $('vid-title').textContent = it.title; $('vid-ch').textContent = it.video.ch || '';
+    $('vid-in').value = ''; $('vid-hint').textContent = '';
+    $('vc-step').setAttribute('aria-pressed', 'false'); $('vc-rate').querySelector('b').textContent = '1×';
+    showSheet('sh-vid');
+    renderVid(); mountPlayer(meta.start || 0);
+  }
+  function vidTeardown() {
+    clearInterval(Vid.timer); Vid.timer = 0;
+    if (Vid.busy) { try { Vid.busy.abort(); } catch (e) {} }
+    try { Vid.player && Vid.player.destroy(); } catch (e) {}
+    Vid.player = null; Vid.ready = false; Vid.it = null;
+    $('vid-player').replaceChildren();
+    if (cur === 'lis') renderListen();
+  }
+  function playerMsg(text, withLink) {
+    const it = Vid.it; if (!it) return;
+    const m = $('vid-msg'); m.hidden = false;
+    m.replaceChildren(text, withLink ? ' ' : '', withLink ? h('a', { href: ytUrl(it.video.id), target: '_blank', rel: 'noopener' }, '유튜브에서 열기') : '');
+  }
+  async function mountPlayer(start) {
+    clearInterval(Vid.timer); Vid.timer = 0;
+    try { Vid.player && Vid.player.destroy(); } catch (e) {}
+    Vid.player = null; Vid.ready = false;
+    const box = $('vid-player');
+    box.replaceChildren(h('div', { class: 'pmsg' }, '영상 불러오는 중…'));
+    $('vid-msg').hidden = true;
+    try { await loadYT(); } catch (e) {
+      box.replaceChildren(h('div', { class: 'pmsg' }, navigator.onLine ? '영상 플레이어를 불러오지 못했어요.' : '인터넷이 연결되면 영상이 나와요.'));
+      playerMsg('스크립트는 지금도 볼 수 있어요. 문장 시간을 누르면 읽어 줘요.', navigator.onLine);
+      return;
+    }
+    const it = Vid.it; if (!it) return;
+    box.replaceChildren(h('div', { id: 'yt-el' }));
+    const pv = { playsinline: 1, rel: 0, modestbranding: 1, hl: 'ko', cc_lang_pref: 'en', cc_load_policy: it.sentences.length ? 0 : 1, origin: location.origin };
+    if (start > 0) pv.start = Math.floor(start);
+    Vid.cc = !it.sentences.length;
+    try {
+      Vid.player = new YT.Player('yt-el', { videoId: it.video.id, width: '100%', height: '100%', playerVars: pv,
+        events: { onReady: onPReady, onStateChange: onPState, onError: onPError } });
+    } catch (e) { playerMsg('영상을 띄우지 못했어요.', true); }
+  }
+  function onPReady() {
+    if (!Vid.it) return;
+    Vid.ready = true;
+    try {
+      const d = Vid.player.getVideoData ? Vid.player.getVideoData() : null;
+      if (d && d.title && !Vid.it.video.title) {
+        Vid.it.video.title = d.title; Vid.it.video.ch = Vid.it.video.ch || d.author || '';
+        if (!Vid.it.title || Vid.it.title === '유튜브 영상') Vid.it.title = d.title;
+        $('vid-title').textContent = Vid.it.title; $('vid-ch').textContent = Vid.it.video.ch;
+        if (S.library.includes(Vid.it)) save();
+      }
+    } catch (e) {}
+    recompute();
+    Vid.timer = setInterval(tick, 150);
+  }
+  function onPState(e) {
+    if (e.data === 0 && Vid.it && !Vid.ended) { Vid.ended = true; markTask('n'); }
+    if (e.data === 1 && Vid.step) Vid.stepStop = -1;
+  }
+  function onPError(e) {
+    const c = e && e.data;
+    const msg = c === 101 || c === 150 || c === 153 ? '이 영상은 채널 설정 때문에 다른 앱 안에서는 재생이 안 돼요. 스크립트 공부는 여기서 하고 영상은 유튜브에서 보세요.'
+      : c === 100 ? '영상을 찾을 수 없어요. 삭제됐거나 비공개일 수 있어요.'
+      : c === 2 ? '영상 주소가 올바르지 않아요.' : '영상을 재생하지 못했어요.';
+    Vid.ready = false; clearInterval(Vid.timer); Vid.timer = 0;
+    playerMsg(msg, c !== 2 && c !== 100);
+  }
+  function recompute() {
+    const it = Vid.it; if (!it) return;
+    let dur = 0; try { dur = Vid.ready ? (Vid.player.getDuration() || 0) : 0; } catch (e) {}
+    Vid.dur = dur; Vid.times = sentenceTimes(it, dur);
+    document.querySelectorAll('#vid-list .vt').forEach((b, i) => { b.textContent = fmtT(Vid.times[i]); });
+  }
+  const endOf = i => i + 1 < Vid.times.length ? Vid.times[i + 1] : (Vid.dur || (Vid.times[i] || 0) + 6);
+  function idxAt(now) { let i = -1; for (let k = 0; k < Vid.times.length; k++) { if (Vid.times[k] <= now + 0.15) i = k; else break; } return i; }
+  function tick() {
+    const p = Vid.player; if (!p || !Vid.ready || !Vid.it || typeof p.getCurrentTime !== 'function') return;
+    let now = 0, st = -1; try { now = p.getCurrentTime() || 0; st = p.getPlayerState(); } catch (e) { return; }
+    if (st !== Vid.st) { Vid.st = st; const b = $('vc-play'); b.querySelector('svg').innerHTML = st === 1 ? PAUSE_SVG : PLAY_SVG; b.querySelector('span').textContent = st === 1 ? '멈춤' : '재생'; b.setAttribute('aria-label', st === 1 ? '멈춤' : '재생'); }
+    if (!Vid.it.sentences.length) return;
+    if (!Vid.dur) { let d = 0; try { d = p.getDuration() || 0; } catch (e) {} if (d) recompute(); }
+    if (Vid.loopI >= 0 && st === 1) {
+      if (now >= endOf(Vid.loopI) - 0.05 || now < Vid.times[Vid.loopI] - 1) { p.seekTo(Vid.times[Vid.loopI], true); return; }
+    }
+    if (Vid.step && st === 1 && Vid.loopI < 0) {
+      const ss = Vid.stepStop;   // the sentence to stop after; reset when the viewer jumps with YouTube's own seek bar
+      if (ss < 0 || now < Vid.times[ss] - 0.5 || now > endOf(ss) + 0.6) Vid.stepStop = Math.max(0, idxAt(now + 0.2));
+      else if (now >= endOf(ss) - 0.08) { p.pauseVideo(); Vid.stepStop = -1; toast('따라 말해 보세요 · 재생을 누르면 다음 문장'); }
+    }
+    const i = idxAt(now);
+    if (i !== Vid.curI) setCur(i, true);
+    if (!Vid.ended && i === Vid.it.sentences.length - 1 && now >= endOf(i) - 0.6) { Vid.ended = true; markTask('n'); }
+  }
+  function setCur(i, scroll) {
+    Vid.curI = i;
+    const list = $('vid-list'); if (!list) return;
+    list.querySelectorAll('.vc.on').forEach(c => c.classList.remove('on'));
+    const c = list.children[i]; if (!c) return;
+    c.classList.add('on');
+    if (scroll && Date.now() - Vid.userAt > 3500 && !$('sh-vid').hidden) c.scrollIntoView({ block: 'start', behavior: reduce() ? 'auto' : 'smooth' });
+  }
+  function seekTo(i, play = true) {
+    const it = Vid.it; if (!it || !it.sentences[i]) return;
+    if (!Vid.ready || !Vid.player) { TTS.one(it.sentences[i].en); setCur(i, false); return; }
+    if (!Vid.times.length) recompute();
+    Vid.stepStop = -1;
+    try { Vid.player.seekTo(Math.max(0, Vid.times[i] - 0.1), true); if (play) Vid.player.playVideo(); } catch (e) {}
+    setCur(i, false);
+  }
+  function anchorHere(i) {
+    if (!Vid.ready || !Vid.player) { toast('영상이 나와야 맞출 수 있어요'); return; }
+    let now = 0; try { now = Vid.player.getCurrentTime() || 0; } catch (e) {}
+    const it = Vid.it;
+    it.anchors = (it.anchors || []).filter(a => a[0] !== i && (a[0] < i ? a[1] < now : a[1] > now));
+    it.anchors.push([i, Math.round(now * 10) / 10]);
+    if (S.library.includes(it)) save();
+    recompute(); setCur(idxAt(now), false);
+    toast(`${i + 1}번째 문장을 ${fmtT(now)}에 맞췄어요`);
+  }
+  function tapSentence(i) { if (Vid.sync && !Vid.it.timed) anchorHere(i); else seekTo(i); }
+
+  function vcard(s, i) {
+    const c = h('article', { class: 'sc vc' + (i === Vid.loopI ? ' loop' : '') });
+    const en = h('p', { class: 'en', lang: 'en' }, s.en);
+    if (S.settings.hideEn) maskable(en, '영어 문장 보기');
+    c.append(h('div', { class: 'vh' },
+      h('button', { class: 'vt', 'aria-label': '이 문장부터 재생', onclick: ev => { ev.stopPropagation(); seekTo(i); } }, fmtT(Vid.times[i])),
+      h('span', { class: 'no' }, String(i + 1))), en);
+    if (s.ko) { const ko = h('p', { class: 'ko' }, s.ko); if (S.settings.hideKo) maskable(ko, '해석 보기'); c.append(ko); }
+    if (Array.isArray(s.keys) && s.keys.length) c.append(h('ul', { class: 'keys' }, s.keys.slice(0, 3).map(k => h('li', null, h('b', { lang: 'en' }, String(k.en || '')), ' ' + String(k.ko || '')))));
+    const on = isSaved(s.en);
+    const st = h('button', { class: 'ab', 'aria-pressed': String(on), 'aria-label': '내 문장에 저장' }, icon(on ? 'starOn' : 'star'));
+    st.addEventListener('click', ev => { ev.stopPropagation(); const v = toggleSave(s.en, s.ko, Vid.it.title); st.setAttribute('aria-pressed', String(v)); st.replaceChildren(icon(v ? 'starOn' : 'star')); });
+    c.append(h('div', { class: 'acts' },
+      h('button', { class: 'ab', 'aria-pressed': String(i === Vid.loopI), onclick: ev => { ev.stopPropagation(); Vid.loopI = Vid.loopI === i ? -1 : i; renderVidList(); if (Vid.loopI >= 0) seekTo(i); } }, i === Vid.loopI ? '반복 끄기' : '반복'),
+      h('button', { class: 'ab', onclick: ev => { ev.stopPropagation(); try { Vid.player && Vid.player.pauseVideo(); } catch (e) {} openSay(s.en, null); } }, icon('mic'), '말해보기'),
+      st));
+    c.addEventListener('click', ev => { if (ev.target.closest('button,a,.masked')) return; tapSentence(i); });
+    return c;
+  }
+  function renderVidList() {
+    const old = $('vid-list'); if (!old || !Vid.it) return;
+    old.replaceChildren(...Vid.it.sentences.map((s, i) => vcard(s, i)));
+    setCur(Vid.curI, false);
+  }
+  function renderVid() {
+    const it = Vid.it, body = $('vid-body'); if (!it) return;
+    const n = it.sentences.length;
+    $('vid-get').hidden = n > 0 && !Vid.replace;
+    ['vc-prev', 'vc-next', 'vc-step'].forEach(id => { $(id).disabled = !n; });
+    if (!n) { body.replaceChildren(); updVtop(); return; }
+    if (!Vid.times.length) recompute();
+    const kids = [];
+    const needKo = it.sentences.some(x => !x.ko);
+    if (needKo || Vid.busy) {
+      const bar = h('div', { class: 'tbar' }, h('b', null, Vid.busy ? '해석 만드는 중' : '해석 붙이기'));
+      if (Vid.busy) bar.append(h('button', { class: 'btn', onclick: () => Vid.busy && Vid.busy.abort() }, '멈추기'));
+      else if (AI.has()) bar.append(h('button', { class: 'btn primary', onclick: translateVideo }, it.sentences.some(x => x.ko) ? 'AI 해석 이어서 붙이기' : 'AI 해석 붙이기'));
+      else bar.append(
+        h('p', { class: 'note' }, 'Claude 앱에서 Pro 요금제로 해석해요. 해석한 뒤 Claude에서 홈 화면 앱으로 보내기를 누르고, 여기서 코드를 붙여넣으면 끝.'),
+        h('div', { class: 'btns' }, h('button', { class: 'btn primary', onclick: claudeVideo }, 'Claude로 해석'), h('button', { class: 'btn', onclick: pasteVideoCode }, '코드 붙여넣기')));
+      bar.append(h('p', { class: 'hint', id: 'vid-tr-hint' }, Vid.trMsg || ''));
+      kids.push(bar);
+    }
+    const tg = (k, l) => h('button', { class: 'btn sm', 'aria-pressed': String(!!S.settings[k]), onclick: () => { S.settings[k] = !S.settings[k]; save(); renderVidList(); renderVid(); } }, l);
+    kids.push(h('div', { class: 'tools' }, tg('hideEn', '영어 가리기'), tg('hideKo', '해석 가리기'),
+      h('button', { class: 'btn sm', 'aria-pressed': String(Vid.cc), onclick: toggleCC }, '영상 자막'),
+      !it.timed ? h('button', { class: 'btn sm', 'aria-pressed': String(Vid.sync), onclick: () => { Vid.sync = !Vid.sync; renderVid(); if (Vid.sync) toast('지금 들리는 문장을 누르세요'); } }, '자막 맞추기') : null,
+      h('button', { class: 'btn sm', onclick: () => { Vid.replace = !Vid.replace; renderVid(); if (Vid.replace) $('vid-get').scrollIntoView({ block: 'start', behavior: reduce() ? 'auto' : 'smooth' }); } }, Vid.replace ? '바꾸기 취소' : '스크립트 바꾸기')));
+    kids.push(h('p', { class: 'vmeta' }, `${n}문장 · ` + (it.timed ? '영상 시간에 맞춤 · 문장을 누르면 그 위치로 가요'
+      : Vid.sync ? '지금 들리는 문장을 누르면 그 시간에 맞춰요. 처음·중간·끝 두세 군데면 충분해요.' : '시간 표시가 없는 원고라 위치를 어림했어요. 어긋나면 자막 맞추기를 켜세요.')));
+    const list = h('div', { class: 'list' + (Vid.sync && !it.timed ? ' syncing' : ''), id: 'vid-list' }, it.sentences.map((x, i) => vcard(x, i)));
+    kids.push(list);
+    if (it.vocab && it.vocab.length) kids.push(h('div', { class: 'group' }, h('h2', null, '핵심 단어'), h('div', { class: 'rows' }, it.vocab.map(v => h('div', { class: 'vrow' },
+      h('div', null, h('div', { class: 'w', lang: 'en' }, String(v.en || '')), h('div', { class: 'k' }, String(v.ko || ''))),
+      h('button', { class: 'ab', 'aria-label': '발음 듣기', onclick: () => TTS.one(String(v.en || '')) }, icon('play')))))));
+    kids.push(h('button', { class: 'go', style: 'align-self:flex-end', onclick: delVideo }, '이 영상 자료 지우기'));
+    body.replaceChildren(...kids);
+    setCur(Vid.curI, false);
+    updVtop();
+  }
+  function updVtop() { const t = $('vid-top'); if (t) $('sh-vid').style.setProperty('--vtop-h', (t.offsetHeight + 10) + 'px'); }
+  function toggleCC() {
+    const p = Vid.player; if (!p || !Vid.ready) { toast('영상이 나와야 켤 수 있어요'); return; }
+    try {
+      if (Vid.cc) p.unloadModule('captions');
+      else { p.loadModule('captions'); try { p.setOption('captions', 'track', { languageCode: 'en' }); } catch (e) {} }
+      Vid.cc = !Vid.cc; renderVid();
+    } catch (e) { toast('이 영상은 자막을 바꿀 수 없어요'); }
+  }
+  function delVideo() {
+    const it = Vid.it; if (!it) return;
+    if (!confirm('이 영상의 스크립트와 해석을 지울까요?')) return;
+    S.library = S.library.filter(x => x !== it); save();
+    it.sentences = []; it.vocab = []; it.anchors = []; it.timed = false; Vid.times = []; Vid.loopI = -1; Vid.curI = -1;
+    renderVid(); toast('지웠어요');
+  }
+  function upsertVideo(it) { S.library = S.library.filter(x => x !== it && !(x.video && x.video.id === it.video.id)); S.library.unshift(it); save(); }
+  function makeVideoScript() {
+    const hint = $('vid-hint'), p = parseScript($('vid-in').value);
+    if (!p.sentences.length) { hint.className = 'hint bad'; hint.textContent = '스크립트를 먼저 붙여넣어 주세요.'; return; }
+    const it = Vid.it;
+    Object.assign(it, { sentences: p.sentences, timed: p.timed, anchors: [], vocab: [], ts: Date.now() });
+    upsertVideo(it);
+    $('vid-in').value = ''; hint.textContent = ''; Vid.replace = false; Vid.loopI = -1; Vid.curI = -1; Vid.trMsg = '';
+    recompute(); renderVid();
+    if (Vid.cc && Vid.ready) { try { Vid.player.unloadModule('captions'); Vid.cc = false; renderVid(); } catch (e) {} }
+    toast(p.timed ? `영어 ${p.sentences.length}문장 · 영상 시간에 맞췄어요` : `영어 ${p.sentences.length}문장 · 위치를 어림해서 맞췄어요`);
+    if (AI.has()) translateVideo();
+  }
+  const Q3 = '"'.repeat(3);
+  function videoPrompt(lines, vt) {
+    return ['You are preparing English listening material from a news video for a Korean engineer (intermediate level) who wants to understand news and speak at international conferences.',
+      'Video title: ' + (vt || 'unknown'), '',
+      'Below are caption lines from the video, each written as "index| text". Captions may lack punctuation, may split a sentence across lines, and may contain recognition errors.',
+      Q3, lines.map(x => x.i + '| ' + x.en).join('\n'), Q3, '', 'Instructions:',
+      '- Rebuild the text into natural sentences a person would say in one breath; split anything longer than about 30 words at a clause boundary. Keep the speaker\'s wording; only fix punctuation, casing and obvious caption errors, and drop [Music], >> and speaker labels.',
+      '- "i": the index of the line where that sentence starts. Keep the original order. Every line\'s words belong to exactly one sentence.',
+      '- "ko": a natural Korean translation (not word-for-word).',
+      '- "keys": 0 to 2 useful expressions from that sentence (phrasal verbs, idioms, collocations) with short Korean meanings. Skip obvious words.',
+      '- vocab: up to 6 words or phrases from this part worth memorizing, with Korean meanings.',
+      '- title: a short Korean title for the topic, under 20 characters.', '',
+      'Reply with only JSON in this shape: {"title":"...","sentences":[{"i":0,"en":"...","ko":"...","keys":[{"en":"...","ko":"..."}]}],"vocab":[{"en":"...","ko":"..."}]}'].join('\n');
+  }
+  async function translateVideo() {
+    const it = Vid.it; if (!it || !it.sentences.length || Vid.busy) return;
+    if (!AI.has()) return claudeVideo();
+    let from = it.sentences.findIndex(x => !x.ko); if (from < 0) return;
+    const ctl = new AbortController(); Vid.busy = ctl;
+    const setMsg = m => { Vid.trMsg = m; const e = $('vid-tr-hint'); if (e) e.textContent = m; };
+    renderVid();
+    const times = it.timed ? sentenceTimes(it, Vid.dur) : null;
+    const orig = it.sentences.slice(), head = orig.slice(0, from), outAll = [];
+    const src = orig.slice(from).map((x, k) => ({ i: from + k, en: x.en }));
+    const chunks = []; let c = [], len = 0;
+    for (const x of src) { if (len + x.en.length > 3500 && c.length) { chunks.push(c); c = []; len = 0; } c.push(x); len += x.en.length + 6; }
+    if (c.length) chunks.push(c);
+    const vocab = it.vocab ? it.vocab.slice() : [];
+    try {
+      for (let k = 0; k < chunks.length; k++) {
+        if (Vid.it !== it) return;
+        setMsg(`해석 만드는 중… ${k + 1}/${chunks.length} (부분마다 20~60초)`);
+        const ch = chunks[k], lo = ch[0].i, hi = ch[ch.length - 1].i;
+        const d = await AI.json(videoPrompt(ch, it.video.title || it.title), { maxTokens: 14000, signal: ctl.signal });
+        let last = lo;
+        const out = (d && Array.isArray(d.sentences) ? d.sentences : []).filter(x => x && typeof x.en === 'string' && x.en.trim()).map(x => {
+          let i = Math.round(Number(x.i)); if (!isFinite(i) || i < last || i > hi) i = last; last = i;
+          const o = { en: x.en.trim(), ko: String(x.ko || ''), keys: Array.isArray(x.keys) ? x.keys.filter(q => q && q.en).slice(0, 2).map(q => ({ en: String(q.en), ko: String(q.ko || '') })) : [] };
+          if (times) o.t = times[i];
+          return o;
+        });
+        if (!out.length) throw { code: 'invalid_json' };
+        outAll.push(...out);
+        it.sentences = [...head, ...outAll, ...orig.slice(hi + 1)];
+        if (!it.timed) it.anchors = (it.anchors || []).filter(a => a[0] < from);
+        if (k === 0 && d.title && !it.video.title) it.title = String(d.title).slice(0, 80);
+        for (const v of (Array.isArray(d.vocab) ? d.vocab : [])) if (v && v.en && !vocab.some(q => q.en === v.en)) vocab.push({ en: String(v.en), ko: String(v.ko || '') });
+        it.vocab = vocab.slice(0, 12);
+        upsertVideo(it);
+        if (Vid.it === it) { Vid.times = []; recompute(); renderVid(); }
+      }
+      setMsg(''); toast('해석을 붙였어요');
+    } catch (e) { setMsg(aiErr(e)); }
+    finally { if (Vid.busy === ctl) Vid.busy = null; if (Vid.it === it) renderVid(); }
+  }
+  async function claudeVideo() {
+    const it = Vid.it; if (!it || !it.sentences.length) return;
+    const times = it.timed ? sentenceTimes(it, Vid.dur) : null;
+    const vt = it.video.title || (it.title !== '유튜브 영상' ? it.title : '');
+    const txt = `VIDEO: ${ytUrl(it.video.id)} | ${vt.replace(/[\n|]/g, ' ')}${it.video.ch ? ' | ' + it.video.ch.replace(/[\n|]/g, ' ') : ''}\n` +
+      it.sentences.map((x, i) => (times ? `[${fmtT(times[i])}] ` : '') + x.en).join('\n');
+    const ok = await copyText(txt);
+    const w = window.open(ARTIFACT + '#listen', '_blank', 'noopener');
+    Vid.trMsg = (ok ? '스크립트를 복사했어요. ' : '복사가 안 됐어요. 스크립트 바꾸기 칸의 글을 직접 복사해 주세요. ') +
+      'Claude 트레이너의 듣기 칸에 붙여넣고 AI 해석 만들기 → 홈 화면 앱으로 보내기 → 여기서 코드 붙여넣기.' + (w ? '' : ' (창이 안 열리면 Claude 앱에서 영어 입 트레이너를 여세요)');
+    renderVid();
+  }
+  async function pasteVideoCode() {
+    let raw = '';
+    try { raw = await navigator.clipboard.readText(); } catch (e) { toast('듣기 탭의 "Claude에서 만든 자료 가져오기"에 붙여넣어 주세요'); return; }
+    const d = importCode(raw);
+    if (!d) { Vid.trMsg = '복사한 내용이 코드가 아니에요. Claude에서 "홈 화면 앱으로 보내기"를 먼저 눌러 주세요.'; renderVid(); return; }
+    const r = importItems(d);
+    if (r.video && Vid.it && r.video.video.id === Vid.it.video.id) {
+      Vid.it = r.video; Vid.times = []; Vid.trMsg = ''; Vid.loopI = -1; recompute(); renderVid(); toast('해석을 가져왔어요');
+    } else toast(`가져왔어요 · 자료 ${r.ni}개 · 문장 ${r.ns}개`);
+  }
+
+  /* 오늘의 뉴스 영상 (english/tools/news.py collects ids + titles from the channels' upload feeds) */
+  let vidCh = store.get('vidCh', 'all'), vidAll = false;
+  function renderVidFeed() {
+    const box = $('vfeed-list'), chips = $('vfeed-chips');
+    const vids = feed && Array.isArray(feed.videos) ? feed.videos : [];
+    const chans = feed && Array.isArray(feed.channels) ? feed.channels.filter(c => c.n > 0) : [];
+    if (vidCh !== 'all' && !chans.some(c => c.id === vidCh)) vidCh = 'all';
+    $('vfeed-upd').textContent = feed && vids.length ? ago(feed.made) + ' 업데이트' : '';
+    chips.replaceChildren(...[{ id: 'all' }, ...chans].map(c => h('button', { class: 'chip', 'aria-pressed': String(c.id === vidCh), onclick: () => { vidCh = c.id; vidAll = false; store.set('vidCh', vidCh); renderVidFeed(); } }, c.id === 'all' ? '전체' : (CH_SHORT[c.id] || c.name))));
+    chips.hidden = !chans.length;
+    const msg = t => h('p', { class: 'empty', style: 'border:0;border-radius:0' }, t);
+    if (!vids.length) { box.replaceChildren(msg(feed ? '영상 목록이 아직 없어요. 위에 유튜브 링크를 넣어 보세요.' : feedErr ? '목록을 불러오지 못했어요. 위에 유튜브 링크를 넣어 보세요.' : '불러오는 중…')); return; }
+    const list = vids.filter(v => vidCh === 'all' || v.ch === vidCh);
+    const has = new Set(S.library.filter(x => x.video).map(x => x.video.id));
+    const rows = (vidAll ? list : list.slice(0, 5)).map(v => h('button', { class: 'vrow2', onclick: () => openVideo({ id: v.v, title: v.t, ch: CH_NAME[v.ch] || v.ch }) },
+      h('img', { class: 'th', src: `https://i.ytimg.com/vi/${v.v}/mqdefault.jpg`, alt: '', loading: 'lazy' }),
+      h('span', { class: 'vt2' }, h('b', { lang: 'en' }, v.t), h('small', null, (CH_NAME[v.ch] || v.ch) + ' · ' + ago(v.ts), has.has(v.v) ? h('span', { class: 'has' }, ' · 스크립트 있음') : null))));
+    if (list.length > 5) rows.push(h('button', { class: 'go frow-more', onclick: () => { vidAll = !vidAll; renderVidFeed(); } }, vidAll ? '접기' : `${list.length - 5}개 더 보기`));
+    box.replaceChildren(...rows);
+  }
+  function openFromInput(raw) {
+    const hint = $('vid-url-hint'), v = String(raw == null ? $('vid-url').value : raw), id = ytId(v);
+    if (!id) { hint.className = 'hint bad'; hint.textContent = '유튜브 링크를 찾지 못했어요. youtu.be/… 나 youtube.com/watch?v=… 모양의 주소를 넣어 주세요.'; return; }
+    hint.textContent = ''; $('vid-url').value = '';
+    const t = (v.match(/[?&]t=(\d+)/) || [])[1];
+    openVideo({ id, start: +t || 0 });
+  }
+  $('vid-url-go').addEventListener('click', () => openFromInput());
+  $('vid-url').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); openFromInput(); } });
+  $('vid-url-paste').addEventListener('click', async () => {
+    try { const t = await navigator.clipboard.readText(); if (ytId(t)) openFromInput(t); else { $('vid-url').value = t.trim(); $('vid-url-hint').className = 'hint bad'; $('vid-url-hint').textContent = '복사한 내용에 유튜브 링크가 없어요.'; } }
+    catch (e) { $('vid-url').focus(); toast('칸을 길게 눌러 붙여넣어 주세요'); }
+  });
+  $('vid-tool').addEventListener('click', async () => {
+    const it = Vid.it; if (!it) return;
+    const ok = await copyText(ytUrl(it.video.id));
+    window.open(TOOL_URL, '_blank', 'noopener');
+    toast(ok ? '영상 링크를 복사했어요. 사이트 입력칸에 붙여넣으세요' : '영상 링크: ' + ytUrl(it.video.id));
+  });
+  $('vid-tool2').addEventListener('click', async () => { const it = Vid.it; if (!it) return; await copyText(ytUrl(it.video.id)); window.open(TOOL2_URL, '_blank', 'noopener'); toast('영상 링크를 복사했어요'); });
+  $('vid-paste').addEventListener('click', async () => { try { $('vid-in').value = await navigator.clipboard.readText(); makeVideoScript(); } catch (e) { $('vid-in').focus(); toast('칸을 길게 눌러 붙여넣어 주세요'); } });
+  $('vid-make').addEventListener('click', makeVideoScript);
+  $('vc-play').addEventListener('click', () => {
+    const p = Vid.player; if (!p || !Vid.ready) { const i = Math.max(0, Vid.curI); if (Vid.it && Vid.it.sentences[i]) TTS.one(Vid.it.sentences[i].en); return; }
+    try { if (p.getPlayerState() === 1) p.pauseVideo(); else { Vid.stepStop = -1; p.playVideo(); } } catch (e) {}
+  });
+  $('vc-prev').addEventListener('click', () => {
+    if (!Vid.it || !Vid.it.sentences.length) return;
+    let now = 0; try { now = Vid.player.getCurrentTime() || 0; } catch (e) {}
+    const i = Vid.curI < 0 ? 0 : (Vid.ready && now - Vid.times[Vid.curI] > 1.5 ? Vid.curI : Math.max(0, Vid.curI - 1));
+    seekTo(i);
+  });
+  $('vc-next').addEventListener('click', () => { if (Vid.it && Vid.it.sentences.length) seekTo(Math.min(Vid.it.sentences.length - 1, Vid.curI + 1)); });
+  $('vc-rate').addEventListener('click', () => {
+    Vid.rate = (Vid.rate + 1) % RATES.length; const r = RATES[Vid.rate];
+    try { Vid.player && Vid.player.setPlaybackRate(r); } catch (e) {}
+    $('vc-rate').querySelector('b').textContent = r + '×';
+  });
+  $('vc-step').addEventListener('click', () => {
+    Vid.step = !Vid.step; Vid.stepStop = -1; $('vc-step').setAttribute('aria-pressed', String(Vid.step));
+    toast(Vid.step ? '한 문장 끝날 때마다 멈춰요. 따라 말하고 재생을 누르세요' : '한 문장씩 멈추기를 껐어요');
+  });
+  ['touchstart', 'wheel', 'keydown'].forEach(ev => $('sh-vid').addEventListener(ev, () => { Vid.userAt = Date.now(); }, { passive: true }));
+  window.addEventListener('resize', updVtop);
 
   const QA = { cur: null, level: 'mid', asked: [], bankIdx: -1, fb: null };
   const LV = { easy: 'Easy: a friendly clarification question with simple words.', mid: 'Medium: a specific technical question about performance, reliability, or operation.', hard: 'Hard: a challenging or critical question (comparison with other labs, a weakness, or exact numbers), a bit long, the way a native speaker asks quickly.' };
