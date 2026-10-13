@@ -224,6 +224,9 @@ details.card:not([open]){gap:0}
 .vc{cursor:pointer;scroll-margin-top:var(--vtop-h,330px)}
 .lns{display:flex;flex-direction:column;gap:12px}
 .ln{display:flex;flex-direction:column;gap:3px}
+.wl{display:flex;flex-wrap:wrap;gap:5px;margin:3px 0 0;padding:0 0 0 10px;list-style:none}
+.wl li{font-size:12.5px;line-height:1.4;padding:3px 8px;border-radius:6px;background:var(--surface);border:1px solid var(--grid);color:var(--ink-soft)}
+.wl li b{font:400 14px var(--font-en);color:var(--ink);margin-right:2px}
 .ln .ko{padding-left:10px;border-left:2px solid color-mix(in srgb,var(--accent) 45%,transparent)}
 .vh{display:flex;align-items:center;gap:8px}
 .vt{border:1px solid var(--grid);background:var(--surface);border-radius:6px;padding:2px 8px;font:500 12px var(--font-num);color:var(--accent)}
@@ -1152,7 +1155,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       const sentences = it.sentences.filter(s => s && s.en).map(s => {
         const o = { en: String(s.en), ko: String(s.ko || ''), keys: Array.isArray(s.keys) ? s.keys.filter(k => k && k.en).slice(0, 2).map(k => ({ en: String(k.en), ko: String(k.ko || '') })) : [] };
         if (typeof s.t === 'number' && isFinite(s.t) && s.t >= 0) o.t = s.t;
-        if (Array.isArray(s.lines)) { const ls = s.lines.filter(l => l && l.en).slice(0, 40).map(l => ({ en: String(l.en), ko: String(l.ko || '') })); if (ls.length) o.lines = ls; }
+        if (Array.isArray(s.lines)) { const ls = s.lines.filter(l => l && l.en).slice(0, 40).map(l => { const q = { en: String(l.en), ko: String(l.ko || '') }, w = wordsOf(l.w); if (w.length) q.w = w; return q; }); if (ls.length) o.lines = ls; }
         return o;
       });
       if (!sentences.length) continue;
@@ -1566,6 +1569,11 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       if (S.settings.hideEn) maskable(pe, '영어 문장 보기');
       g.append(pe);
       if (l.ko) { const pk = h('p', { class: 'ko' }, l.ko); if (S.settings.hideKo) maskable(pk, '해석 보기'); g.append(pk); }
+      if (Array.isArray(l.w) && l.w.length) {
+        const wl = h('ul', { class: 'wl' }, l.w.map(q => h('li', null, h('b', { lang: 'en' }, q.en), ' ' + q.ko)));
+        if (S.settings.hideKo) maskable(wl, '단어 뜻 보기');
+        g.append(wl);
+      }
       box.append(g);
     }
     c.append(box);
@@ -1597,10 +1605,14 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     if (!Vid.times.length) recompute();
     const kids = [];
     const needKo = it.sentences.some(x => !x.ko);
+    if (!needKo && !Vid.busy && needWords(it)) kids.push(h('div', { class: 'tbar' },
+      h('b', null, hasWords(it) ? '단어 뜻 이어서 붙이기' : '문장마다 단어 뜻 붙이기'),
+      h('p', { class: 'note' }, '어려운 단어·표현(fiscal watchdog 정도부터) 3~5개를 문장 아래에 달아요. 해석을 한 번 더 받아요' + (AI.has() ? ' (Haiku면 1~2원).' : ' (Claude 앱, 추가 비용 없음).')),
+      h('button', { class: 'btn primary', onclick: () => AI.has() ? translateVideo(true) : claudeVideo(true) }, '단어 뜻 붙이기')));
     if (needKo || Vid.busy) {
       const bar = h('div', { class: 'tbar' }, h('b', null, Vid.busy ? '해석 만드는 중' : '해석 붙이기'));
       if (Vid.busy) bar.append(h('button', { class: 'btn', onclick: () => Vid.busy && Vid.busy.abort() }, '멈추기'));
-      else if (AI.has()) bar.append(h('button', { class: 'btn primary', onclick: translateVideo }, it.sentences.some(x => x.ko) ? 'AI 해석 이어서 붙이기' : 'AI 해석 붙이기'));
+      else if (AI.has()) bar.append(h('button', { class: 'btn primary', onclick: () => translateVideo() }, it.sentences.some(x => x.ko) ? 'AI 해석 이어서 붙이기' : 'AI 해석 붙이기'));
       else bar.append(
         h('p', { class: 'note' }, 'Claude 앱에서 Pro 요금제로 해석해요(추가 비용 없음). ① Claude로 해석 ② Claude 칸에 붙여넣기 ③ 끝나면 주황색 버튼 ④ 돌아와서 해석 가져오기.'),
         h('div', { class: 'btns' }, h('button', { class: 'btn primary', onclick: claudeVideo }, 'Claude로 해석'), h('button', { class: 'btn', onclick: pasteVideoCode }, '해석 가져오기')));
@@ -1675,26 +1687,33 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       'Below is the video script in blocks of about 30 seconds, each written as "index| text". Captions may lack punctuation and may contain recognition errors.',
       Q3, lines.map(x => x.i + '| ' + x.en).join('\n'), Q3, '', 'Instructions:',
       '- Return exactly one item per block, in the same order, with "i" = that block\'s index. Do not move text between blocks.',
-      '- "lines": the block split into its sentences, in order, keeping every word of the block. For each sentence give "en" (punctuation, casing and obvious caption errors fixed; drop [Music], >> and speaker labels) and "ko" (a natural Korean translation of that sentence, not word-for-word).',
-      '- "keys": 1 to 3 useful expressions from that block (phrasal verbs, idioms, collocations) with short Korean meanings. Skip obvious words.',
+      '- "lines": the block split into its sentences, in order, keeping every word of the block. For each sentence give "en" (punctuation, casing and obvious caption errors fixed; drop [Music], >> and speaker labels), "ko" (a natural Korean translation of that sentence, not word-for-word) and "w".',
+      '- "w": 3 to 5 words or phrases from that sentence that a Korean engineer with everyday English (about CEFR B1) may not know, at the level of "fiscal watchdog" or harder: news and economy terms, multi-word terms, idioms, phrasal verbs, collocations. Use the exact form from the sentence and give the Korean meaning that fits this sentence (short, e.g. "fiscal watchdog" → "재정 감시 기구"). Skip easy words such as focus, today, latest, release. Fewer than 3 only when the sentence has no such words.',
       '- vocab: up to 6 words or phrases from this part worth memorizing, with Korean meanings.',
       '- title: a short Korean title for the topic, under 20 characters.', '',
-      'Reply with only JSON in this shape: {"title":"...","sentences":[{"i":0,"lines":[{"en":"...","ko":"..."}],"keys":[{"en":"...","ko":"..."}]}],"vocab":[{"en":"...","ko":"..."}]}'].join('\n');
+      'Reply with only JSON in this shape: {"title":"...","sentences":[{"i":0,"lines":[{"en":"...","ko":"...","w":[{"en":"...","ko":"..."}]}]}],"vocab":[{"en":"...","ko":"..."}]}'].join('\n');
   }
-  /* one translated block from the AI: {i, lines:[{en, ko}], keys} (or an older {en, ko}) */
+  /* words explained under a sentence: [{en, ko}], at most 5 */
+  const wordsOf = w => Array.isArray(w) ? w.filter(q => q && typeof q.en === 'string' && q.en.trim() && q.ko).slice(0, 5).map(q => ({ en: q.en.trim(), ko: String(q.ko).trim() })) : [];
+  /* one translated block from the AI: {i, lines:[{en, ko, w}], keys} (or an older {en, ko}) */
   function blockFromAI(x) {
     if (!x) return null;
-    const lines = Array.isArray(x.lines) ? x.lines.filter(l => l && typeof l.en === 'string' && l.en.trim()).slice(0, 40).map(l => ({ en: l.en.trim(), ko: String(l.ko || '').trim() })) : [];
+    const lines = Array.isArray(x.lines) ? x.lines.filter(l => l && typeof l.en === 'string' && l.en.trim()).slice(0, 40).map(l => { const o = { en: l.en.trim(), ko: String(l.ko || '').trim() }, w = wordsOf(l.w); if (w.length) o.w = w; return o; }) : [];
     const en = lines.length ? lines.map(l => l.en).join(' ') : String(x.en || '').trim();
     if (!en) return null;
     const o = { i: x.i, en, ko: lines.length ? lines.map(l => l.ko).join(' ') : String(x.ko || ''), keys: Array.isArray(x.keys) ? x.keys.filter(q => q && q.en).slice(0, 3).map(q => ({ en: String(q.en), ko: String(q.ko || '') })) : [] };
     if (lines.length) o.lines = lines;
     return o;
   }
-  async function translateVideo() {
+  /* blocks translated before word notes existed (or a word pass that stopped half-way): the first such block, or -1.
+     A short block may honestly have no hard word, so a video counts as done when at most a fifth of its blocks lack them. */
+  const blockHasWords = x => Array.isArray(x.lines) && x.lines.some(l => l.w && l.w.length);
+  const needWords = it => it.sentences.filter(x => !blockHasWords(x)).length > it.sentences.length * 0.2;
+  const hasWords = it => it.sentences.some(blockHasWords);
+  async function translateVideo(all) {
     const it = Vid.it; if (!it || !it.sentences.length || Vid.busy) return;
-    if (!AI.has()) return claudeVideo();
-    let from = it.sentences.findIndex(x => !x.ko); if (from < 0) return;
+    if (!AI.has()) return claudeVideo(all === true);
+    let from = all === true ? Math.max(0, it.sentences.findIndex(x => !blockHasWords(x))) : it.sentences.findIndex(x => !x.ko); if (from < 0) return;
     const ctl = new AbortController(); Vid.busy = ctl;
     const setMsg = m => { Vid.trMsg = m; const e = $('vid-tr-hint'); if (e) e.textContent = m; };
     renderVid();
@@ -1732,14 +1751,14 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     } catch (e) { setMsg(aiErr(e)); }
     finally { if (Vid.busy === ctl) Vid.busy = null; if (Vid.it === it) renderVid(); }
   }
-  async function claudeVideo() {
+  async function claudeVideo(words) {
     const it = Vid.it; if (!it || !it.sentences.length) return;
     const times = it.timed ? sentenceTimes(it, Vid.dur) : null;
     const vt = it.video.title || (it.title !== '유튜브 영상' ? it.title : '');
     const txt = `VIDEO: ${ytUrl(it.video.id)} | ${vt.replace(/[\n|]/g, ' ')}${it.video.ch ? ' | ' + it.video.ch.replace(/[\n|]/g, ' ') : ''}\n` +
       it.sentences.map((x, i) => (times ? `[${fmtT(times[i])}] ` : '') + x.en).join('\n');
     const ok = await copyText(txt);
-    store.set('pending', { id: it.video.id, title: vt || '유튜브 영상', ts: Date.now() });
+    store.set('pending', Object.assign({ id: it.video.id, title: vt || '유튜브 영상', ts: Date.now() }, words === true ? { words: true } : {}));
     window.open(ARTIFACT + '#listen', '_blank', 'noopener');
     Vid.trMsg = (ok ? '스크립트를 복사했어요. ' : '복사가 안 됐어요. 스크립트 바꾸기 칸의 글을 직접 복사해 주세요. ') +
       'Claude 칸에 붙여넣기만 하면 해석이 시작돼요. 끝나면 주황색 버튼을 누르고 돌아와서 해석 가져오기.';
@@ -1751,7 +1770,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     const p = store.get('pending', null);
     if (!p || Date.now() - p.ts > 2 * 86400000) return null;
     const it = S.library.find(x => x.video && x.video.id === p.id);
-    if (it && it.sentences.length && it.sentences.every(x => x.ko)) { store.del('pending'); return null; }
+    if (it && it.sentences.length && it.sentences.every(x => x.ko) && !(p.words && needWords(it))) { store.del('pending'); return null; }
     return p;
   }
   function renderPending() {
