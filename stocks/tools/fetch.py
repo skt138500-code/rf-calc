@@ -115,7 +115,9 @@ def logo_sources(code):
             f'https://file.alphasquare.co.kr/media/images/stock_logo/us/{t}.png']
 
 
-IMAGE_TYPES = [(b'\x89PNG', '.png'), (b'\xff\xd8\xff', '.jpg'), (b'RIFF', '.webp'), (b'GIF8', '.gif'), (b'<svg', '.svg'), (b'<?xml', '.svg')]
+# raster images only: an SVG can carry script, and these files are served from the apps' own site
+# (which shares phone storage with the GitHub/Claude keys), so SVG logos are refused
+IMAGE_TYPES = [(b'\x89PNG', '.png'), (b'\xff\xd8\xff', '.jpg'), (b'RIFF', '.webp'), (b'GIF8', '.gif')]
 
 
 def fetch_logo(code, misses):
