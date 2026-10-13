@@ -97,6 +97,18 @@ a{color:var(--accent)}
 .sortbar button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
 .sortbar button i{font-style:normal;font-size:9.5px;margin-left:2px;color:var(--accent)}
 .r-sub .sk{font:500 12px var(--font-num);color:var(--ink)}
+/* 가리기: eye button on the summary card (tap = hide, hold = show again) */
+.sum-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.eye{flex:none;width:34px;height:34px;margin:-6px -8px -6px 0;border:0;border-radius:10px;background:transparent;color:var(--screen-soft);display:flex;align-items:center;justify-content:center;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.eye:active{background:rgba(255,255,255,.08)}
+.eye svg{width:20px;height:20px}
+.eye.on{color:var(--screen-ink)}
+.eye.hold{animation:eyehold .65s linear forwards}
+@keyframes eyehold{from{box-shadow:inset 0 0 0 0 rgba(255,255,255,.18)}to{box-shadow:inset 0 0 0 17px rgba(255,255,255,.18)}}
+.priv-v{font:600 26px/1.15 var(--font-ui);letter-spacing:-.01em}
+.priv-chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--screen-soft)}
+.priv-note{margin:0;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;font-size:13px;line-height:1.5;color:var(--ink-soft);display:flex;gap:8px;align-items:flex-start}
+.priv-note svg{flex:none;width:18px;height:18px;margin-top:1px}
 /* the watch list shares its columns across rows (subgrid), so the charts and prices line up */
 .rows.watch{display:grid;grid-template-columns:3px 30px minmax(0,1fr) 42px auto 3px;column-gap:8px}
 .rows.watch > .row{grid-column:1/-1;grid-template-columns:subgrid}
@@ -440,7 +452,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     <div class="chart" id="chart"></div>
     <div class="d-range" id="d-range"></div>
 
-    <section class="card">
+    <section class="card" id="h-card">
       <h3>내 보유</h3>
       <div class="fields">
         <div class="field"><label for="h-q">수량</label><div class="inwrap"><input id="h-q" inputmode="decimal" autocomplete="off" placeholder="0"><span class="unit">주</span></div></div>
@@ -564,7 +576,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     data: store.get('last', null), hold: store.get('hold', {}), hidden: store.get('hidden', []),
     pending: store.get('pending', []), krw: store.get('krw', false), showHidden: false,
     amt: store.get('amt', true), tab: store.get('tab', 'list'), cls: store.get('cls', {}),
-    sort: store.get('sort', { k: 'cap', d: -1 }),
+    sort: store.get('sort', { k: 'cap', d: -1 }), priv: store.get('priv', false),
     news: store.get('news', null), ai: store.get('ai', null), newsFor: 'mkt',
     gone: store.get('gone', []), secBy: store.get('secBy', 's'), tax: store.get('tax', 'net'), divMonth: new Date().getMonth(), clsCode: null,
     loading: false, err: '', fetchedAt: 0, cur: null, range: 'd1', hist: {}
@@ -841,6 +853,13 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     $('krw-btn').hidden = !listTab; $('amt-btn').hidden = !listTab;
   }
 
+  const EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.6 5.1A10.4 10.4 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M3 3l18 18"/></svg>';
+  function eyeBtn() {
+    return S.priv
+      ? `<button class="eye on" data-eye aria-label="가리기 끄기: 길게 누르세요">${EYE_OFF}</button>`
+      : `<button class="eye" data-eye aria-label="금액과 손익 가리기">${EYE}</button>`;
+  }
   function renderSum() {
     const el = $('sum');
     // P/L only counts holdings that have an average price; the rest add to value only
@@ -872,6 +891,14 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
       el.innerHTML = `<div class="sum-empty"><b>보유 수량을 넣으면 내 수익이 여기 보여요.</b><br>종목을 누르고 수량과 평단가를 입력하세요.</div>` + fxRow;
       return;
     }
+    if (S.priv) {
+      // 가리기: only which stocks / how many, never amounts
+      const nk = items.filter(it => isKR(it) && heldOf(it.code)).length;
+      el.innerHTML = `<div class="sum-top"><div class="sum-k">내 종목</div>${eyeBtn()}</div>
+        <div class="priv-v">${n}종목 보유</div>
+        <div class="priv-chip">국내 ${nk} · 미국 ${n - nk} · 금액과 손익은 가려져 있어요</div>` + fxRow;
+      return;
+    }
     const pl = valWithCost - cost, plp = cost > 0 ? pl / cost * 100 : NaN, prevVal = val - today;
     const plRow = cost > 0
       ? `<dd class="${dir(pl)}">${smoney(pl, 'KRW')} (${pct(plp)})</dd>`
@@ -891,7 +918,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
           <dt class="sub sub2">└ 환율</dt><dd class="sub ${dir(m.fxEff)}">${smoney(m.fxEff, 'KRW')}</dd>`;
       }
     });
-    el.innerHTML = `<div><div class="sum-k">총 평가금액 · ${n}종목</div><div class="sum-v">${money(val, 'KRW')}</div></div>
+    el.innerHTML = `<div><div class="sum-top"><div class="sum-k">총 평가금액 · ${n}종목</div>${eyeBtn()}</div><div class="sum-v">${money(val, 'KRW')}</div></div>
       <dl class="sum-rows">
         <dt>평가손익</dt>${plRow}${cost > 0 ? split : ''}
         <dt>오늘</dt><dd class="${dir(today)}">${smoney(today, 'KRW')} (${pct(prevVal > 0 ? today / prevVal * 100 : NaN)})</dd>
@@ -952,6 +979,29 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
   function rowMoney(v, cur) { return cur === 'KRW' ? (v < 0 ? '−' : '') + nf(Math.round(v), 0) : money(v, cur); }
   function rowSigned(v, cur) { return isFinite(v) ? (v > 0 ? '+' : '') + rowMoney(v, cur) : '—'; }
 
+  /* ---------- 가리기 (남에게 보여줄 때) ---------- */
+  function setPriv(on) {
+    S.priv = on; store.set('priv', on);
+    render();
+    if (S.cur && !$('detail').hidden) openDetail(S.cur, true);
+    toast(on ? '금액과 손익을 가렸어요 · 다시 보려면 눈 버튼을 길게 누르세요' : '다시 보여요');
+  }
+  let eyeT = null, eyeHeld = false;
+  $('sum').addEventListener('pointerdown', e => {
+    const b = e.target.closest('[data-eye]'); if (!b || !S.priv) return;
+    eyeHeld = false; b.classList.add('hold');
+    eyeT = setTimeout(() => { eyeHeld = true; eyeT = null; if (navigator.vibrate) navigator.vibrate(15); setPriv(false); }, 650);
+  });
+  const eyeCancel = () => { if (eyeT) { clearTimeout(eyeT); eyeT = null; } document.querySelectorAll('.eye.hold').forEach(x => x.classList.remove('hold')); };
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => $('sum').addEventListener(t, eyeCancel));
+  $('sum').addEventListener('contextmenu', e => { if (e.target.closest('[data-eye]')) e.preventDefault(); });
+  $('sum').addEventListener('click', e => {
+    if (!e.target.closest('[data-eye]')) return;
+    if (!S.priv) setPriv(true);
+    else if (!eyeHeld) toast('다시 보려면 눈 버튼을 길게 누르세요');
+    eyeHeld = false;
+  });
+
   /* ---------- 목록 정렬 ---------- */
   const SORTS = [['cap', '시총'], ['val', '평가금액'], ['cost', '매입금액'], ['ret', '수익률'], ['day', '오늘등락']];
   const SORT_NAME = { cap: '시가총액', val: '평가금액', cost: '매입금액', ret: '수익률', day: '오늘 등락' };
@@ -969,8 +1019,10 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     }
     return null;
   }
+  const PRIV_SORTS = ['val', 'cost', 'ret'];   // these would reveal my amounts
+  function curSort() { return S.priv && PRIV_SORTS.includes(S.sort.k) ? { k: 'cap', d: -1 } : S.sort; }
   function sortItems(arr) {
-    const { k, d } = S.sort;
+    const { k, d } = curSort();
     return arr.map((it, i) => ({ it, i, v: sortValue(it, k) }))
       .sort((a, b) => (a.v == null) - (b.v == null) || (a.v != null && b.v != null && d * (a.v - b.v)) || a.i - b.i)
       .map(x => x.it);
@@ -984,8 +1036,8 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
   }
   function sortNote(it) {
     // the value the list is sorted by, when it is not already on the row
-    const k = S.sort.k, v = sortValue(it, k);
-    if (v == null) return '';
+    const k = curSort().k, v = sortValue(it, k);
+    if (v == null || (S.priv && k !== 'cap')) return '';
     if (k === 'cap') return `<span class="sk" title="${it.mcapKind === 'aum' ? 'ETF 순자산' : '시가총액'}">${capText(v, it.cur)}</span>`;
     const c = it.cur === 'USD' && S.krw && fx() ? 'KRW' : it.cur;
     if (k === 'val') return `<span class="sk">${c === 'KRW' ? compactKRW(c === it.cur ? v : v * fx()) : '$' + nf(v, 0)}</span>`;
@@ -994,13 +1046,15 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
   }
   function renderSortBar() {
     const bar = $('sortbar'); if (!bar) return;
-    bar.innerHTML = SORTS.map(([k, label]) =>
-      `<button data-k="${k}" aria-pressed="${S.sort.k === k}" aria-label="${SORT_NAME[k]} 순으로 보기">${label}${S.sort.k === k ? `<i>${S.sort.d < 0 ? '▼' : '▲'}</i>` : ''}</button>`).join('');
+    const cs = curSort(), list = SORTS.filter(([k]) => !(S.priv && PRIV_SORTS.includes(k)));
+    bar.style.gridTemplateColumns = `repeat(${list.length},minmax(0,1fr))`;
+    bar.innerHTML = list.map(([k, label]) =>
+      `<button data-k="${k}" aria-pressed="${cs.k === k}" aria-label="${SORT_NAME[k]} 순으로 보기">${label}${cs.k === k ? `<i>${cs.d < 0 ? '▼' : '▲'}</i>` : ''}</button>`).join('');
   }
   $('sortbar').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
-    const k = b.dataset.k;
-    S.sort = S.sort.k === k ? { k, d: -S.sort.d } : { k, d: -1 };
+    const k = b.dataset.k, cs = curSort();
+    S.sort = cs.k === k ? { k, d: -cs.d } : { k, d: -1 };
     store.set('sort', S.sort);
     renderList();
     const label = SORT_NAME[k];
@@ -1015,7 +1069,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     const showKRW = !kr && S.krw && fx() && cur === 'USD';
     const price = showKRW ? rowMoney(toKRW(it.price, cur), 'KRW') : rowMoney(it.price, cur);
     const open = isOpen(it);
-    const h = heldOf(it.code);
+    const h = S.priv ? null : heldOf(it.code);
     let qty = '', pl = '';
     if (h) {
       qty = `<b>${nf(h.q, h.q % 1 ? 2 : 0)}주</b> · `;
@@ -1146,6 +1200,7 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     const kr = isKR(it), d = dir(it.chg);
     $('d-name').textContent = it.name;
     $('d-logo').innerHTML = logoHTML(it, 'lg');
+    $('h-card').hidden = S.priv;
     renderNewsCard(it);
     $('d-sub').textContent = (kr ? it.code : it.sym) + ' · ' + (it.market || '') + (isOpen(it) ? ' · 장중' : ' · 장 마감') + (it.time ? ' · ' + dfmt(it.time, it.tz, { month: 'numeric', day: 'numeric' }) + ' ' + hm(it.time, it.tz) + ' 현지' : '');
     $('d-price').textContent = money(it.price, it.cur);
@@ -1581,8 +1636,10 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
       </div>
       <div class="dbars" id="dbars"></div>
       <div class="cap" id="dcap"></div>`;
-    // 내 배당 (올해 1~12월: 받은 것 + 남은 예상)
-    if (q > 0) {
+    // 내 배당 (올해 1~12월: 받은 것 + 남은 예상) — not while hidden
+    if (S.priv) {
+      /* 가리기: per-share facts only */
+    } else if (q > 0) {
       const ev = yearEvents(di), F = rateOf(it), tax = TAX(it), yr = new Date().getFullYear();
       const got = q * ev.filter(e => e[2]).reduce((t, e) => t + e[1], 0);
       const left = q * ev.filter(e => !e[2]).reduce((t, e) => t + e[1], 0);
@@ -1642,9 +1699,20 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     return { yr, months, rows, got, exp, tot: got + exp, totO: gotO + expO, val, cost };
   }
 
+  const PRIV_NOTE = t => `<p class="priv-note">${EYE_OFF}<span>${t} 다시 보려면 종목 탭의 눈 버튼을 길게 누르세요.</span></p>`;
   function renderDivTab() {
     const box = $('p-div');
     if (!S.data) { box.innerHTML = `<div class="loading-card">${S.err ? esc(S.err) : '시세를 불러오는 중이에요…'}</div>`; return; }
+    if (S.priv) {
+      // 가리기: which stocks pay and how much per share, never my income
+      const rows = ((S.data && S.data.items) || []).map(it => ({ it, di: divInfo(it) })).filter(r => r.di && r.di.active)
+        .sort((a, b) => (b.di.yld || 0) - (a.di.yld || 0));
+      box.innerHTML = PRIV_NOTE('내 배당 금액은 가려져 있어요.') + (rows.length ? `<section class="group"><h2>배당 주는 종목 · 수익률 순</h2><div class="rows">${rows.map(r =>
+        `<button class="drow" data-code="${esc(r.it.code)}"><div class="t"><b>${logoHTML(r.it, 'sm')}<span>${esc(r.it.name)}</span><span class="chip">${r.di.label}</span></b><small>1주 ${divMoney(r.di.last[1], r.it.cur)} · 다음 배당락 ${md(r.di.next, r.it.tz)} 예상</small></div>
+          <div class="v"><b>${isFinite(r.di.yld) ? nf(r.di.yld, 2) + '%' : '—'}</b><small>1년 수익률</small></div></button>`).join('')}</div></section>` : '');
+      box.querySelectorAll('.drow').forEach(b => b.addEventListener('click', () => openDetail(b.dataset.code)));
+      return;
+    }
     const P = divPortfolio(), F = fx(), tw = taxWord(), now = new Date();
     const grossTot = S.tax === 'gross' ? P.tot : P.totO;
     let html = `<div class="seg s2" id="tax-seg" role="group" aria-label="세금"><button data-t="net" aria-pressed="${S.tax !== 'gross'}">세후</button><button data-t="gross" aria-pressed="${S.tax === 'gross'}">세전</button></div>`;
@@ -1758,11 +1826,11 @@ textarea.code:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px
     if (R.total > 0) {
       const top = R.arr.find(g => !g.none && !g.other);
       const tp = top ? top.v / R.total * 100 : 0;
-      html += `<section class="card"><div class="card-h"><h3>${title}</h3><span class="note num">${money(R.total, 'KRW')}</span></div>
+      html += `<section class="card"><div class="card-h"><h3>${title}</h3><span class="note num">${S.priv ? '' : money(R.total, 'KRW')}</span></div>
         <div class="stack" role="img" aria-label="${esc(R.arr.map(g => g.key + ' ' + nf(g.v / R.total * 100, 1) + '%').join(', '))}">${R.arr.map(g => `<span style="flex:${g.v.toFixed(0)} 1 0;background:${g.color}"></span>`).join('')}</div>
         ${top ? `<p class="sec-top">${esc(josa(top.key, '이', '가'))} <b>${nf(tp, 1)}%</b>로 가장 커요${by === 's' && tp >= 40 ? ' · <em>한 섹터에 40% 넘게 몰려 있어요</em>' : ''}</p>` : ''}
         <ul class="lg">${R.arr.map(g => `<li><i style="background:${g.color}"></i><div class="t"><b>${esc(g.key)}</b><small>${g.items.map(x => esc(x.it.name)).join(' · ')}</small></div>
-          <div class="v"><b>${nf(g.v / R.total * 100, 1)}%</b><small>${money(g.v, 'KRW')}</small></div></li>`).join('')}</ul>
+          <div class="v"><b>${nf(g.v / R.total * 100, 1)}%</b>${S.priv ? '' : `<small>${money(g.v, 'KRW')}</small>`}</div></li>`).join('')}</ul>
         ${R.arr.some(g => g.none) ? '<p class="note">미분류 종목은 아래에서 눌러 섹터를 정해 주세요.</p>' : ''}</section>`;
     } else {
       html += `<section class="card"><h3>${title}</h3><p class="note">보유 수량을 넣은 종목이 있으면 비중이 여기 보여요. 종목 탭에서 종목을 누르고 수량을 입력하세요.</p></section>`;
