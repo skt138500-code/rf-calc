@@ -225,6 +225,8 @@ details.card:not([open]){gap:0}
 .syncing .vc{border-style:dashed}
 .tbar{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid var(--accent)}
 .tbar b{font-size:14px}
+#sd-group{scroll-margin-top:64px}
+.msum{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink-soft)}
 .vmeta{margin:0;font-size:12.5px;color:var(--ink-soft)}
 .tag{font:500 10.5px var(--font-num);letter-spacing:.05em;padding:1px 6px;border-radius:5px;background:var(--surface);border:1px solid var(--line);color:var(--ink-soft);vertical-align:2px;margin-left:6px}
 
@@ -449,6 +451,23 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       <p class="note">키 없이도 돼요. 해석·질문 버튼을 누르면 Claude 앱의 트레이너가 열려서 Pro 요금제로 쓰고, 결과는 '홈 앱으로 보내기'로 가져오면 됩니다.</p>
     </details>
 
+    <div class="group" id="sd-group">
+      <h2>자막 자동 받기 <span class="ai-pill" id="sd-pill"><i></i><em></em></span></h2>
+      <div class="card">
+        <p class="note">영상을 열면 앱이 유튜브 영어 자막(시간 포함)을 바로 받아와요. <b>Supadata</b> 무료 키를 한 번만 넣으면 돼요. 월 100개 영상까지 무료, 카드 등록 없음.</p>
+        <ol class="steps">
+          <li>아래 <b>가입 페이지 열기</b> → 구글 계정 등으로 가입</li>
+          <li>대시보드에 보이는 <b>API Key</b>를 복사</li>
+          <li>돌아와서 아래 칸에 붙여넣고 <b>저장</b></li>
+        </ol>
+        <a class="btn sm" href="https://dash.supadata.ai/" target="_blank" rel="noopener">가입 페이지 열기</a>
+        <div class="field"><label for="sd-in">자막 키 (Supadata API key)</label><input class="in" id="sd-in" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="여기에 붙여넣기"></div>
+        <div class="btns"><button class="btn primary" id="sd-save">저장</button><button class="btn" id="sd-del">키 지우기</button></div>
+        <p class="hint" id="sd-hint" aria-live="polite"></p>
+        <p class="note">한 번 받은 자막은 폰에 저장돼서 다시 열 때는 쓰지 않아요. 키는 이 폰에만 있고 백업 코드에도 안 들어가요.</p>
+      </div>
+    </div>
+
     <div class="group">
       <h2>내 정보</h2>
       <div class="card">
@@ -528,7 +547,11 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       </div>
     </div>
     <div class="card" id="vid-get">
-      <h3>스크립트 가져오기 <span>한 번만 하면 저장돼요</span></h3>
+      <h3>스크립트 <span>한 번 받으면 저장돼요</span></h3>
+      <div class="panel" id="vid-auto" style="gap:10px"></div>
+      <details id="vid-manual">
+      <summary class="msum">직접 붙여넣기</summary>
+      <div class="panel" style="gap:12px;margin-top:10px">
       <ol class="steps">
         <li><b>자막 사이트 열기</b>를 누르면 이 영상 링크가 복사돼요. 사이트 입력칸에 붙여넣고 <b>Get Transcript</b>.</li>
         <li><b>Include timestamps(시간 표시)</b>를 켜고 <b>Copy</b>.</li>
@@ -539,6 +562,8 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       <div class="btns"><button class="btn" id="vid-paste">붙여넣기</button><button class="btn dark" id="vid-make">자막 만들기</button></div>
       <p class="hint" id="vid-hint" aria-live="polite"></p>
       <p class="note">아리랑 뉴스처럼 방송사 홈페이지에 원고가 있으면 그 글을 넣어도 돼요. 시간 표시가 없는 글은 위치를 어림해서 맞추고, <b>자막 맞추기</b>로 고칠 수 있어요. 스크립트 없이도 영상의 영어 자막(CC)은 볼 수 있어요.</p>
+      </div>
+      </details>
     </div>
     <div class="panel" id="vid-body"></div>
   </div>
@@ -1305,16 +1330,20 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     const id = ytId(meta.id);
     let it = S.library.find(x => x.video && x.video.id === id);
     if (!it) it = { id: 'v' + id, ts: Date.now(), title: meta.title || '유튜브 영상', video: { id, title: meta.title || '', ch: meta.ch || '' }, timed: false, sentences: [], vocab: [], anchors: [] };
-    Object.assign(Vid, { it, curI: -1, loopI: -1, step: false, stepStop: -1, sync: false, ended: false, replace: false, trMsg: '', times: [], dur: 0, rate: 0, st: -1 });
+    if (Vid.sdBusy) { try { Vid.sdBusy.abort(); } catch (e) {} }
+    Object.assign(Vid, { it, curI: -1, loopI: -1, step: false, stepStop: -1, sync: false, ended: false, replace: false, trMsg: '', times: [], dur: 0, rate: 0, st: -1, sdBusy: null, sdMsg: '', sdErr: false, sdNone: false });
+    $('vid-manual').open = false;
     $('vid-title').textContent = it.title; $('vid-ch').textContent = it.video.ch || '';
     $('vid-in').value = ''; $('vid-hint').textContent = '';
     $('vc-step').setAttribute('aria-pressed', 'false'); $('vc-rate').querySelector('b').textContent = '1×';
     showSheet('sh-vid');
     renderVid(); mountPlayer(meta.start || 0);
+    if (!it.sentences.length && SD.has() && navigator.onLine) fetchScript('native');
   }
   function vidTeardown() {
     clearInterval(Vid.timer); Vid.timer = 0;
     if (Vid.busy) { try { Vid.busy.abort(); } catch (e) {} }
+    if (Vid.sdBusy) { try { Vid.sdBusy.abort(); } catch (e) {} }
     try { Vid.player && Vid.player.destroy(); } catch (e) {}
     Vid.player = null; Vid.ready = false; Vid.it = null;
     $('vid-player').replaceChildren();
@@ -1456,6 +1485,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     const it = Vid.it, body = $('vid-body'); if (!it) return;
     const n = it.sentences.length;
     $('vid-get').hidden = n > 0 && !Vid.replace;
+    renderVidAuto();
     ['vc-prev', 'vc-next', 'vc-step'].forEach(id => { $(id).disabled = !n; });
     if (!n) { body.replaceChildren(); updVtop(); return; }
     if (!Vid.times.length) recompute();
@@ -1466,7 +1496,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
       if (Vid.busy) bar.append(h('button', { class: 'btn', onclick: () => Vid.busy && Vid.busy.abort() }, '멈추기'));
       else if (AI.has()) bar.append(h('button', { class: 'btn primary', onclick: translateVideo }, it.sentences.some(x => x.ko) ? 'AI 해석 이어서 붙이기' : 'AI 해석 붙이기'));
       else bar.append(
-        h('p', { class: 'note' }, 'Claude 앱에서 Pro 요금제로 해석해요. 해석한 뒤 Claude에서 홈 화면 앱으로 보내기를 누르고, 여기서 코드를 붙여넣으면 끝.'),
+        h('p', { class: 'note' }, 'Claude 앱에서 Pro 요금제로 해석해요(추가 비용 없음). Claude로 해석 → 그쪽 칸에 붙여넣기 → 끝나면 홈 화면 앱으로 보내기 → 여기서 코드 붙여넣기.'),
         h('div', { class: 'btns' }, h('button', { class: 'btn primary', onclick: claudeVideo }, 'Claude로 해석'), h('button', { class: 'btn', onclick: pasteVideoCode }, '코드 붙여넣기')));
       bar.append(h('p', { class: 'hint', id: 'vid-tr-hint' }, Vid.trMsg || ''));
       kids.push(bar);
@@ -1581,7 +1611,7 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     const ok = await copyText(txt);
     const w = window.open(ARTIFACT + '#listen', '_blank', 'noopener');
     Vid.trMsg = (ok ? '스크립트를 복사했어요. ' : '복사가 안 됐어요. 스크립트 바꾸기 칸의 글을 직접 복사해 주세요. ') +
-      'Claude 트레이너의 듣기 칸에 붙여넣고 AI 해석 만들기 → 홈 화면 앱으로 보내기 → 여기서 코드 붙여넣기.' + (w ? '' : ' (창이 안 열리면 Claude 앱에서 영어 입 트레이너를 여세요)');
+      'Claude 트레이너의 듣기 칸에 붙여넣기만 하면 해석이 바로 시작돼요. 끝나면 홈 화면 앱으로 보내기 → 여기서 코드 붙여넣기.' + (w ? '' : ' (창이 안 열리면 Claude 앱에서 영어 입 트레이너를 여세요)');
     renderVid();
   }
   async function pasteVideoCode() {
@@ -1593,6 +1623,90 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     if (r.video && Vid.it && r.video.video.id === Vid.it.video.id) {
       Vid.it = r.video; Vid.times = []; Vid.trMsg = ''; Vid.loopI = -1; recompute(); renderVid(); toast('해석을 가져왔어요');
     } else toast(`가져왔어요 · 자료 ${r.ni}개 · 문장 ${r.ns}개`);
+  }
+
+  /* 자막 자동 받기: Supadata transcript API, called straight from the phone (it allows browser calls).
+     Free plan: 100 credits a month; an existing YouTube transcript costs 1, AI transcription 2 per minute.
+     The key stays in this phone (english.sdkey); a fetched script is saved so the same video never costs twice. */
+  const SD = { key: () => store.get('sdkey', ''), has() { return !!this.key(); } };
+  const SD_API = 'https://api.supadata.ai/v1/transcript';
+  const unent = t => t.replace(/&amp;/g, '&').replace(/&#39;|&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ');
+  async function sdCall(url, signal) {
+    let r; try { r = await fetch(url, { headers: { 'x-api-key': SD.key() }, signal }); } catch (e) { throw { code: e && e.name === 'AbortError' ? 'cancelled' : 'network' }; }
+    let b = null; try { b = await r.json(); } catch (e) {}
+    return { status: r.status, body: b };
+  }
+  async function sdFetch(vid, mode, signal, onWait) {
+    let { status, body } = await sdCall(`${SD_API}?url=${encodeURIComponent(ytUrl(vid))}&lang=en&mode=${mode}`, signal);
+    if (status === 202 && body && body.jobId) {
+      const job = body.jobId;
+      for (let k = 0; k < 150; k++) {
+        await new Promise(res => setTimeout(res, 1500));
+        if (signal.aborted) throw { code: 'cancelled' };
+        onWait && onWait(k);
+        ({ status, body } = await sdCall(`${SD_API}/${encodeURIComponent(job)}`, signal));
+        const st = body && body.status;
+        if (status === 200 && body && (Array.isArray(body.content) || (body.result && Array.isArray(body.result.content)))) break;
+        if (st === 'failed' || status >= 400) throw { code: 'sd', status: status >= 400 ? status : 500, body };
+      }
+    }
+    if (status === 200 && body && Array.isArray(body.content)) return body;
+    if (status === 200 && body && body.result && Array.isArray(body.result.content)) return body.result;
+    throw { code: 'sd', status, body };
+  }
+  function sdErrMsg(e) {
+    const c = e && e.status, m = e && e.body && (e.body.message || e.body.details) ? ` (${e.body.message || e.body.details})` : '';
+    return e && e.code === 'cancelled' ? '멈췄어요.'
+      : e && e.code === 'network' ? '인터넷 연결을 확인해 주세요.'
+      : c === 206 ? '이 영상에는 유튜브 자막이 없어요. AI 받아쓰기를 쓰거나, 방송사 원고를 직접 붙여넣어 주세요.'
+      : c === 401 ? '자막 키가 맞지 않아요. 설정에서 다시 넣어 주세요.'
+      : c === 402 ? '무료 사용량으로는 안 되는 요청이에요.' + m
+      : c === 429 ? '이번 달 무료 사용량을 다 썼거나 너무 빨리 요청했어요. 잠시 뒤 다시 해 보세요.'
+      : c === 403 ? '비공개이거나 제한된 영상이라 자막을 받을 수 없어요.'
+      : c === 404 ? '영상을 찾지 못했어요.'
+      : `자막을 받지 못했어요${c ? ' (' + c + ')' : ''}.`;
+  }
+  function renderVidAuto() {
+    const box = $('vid-auto'); if (!box || !Vid.it) return;
+    const kids = [];
+    if (!SD.has()) {
+      kids.push(h('p', { class: 'note' }, '자막을 앱이 자동으로 받게 하려면 무료 자막 키를 ', h('b', null, '한 번만'), ' 넣으세요. 가입 1분, 월 100개 영상까지 무료예요.'),
+        h('button', { class: 'btn primary', onclick: () => openSettings('sd') }, '자막 키 넣기 (처음 한 번)'));
+    } else if (Vid.sdBusy) {
+      kids.push(h('p', { class: 'hint' }, Vid.sdMsg || '자막 받는 중…'), h('button', { class: 'btn', onclick: () => Vid.sdBusy && Vid.sdBusy.abort() }, '멈추기'));
+    } else {
+      if (Vid.sdMsg) kids.push(h('p', { class: 'hint' + (Vid.sdErr ? ' bad' : '') }, Vid.sdMsg));
+      kids.push(h('div', { class: 'btns' }, h('button', { class: 'btn primary', onclick: () => fetchScript('native') }, Vid.sdErr ? '다시 받기' : '자막 받기'),
+        Vid.sdNone ? h('button', { class: 'btn', onclick: () => fetchScript('generate') }, 'AI 받아쓰기')
+          : Vid.sdAuth ? h('button', { class: 'btn', onclick: () => openSettings('sd') }, '자막 키 다시 넣기') : h('span')));
+      if (Vid.sdNone) kids.push(h('p', { class: 'note' }, 'AI 받아쓰기는 영상 1분에 2회분을 써요 (10분 영상이면 20회분, 한 달 무료 100회분).'));
+    }
+    box.replaceChildren(...kids);
+  }
+  async function fetchScript(mode = 'native') {
+    const it = Vid.it; if (!it || Vid.sdBusy || !SD.has()) return;
+    const ctl = new AbortController(), gen = mode === 'generate';
+    Object.assign(Vid, { sdBusy: ctl, sdErr: false, sdNone: false, sdAuth: false, sdMsg: gen ? 'AI가 받아쓰는 중… 영상 길이에 따라 1~3분' : '자막 받는 중…' });
+    renderVidAuto();
+    try {
+      const body = await sdFetch(it.video.id, mode, ctl.signal, k => { if (Vid.it === it) { Vid.sdMsg = (gen ? 'AI가 받아쓰는 중… ' : '자막 준비 중… ') + Math.round((k + 1) * 1.5) + '초'; renderVidAuto(); } });
+      if (Vid.it !== it) return;
+      const frags = body.content.map(c => ({ t: Math.max(0, (Number(c.offset) || 0) / 1000), text: cleanCap(unent(String(c.text || ''))) })).filter(f => f.text);
+      if (!frags.length) { Object.assign(Vid, { sdErr: true, sdNone: !gen, sdMsg: '받은 자막에 글자가 없어요. 말소리가 없는 영상일 수 있어요.' }); return; }
+      const sentences = mergeTimed(frags);
+      Object.assign(it, { sentences, timed: true, anchors: [], vocab: [], ts: Date.now() });
+      upsertVideo(it);
+      Object.assign(Vid, { sdMsg: '', replace: false, loopI: -1, curI: -1, trMsg: '' });
+      $('vid-manual').open = false;
+      recompute(); renderVid();
+      if (Vid.cc && Vid.ready) { try { Vid.player.unloadModule('captions'); Vid.cc = false; renderVid(); } catch (e) {} }
+      const other = body.lang && !/^en/i.test(body.lang) ? ` · 영어 자막이 없어서 ${body.lang} 자막` : '';
+      toast(`자막 ${sentences.length}문장을 받았어요${other}`);
+      if (AI.has()) translateVideo();
+    } catch (e) {
+      if (Vid.it !== it) return;
+      Object.assign(Vid, { sdErr: e && e.code !== 'cancelled', sdNone: !!(e && e.status === 206), sdAuth: !!(e && e.status === 401), sdMsg: sdErrMsg(e) });
+    } finally { if (Vid.sdBusy === ctl) Vid.sdBusy = null; if (Vid.it === it) renderVidAuto(); }
   }
 
   /* 오늘의 뉴스 영상 (english/tools/news.py collects ids + titles from the channels' upload feeds) */
@@ -1857,15 +1971,30 @@ body.playing .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
     sel.replaceChildren(h('option', { value: '' }, '자동 선택'), ...TTS.voices.map(v => h('option', { value: v.voiceURI }, `${v.name} (${v.lang})`)));
     sel.value = TTS.voices.some(v => v.voiceURI === cur) ? cur : '';
   }
-  function openSettings() {
-    renderAISettings();
+  function renderSDSettings() {
+    const on = SD.has(), pill = $('sd-pill');
+    pill.classList.toggle('on', on); pill.querySelector('em').textContent = on ? '켜짐' : '꺼짐';
+    $('sd-in').value = ''; $('sd-in').placeholder = on ? '저장됨 · ' + SD.key().slice(0, 4) + '…' + SD.key().slice(-4) : '여기에 붙여넣기';
+    $('sd-del').hidden = !on;
+  }
+  function openSettings(section) {
+    renderAISettings(); renderSDSettings(); $('sd-hint').textContent = '';
     $('k-hint').textContent = ''; $('b-hint').textContent = ''; $('b-out').hidden = true; $('b-in').value = '';
     $('s-name').value = S.settings.name || ''; $('s-topic').value = S.settings.topic || ''; $('s-date').value = S.settings.talkDate || '';
     $('s-rate').value = String(S.settings.rate); if (!$('s-rate').value) $('s-rate').value = '0.95';
     $('s-gap').value = String(S.settings.gap); if (!$('s-gap').value) $('s-gap').value = '2';
     showSheet('sh-set');
+    if (section === 'sd') setTimeout(() => { $('sd-group').scrollIntoView({ block: 'start', behavior: reduce() ? 'auto' : 'smooth' }); }, 80);
   }
-  $('set-btn').addEventListener('click', openSettings);
+  $('set-btn').addEventListener('click', () => openSettings());
+  $('sd-save').addEventListener('click', () => {
+    const v = $('sd-in').value.trim(), hint = $('sd-hint');
+    if (v.length < 12 || /\s/.test(v)) { hint.className = 'hint bad'; hint.textContent = 'Supadata 대시보드의 API 키 전체를 붙여넣어 주세요.'; return; }
+    store.set('sdkey', v); renderSDSettings();
+    hint.className = 'hint'; hint.textContent = '저장했어요. 이제 영상을 열면 자막을 자동으로 받아요.';
+    if (Vid.it && !Vid.it.sentences.length) { fetchScript('native'); toast('저장했어요 · 뒤로 가면 자막이 들어와 있어요'); }
+  });
+  $('sd-del').addEventListener('click', () => { if (!confirm('이 폰에서 자막 키를 지울까요?')) return; store.del('sdkey'); renderSDSettings(); $('sd-hint').className = 'hint'; $('sd-hint').textContent = '지웠어요.'; });
   $('k-save').addEventListener('click', async () => {
     const v = $('k-in').value.trim(), hint = $('k-hint');
     if (!v) { hint.className = 'hint bad'; hint.textContent = '키를 붙여넣어 주세요.'; return; }
