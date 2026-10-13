@@ -1,0 +1,24 @@
+# Temporary test: does api.supadata.ai allow calls from a web page (CORS)? Writes response headers only.
+name: cors-probe
+on:
+  push:
+    branches: [cors-probe]
+    paths: ['.github/workflows/cors-probe.yml']
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          U='https://api.supadata.ai/v1/transcript?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DdQw4w9WgXcQ&lang=en&mode=native'
+          {
+            echo '== OPTIONS preflight'
+            curl -s -i -X OPTIONS "$U" -H 'Origin: https://skt138500-code.github.io' -H 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: x-api-key' | head -25
+            echo; echo '== GET without key'
+            curl -s -i "$U" -H 'Origin: https://skt138500-code.github.io' | head -25
+          } > cors-result.txt 2>&1
+          git config user.name "github-actions[bot]"; git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add cors-result.txt && git commit -q -m result && git push -q origin HEAD:cors-probe
