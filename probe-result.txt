@@ -1,0 +1,40 @@
+@arirangnews           FAILED HTTPError: HTTP Error 404: Not Found
+@CNN                   channel UCupvZG-5ko_eiXAupbDfxWw
+@CNN                   FAILED HTTPError: HTTP Error 500: Internal Server Error
+@cnn10                 channel UCTOoRgpHTjAQPk6Ak70u-pA
+@cnn10                 FAILED HTTPError: HTTP Error 404: Not Found
+@VOALearningEnglish    channel UCKyTokYo0nK2OA-az-sDijA
+   feed 15 entries
+   q4PkX8_xUYk 2025-04-29 Everyday Grammar Video: Ramen, A Popular Food in Japan
+   YfvD3KpHY2A 2025-04-27 How to Pronounce: Fun Practice - Exaggeration Activities
+   41jE1ijuf_4 2025-04-22 Everyday Grammar Video: A Popular Person in Turkey
+@bbcnews               channel UC16niRr50-MSBwiO3YDb3RA
+   feed 15 entries
+   8OKYlR7rNcw 2026-10-12 US actress Selma Blair arrested after allegedly attacking attendants o
+   dwZrECaXJnM 2026-10-12 Yemen frontline: fighting the Houthi rebels targeting Saudi Arabia | B
+   EeccHekj7HA 2026-10-12 BBC on front line in Yemen's desert war. #MiddleEast #BBCNews
+@DWNews                channel UCknLrEdhRCp1aegoMqRaCZg
+@DWNews                FAILED HTTPError: HTTP Error 404: Not Found
+@KBSNews               channel UCVUjd2vUGrWvLOP9ni9nHCQ
+   feed 4 entries
+   7nivUl64rzA 2016-11-18 byung joo lee님의 실시간 스트리밍
+   FDmrXrvZD14 2008-09-12 제주
+   5BN0Pqa4nIg 2008-03-19 Sounds spring
+@ABCNews               channel UCBi2mrWuNuyYy4gbM6fU18Q
+@ABCNews               FAILED HTTPError: HTTP Error 404: Not Found
+@bbclearningenglish    channel UCHaHD477h-FeBbVh9Sh7syA
+@bbclearningenglish    FAILED HTTPError: HTTP Error 404: Not Found
+youtube-transcript-api ?
+CAPTIONS @VOALearningEnglish  q4PkX8_xUYk FAILED RequestBlocked: 
+CAPTIONS @VOALearningEnglish  YfvD3KpHY2A FAILED RequestBlocked: 
+CAPTIONS @bbcnews             8OKYlR7rNcw FAILED RequestBlocked: 
+CAPTIONS @bbcnews             dwZrECaXJnM FAILED RequestBlocked: 
+CAPTIONS @KBSNews             7nivUl64rzA FAILED VideoUnplayable: 
+CAPTIONS @KBSNews             FDmrXrvZD14 FAILED RequestBlocked: 
+caption successes 0 of 6
+yt-dlp rc 1
+    [youtube] Extracting URL: https://www.youtube.com/watch?v=q4PkX8_xUYk
+    [youtube] q4PkX8_xUYk: Downloading webpage
+    [youtube] q4PkX8_xUYk: Downloading visionos player API JSON
+    WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction
+    ERROR: [youtube] q4PkX8_xUYk: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-
