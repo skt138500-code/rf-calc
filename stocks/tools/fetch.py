@@ -12,6 +12,7 @@ Uses only the Python standard library. Data source: Yahoo Finance chart API.
 If a stock fails this run, its previous data (restored from gh-pages by the
 workflow) is kept and marked stale.
 """
+import http.cookiejar
 import json
 import pathlib
 import re
@@ -215,6 +216,52 @@ def fetch_one(code, name):
     raise NotFound(last_err or '종목을 찾지 못했어요')
 
 
+def market_caps(syms):
+    """{symbol: (market cap or fund net assets, 'cap'|'aum')} from Yahoo's quote API, which needs
+    a session cookie + crumb (same steps a browser takes). Raises on failure; caller keeps old values."""
+    cj = http.cookiejar.CookieJar()
+    op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+    op.addheaders = [('User-Agent', UA), ('Accept', '*/*')]
+    for url in ('https://fc.yahoo.com/', 'https://finance.yahoo.com/'):
+        try:
+            op.open(url, timeout=15).read(1000)
+        except urllib.error.HTTPError:
+            pass          # fc.yahoo.com answers 404 but still sets the cookie
+        except Exception as e:
+            print(f'cap  cookie {url}: {e}')
+        if len(cj):
+            break
+    crumb = op.open(f'https://{HOSTS[0]}/v1/test/getcrumb', timeout=15).read().decode().strip()
+    if not crumb or '<' in crumb or ' ' in crumb:
+        raise RuntimeError('no crumb')
+    out = {}
+    for i in range(0, len(syms), 40):
+        q = urllib.parse.urlencode({'symbols': ','.join(syms[i:i + 40]), 'crumb': crumb})
+        res = json.load(op.open(f'https://{HOSTS[0]}/v7/finance/quote?{q}', timeout=20))
+        for r in (res.get('quoteResponse') or {}).get('result') or []:
+            if r.get('marketCap'):
+                out[r['symbol']] = (r['marketCap'], 'cap')
+            elif r.get('netAssets') or r.get('totalAssets'):
+                out[r['symbol']] = (r.get('netAssets') or r.get('totalAssets'), 'aum')
+    for sym in [x for x in syms if x not in out]:   # funds: net assets live in quoteSummary
+        try:
+            q = urllib.parse.urlencode({'modules': 'summaryDetail,defaultKeyStatistics', 'crumb': crumb})
+            res = json.load(op.open(f'https://{HOSTS[0]}/v10/finance/quoteSummary/{urllib.parse.quote(sym)}?{q}', timeout=20))
+            r = ((res.get('quoteSummary') or {}).get('result') or [{}])[0]
+            sd, ks = r.get('summaryDetail') or {}, r.get('defaultKeyStatistics') or {}
+            v = (sd.get('marketCap') or {}).get('raw')
+            if v:
+                out[sym] = (v, 'cap')
+            else:
+                v = (sd.get('totalAssets') or {}).get('raw') or (ks.get('totalAssets') or {}).get('raw')
+                if v:
+                    out[sym] = (v, 'aum')
+        except Exception as e:
+            print(f'cap  {sym}: {e}')
+        time.sleep(0.3)
+    return out
+
+
 def quick_one(old_item, name):
     """Today's price only (one request), reusing the 1-year/5-year history and dividends
     from the last full fetch. Used by live.py between full fetches."""
@@ -307,6 +354,25 @@ def main():
         if f.name not in used:
             f.unlink()
 
+    # market cap (funds: net assets) for sorting the list; kept from the last run when Yahoo says no
+    caps_note = old.get('capsNote', '')
+    if not quick or any('mcap' not in it for it in items):
+        try:
+            caps = market_caps([it['sym'] for it in items if it.get('sym')])
+            caps_note = f'ok {len(caps)}/{len(items)} ' + time.strftime('%Y-%m-%dT%H:%MZ', time.gmtime())
+        except Exception as e:
+            caps = {}
+            caps_note = f'fail {type(e).__name__}: {str(e)[:80]}'
+            print(f'cap  failed {e}', file=sys.stderr)
+        for it in items:
+            got = caps.get(it.get('sym'))
+            prev = old_items.get(it['code']) or {}
+            if got:
+                it['mcap'], it['mcapKind'], it['mcapPx'] = got[0], got[1], it.get('price')
+            elif prev.get('mcap') and 'mcap' not in it:
+                it['mcap'], it['mcapKind'], it['mcapPx'] = prev['mcap'], prev.get('mcapKind', 'cap'), prev.get('mcapPx')
+        print(f'cap  {caps_note}')
+
     # logos: fetched once per stock, kept with the rest of data/ between runs
     keep = set()
     for it in items:
@@ -331,7 +397,7 @@ def main():
     except Exception as e:
         print(f'idx  failed {e}', file=sys.stderr)
         idx = []
-    quotes = {'updated': int(time.time()), 'fx': fx, 'items': items, 'errors': errors, 'indices': idx or old.get('indices', [])}
+    quotes = {'updated': int(time.time()), 'fx': fx, 'items': items, 'errors': errors, 'indices': idx or old.get('indices', []), 'capsNote': caps_note}
     (OUT / 'quotes.json').write_text(json.dumps(quotes, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
     print(f'{len(items)} items, {len(errors)} errors')
     try:  # headlines, at most once an hour
