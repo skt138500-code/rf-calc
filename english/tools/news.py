@@ -179,7 +179,7 @@ def main():
             old = json.loads(OUT.read_text(encoding='utf-8'))
         except Exception:
             old = {}
-        if time.time() - old.get('made', 0) < EVERY:
+        if time.time() - old.get('made', 0) < EVERY and 'videos' in old:   # an older file without videos refreshes at once
             print('english news: fresh enough, skipped')
             return
     now = int(time.time())
