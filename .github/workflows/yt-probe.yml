@@ -1,0 +1,13 @@
+# Temporary test: can a GitHub runner read YouTube channel feeds and captions? Prints counts only.
+name: yt-probe
+on:
+  push:
+    branches: [yt-probe]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -q youtube-transcript-api yt-dlp
+      - run: python3 english/tools/yt_probe.py
