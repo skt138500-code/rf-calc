@@ -1,0 +1,32 @@
+== OPTIONS preflight
+HTTP/2 204 
+date: Tue, 13 Oct 2026 02:44:18 GMT
+access-control-allow-origin: *
+vary: Access-Control-Request-Headers
+access-control-allow-credentials: true
+access-control-allow-headers: Authorization,Content-Type,Accept,Origin,X-Requested-With,x-api-key
+access-control-allow-methods: POST,GET,OPTIONS,HEAD
+access-control-expose-headers: Content-Length,Content-Type
+access-control-max-age: 600
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=kmDxOxPQgGpMMjSFtTKYZ96OxgEG7bebc9y77v%2FWJLpQHIi%2FpYyozryGX64IVRjsfCr%2BbTCzUjx%2FLd6ow4LU%2F8ApHiImHhaqxjLjesAD%2BMeIcpggHu9l8%2F4k5cRMHcB8a8w%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a49b00715d5c5135-PDX
+alt-svc: h3=":443"; ma=86400
+
+
+== GET without key
+HTTP/2 401 
+date: Tue, 13 Oct 2026 02:44:19 GMT
+content-type: application/json
+content-length: 143
+access-control-allow-origin: *
+access-control-allow-credentials: true
+access-control-expose-headers: Content-Length,Content-Type
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qENkwHiL2sZKUrcXFU1VEljuka4LPlfBomG5mmQG8VdDl0iUzq2vydHkxv5012v%2FWh5MLulep9DiQndLAWCOVt0hswOG7fKSTUyQg5%2F3vpzpesVHmkXnUoGnXcvNwL6PUTk%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a49b0072bad15154-MIA
+alt-svc: h3=":443"; ma=86400
+
+{"error":"unauthorized","message":"Unauthorized","details":"Missing API Key","documentationUrl":"https://docs.supadata.ai/errors/unauthorized"}
