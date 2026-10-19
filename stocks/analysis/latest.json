@@ -1,41 +1,112 @@
 {
-  "date": "2026-10-19",
-  "made": "2026-10-19T07:40:00+09:00",
-  "title": "美 반도체 8일째 하락…월요일 삼전닉스 다시 시험대",
-  "mood": "down",
+  "date": "2026-10-20",
+  "made": "2026-10-20T07:45:00+09:00",
+  "title": "美 기술주 반등…코스피 5,768 이틀째 회복 이어갈까",
+  "mood": "up",
   "market": [
-    "주말 뒤 첫 거래일입니다. 지난 금요일(16일) 미국은 S&P 500 -1.09%(7,659), 나스닥 -2.15%(26,140), 다우 -0.34%(52,002)로 내렸습니다. AI 데이터센터에 빚을 많이 낸 기업이 돈을 갚을 수 있을지 걱정이 커졌고(코어위브 -11.9%), 브렌트유가 배럴당 약 110달러(+3.7%)로 뛰며 물가 걱정도 더해졌습니다. 나스닥은 한 주 동안 4.5% 빠져 6월 이후 가장 나쁜 주를 보냈습니다.",
-    "반도체가 가장 약했습니다. 필라델피아 반도체 지수는 -3.83%(11,137)로 8거래일 연속 내렸는데, 2008년 이후 가장 긴 연속 하락입니다. 마이크론 -5.6%, SK하이닉스 미국 예탁증서(ADR) -6.6%였고, 공포지수 VIX는 20(+21%)으로 올랐습니다.",
-    "한국은 16일 코스피 +2.05%(5,668.05), 코스닥 +4.46%(794.78)로 폭락 다음 날 반등했습니다. 외국인이 8거래일 만에 코스피를 약 3,400억 원 순매수했고, 기관과 개인은 팔았습니다. 오늘은 미국 반도체 급락이 삼성전자·SK하이닉스에 다시 부담이 될 수 있습니다. 오를 요인은 큰 낙폭 뒤 저가 매수와 외국인 귀환, 내릴 요인은 반도체 약세와 유가발 금리 걱정입니다. 오전에 나오는 중국 3분기 성장률도 변수입니다.",
-    "원/달러 환율은 16일 1,331.4원(-13.2원)으로 2년여 만에 가장 낮게 마감했고, 지금은 1,334원 안팎입니다. 워시 연준 의장이 다음 회의 결정을 미리 알리지 않겠다고 하자 달러가 약해졌습니다. 미국 10년 금리는 5.10%로 높은 수준이고, 비트코인은 약 80,900달러(-0.6%)입니다. 목요일(22일)에는 한국은행 금리 결정이 있습니다."
+    "어젯밤(19일) 미국은 나스닥 +1.11%(26,431), S&P 500 +0.41%(7,691)로 올랐고 다우는 약보합(-0.07%)이었습니다. 지난주 AI 투자 회의론으로 크게 빠졌던 기술주에 저가 매수가 들어왔습니다. 필라델피아 반도체 지수는 +1.61%(11,316)로 8일 연속 하락을 끊었고, 마이크론·샌디스크 등 메모리주가 강했습니다. 공포지수 VIX는 18.4(-7.8%)로 내려왔습니다.",
+    "한국은 어제 코스피 +1.76%(5,768.01), 코스닥 +1.78%(808.89)로 이틀째 반등했습니다. 장 초반 3% 넘게 빠졌다가 기관(약 5,741억 원 순매수, 연기금 포함)이 받치며 돌아섰습니다. 외국인은 359억 원 순매도로 지난주(하루 평균 약 2.2조 원 매도)보다 파는 힘이 크게 줄었습니다. 오늘은 미국 반도체 반등이 삼성전자·SK하이닉스에 힘이 될 수 있습니다. 오를 요인은 반도체 반등과 외국인 매도 진정, 내릴 요인은 AI 수익성 의구심과 3분기 실적 발표를 앞둔 경계감입니다.",
+    "원/달러 환율은 1,331원으로 전날(1,334원)보다 조금 내렸습니다(원화 강세). 미국 10년 금리는 5.14%로 다시 올랐고, 중동 긴장으로 WTI 유가가 배럴당 100달러를 넘는 수준이라 물가·금리 부담은 남아 있습니다. 미 연준은 28일 회의를 앞두고 발언을 멈춘 기간이라, 이번 주는 빅테크 실적이 시장 방향을 정할 가능성이 큽니다."
   ],
   "stocks": [
-    {"code": "042660", "tone": "down", "text": "한화시스템이 갖고 있던 한화오션 지분 7.24%(약 2,217만 주)를 오늘(19일) 장외에서 약 1조 3,834억 원에 모두 넘깁니다. 15일 종가 62,400원 기준이고 1년짜리 주가수익스왑(PRS)이 붙어 있어, 물량 부담이 주가에 영향을 줄 수 있습니다(금요일 종가 65,000원, +4.2%)."},
-    {"code": "000660", "tone": "down", "text": "금요일 미국에서 SK하이닉스 ADR이 6.6% 빠져 오늘 출발이 부담입니다. 자회사 솔리다임의 미국 상장 준비로 '중복상장' 논란이 이어지며, 이사회가 주주 보호 방안을 어떻게 낼지가 관심입니다(16일 1,272,000원, +0.8%)."},
-    {"code": "005930", "tone": "down", "text": "16일 2.6% 올라 215,500원으로 마감했지만, 밤사이 미국 반도체 지수가 3.8% 빠져 다시 매도 압력을 받을 수 있습니다. 외국인 수급이 이어지는지가 관건입니다."},
-    {"code": "SPCX", "tone": "neutral", "text": "20일(화) 미국 장 마감 뒤 상장 후 두 번째 실적(3분기)을 냅니다. 시장 예상은 매출 약 129~132억 달러 수준이며, 금요일 주가는 146.03달러(-1.7%)였습니다."},
-    {"code": "TSLA", "tone": "neutral", "text": "21일(수) 장 마감 뒤 3분기 실적을 냅니다. 3분기 인도량 약 48.7만 대로 예상을 넘었고, 금요일 2세대 로드스터를 공개했지만 주가는 354.72달러(-2.1%)로 내렸습니다. JP모건은 '중립' 의견을 유지했습니다."},
-    {"code": "012450", "tone": "neutral", "text": "16일 7.8% 올라 888,000원으로 크게 반등했습니다. 자회사 한화시스템이 오션 지분을 팔아 위성·방산 AI 투자 재원 약 1.4조 원을 마련했습니다."}
+    {
+      "code": "SPCX",
+      "tone": "neutral",
+      "text": "오늘 장 마감 뒤(한국 21일 새벽) 3분기 실적을 발표합니다. 시장 예상 매출은 약 129억 달러이고, 옵션 시장은 위아래 약 7.8% 움직임을 반영하고 있어 AI 투자 비용과 매출 성장 속도가 관건입니다. 어제 주가는 +1.3%(147.96달러)."
+    },
+    {
+      "code": "TSLA",
+      "tone": "up",
+      "text": "어제 +3.8%(368.06달러)로 기술주 반등을 이끌었습니다. 21일 장 마감 뒤(한국 22일 오전 6시 30분 콜) 3분기 실적을 내며, 마진과 로보택시·옵티머스 일정이 주목받습니다."
+    },
+    {
+      "code": "042660",
+      "tone": "down",
+      "text": "한화시스템이 남은 한화오션 지분 7.24%(약 1.38조 원)를 주가수익스와프(PRS) 방식으로 넘겼습니다. 계약이 끝날 때 물량이 시장에 나올 수 있다는 부담이 생겨 장중 5% 넘게 빠졌다가 -1.2%(64,200원)로 마감했습니다."
+    },
+    {
+      "code": "012450",
+      "tone": "neutral",
+      "text": "증권사들이 방산주 3분기 실적이 기대에 못 미칠 수 있다고 보며(원화 강세, 수출 매출 인식 지연) 장 초반 3%대 하락했지만, 오후에 회복해 +1.9%(905,000원)로 마감했습니다."
+    },
+    {
+      "code": "000660",
+      "tone": "up",
+      "text": "29일 3분기 실적 발표 예정이며, 시장 예상 영업이익은 약 77조 원으로 또 최대치가 예상됩니다. 어제 외국인은 약 2,181억 원 팔았고 주가는 +0.4%(1,277,000원)."
+    },
+    {
+      "code": "005930",
+      "tone": "up",
+      "text": "어제 +1.2%(218,000원). 미국 메모리주 반등으로 오늘도 반도체 투자 심리 회복 여부가 관건입니다."
+    },
+    {
+      "code": "BAC",
+      "tone": "down",
+      "text": "의심 거래 보고 누락과 관련된 12억 달러 제재를 바로잡는 중이라고 CEO가 밝힌 가운데, 주가는 -1.6%(50.39달러)로 내렸습니다."
+    }
   ],
   "watch": [
-    {"date": "10-19", "text": "중국 3분기 GDP·9월 산업생산·소매판매 / 한화오션 지분 7.24% 장외 매각"},
-    {"date": "10-20", "text": "스페이스X 3분기 실적 (미국 장 마감 뒤, 한국 21일 아침)"},
-    {"date": "10-21", "text": "테슬라·메타 3분기 실적 (미국 장 마감 뒤, 한국 22일 아침)"},
-    {"date": "10-22", "text": "한국은행 기준금리 결정·총재 기자간담회"},
-    {"date": "10-23", "text": "미국·유로존·일본 10월 PMI 속보치"}
+    {
+      "date": "10-20",
+      "text": "스페이스X·넷플릭스 3분기 실적(미국 장 마감 뒤), 미국 9월 주택착공"
+    },
+    {
+      "date": "10-21",
+      "text": "테슬라·메타·텍사스인스트루먼트·IBM 실적(장 마감 뒤), 미국 20년물 국채 입찰"
+    },
+    {
+      "date": "10-22",
+      "text": "미국 주간 신규 실업수당 청구, 웨스턴디지털 실적"
+    },
+    {
+      "date": "10-23",
+      "text": "미국 10월 S&P 제조업·서비스업 PMI 속보치, 미시간대 기대인플레이션"
+    }
   ],
   "sources": [
-    {"title": "US Stocks Close: Nasdaq Drops Over 2%, Chip Stocks Fall Broadly, Micron Falls Over 5%, CoreWeave Plunges Nearly 12%", "url": "https://www.tradingkey.com/analysis/stocks/us-stocks/262221811-us-stock-market-close-nasdaq-drop-chip-stocks-fall-coreweave-micron-tradingkey"},
-    {"title": "[뉴욕증시] 반도체 급락 속 일제히 하락…'속슬' 12.7% 폭락 - 파이낸셜뉴스", "url": "https://www.fnnews.com/news/202610170540489641"},
-    {"title": "AI 투자 우려에 美 증시 급락…19일 코스피도 부담", "url": "https://m.inews24.com/v/2016103"},
-    {"title": "외국인 8거래일 만에 사자…코스피, 2% 상승해 5600선 마감", "url": "https://www.hankyung.com/article/2026101668146"},
-    {"title": "'달러 약세·주가 반등'...원·달러 환율, 1331.4원 마감 '2년여 만에 최저'", "url": "https://www.betanews.net/article/view/beta202610160138"},
-    {"title": "\"증시 운명 걸렸다\"…테슬라·한은·중국에 쏠린 눈[다음주 변수 미리보기]", "url": "https://www.hankyung.com/article/202610167208i"},
-    {"title": "한화시스템, 오션 지분 1.4조에 전량 유동화", "url": "https://www.hankyung.com/article/2026101672691"},
-    {"title": "한화시스템 주요사항보고서(타법인주식및출자증권양도결정) (2026.10.16)", "url": "https://www.chickstockfi.com/disclosures/20261016000478"},
-    {"title": "솔리다임 상장 찬반 밝혀야하는 SK하이닉스 이사회..주주보호 '시험대' 오른다 [이슈체크]", "url": "https://news.mtn.co.kr/article/2026101510441211273"},
-    {"title": "What To Expect In Markets This Week: SPCX, TSLA, META, NFLX, IBM Earnings And More", "url": "https://finance.yahoo.com/markets/stocks/articles/expect-markets-week-spcx-tsla-135816196.html"},
-    {"title": "Tesla, SpaceX, Meta Earnings Loom: 13.7 GWh, $27.9B [2026]", "url": "https://tech-insider.org/tesla-spacex-meta-earnings-week-2026/"},
-    {"title": "SpaceX (SPCX) Earnings Date & Report - Investing.com", "url": "https://www.investing.com/equities/spacex-earnings"}
+    {
+      "title": "Stock Market Today (Oct. 19, 2026): Nasdaq climbs as tech rebounds from sell-off - TheStreet",
+      "url": "https://www.thestreet.com/stock-market-today/stock-market-today-oct-19-2026-nasdaq-futures-climb-as-tech-rebound-from-sell-off"
+    },
+    {
+      "title": "Stock Market Midday, Oct. 19: Tech Stocks Rebound as AI Confidence Returns - Motley Fool",
+      "url": "https://www.fool.com/coverage/stock-market-today/2026/10/19/stock-market-midday-oct-19-tech-stocks-rebound-as-ai-confidence-returns/"
+    },
+    {
+      "title": "코스피, 저가매수에 반등 '선방'…반도체주 투심 여전히 '신중'(종합) - 파이낸셜뉴스",
+      "url": "https://www.fnnews.com/news/202610191611463049"
+    },
+    {
+      "title": "'3분기 실적 우려'에…방산株 일제히 하락 - 파이낸셜뉴스",
+      "url": "https://www.fnnews.com/news/202610190928246411"
+    },
+    {
+      "title": "한화시스템 '3조 베팅'…한화오션 주가 1만원에 3500억 출렁 - 머니투데이방송",
+      "url": "https://news.mtn.co.kr/article/2026101909244184637"
+    },
+    {
+      "title": "[마감분석] 한화에어로스페이스 1.91% 상승 90만5000원 마감 - 재경일보",
+      "url": "https://news.jkn.co.kr/post/1033873"
+    },
+    {
+      "title": "영업익 '76.9조' 6번째 신기록 쓰나…SK하이닉스 4Q도 질주 - 머니투데이",
+      "url": "https://www.mt.co.kr/industry/2026/10/19/2026101913371799572"
+    },
+    {
+      "title": "SpaceX Q3 Earnings Preview: Options Market Signals 7.8% Move - TipRanks",
+      "url": "https://www.tipranks.com/news/spacex-q3-earnings-preview-options-market-signals-7-8-move-as-analysts-forecast-12-9b-revenue"
+    },
+    {
+      "title": "Tesla Q3 2026 Earnings Call: 5 Details That Matter - Basenor",
+      "url": "https://basenor.com/blogs/news/tesla-q3-2026-earnings-call-5-details-that-matter"
+    },
+    {
+      "title": "U.S. economic calendar preview: week of Oct 19–23, 2026 - Investing.com",
+      "url": "https://www.investing.com/news/stock-market-news/us-economic-calendar-preview-key-releases-for-the-week-of-oct-1923-2026-93CH-4958178"
+    },
+    {
+      "title": "Fundies Cheat Sheet: Oct. 19 - BabyPips",
+      "url": "https://babypips.com/analysis/fundies-cheat-sheet-2026-10-19-oil-ai-earnings-yields"
+    }
   ]
 }
