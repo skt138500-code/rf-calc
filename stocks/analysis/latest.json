@@ -1,112 +1,63 @@
 {
-  "date": "2026-10-20",
-  "made": "2026-10-20T07:45:00+09:00",
-  "title": "美 기술주 반등…코스피 5,768 이틀째 회복 이어갈까",
-  "mood": "up",
+  "date": "2026-10-21",
+  "made": "2026-10-21T07:50:00+09:00",
+  "title": "美 다우 1% 올라…코스피 3.7% 급락 뒤 숨 고르기",
+  "mood": "mixed",
   "market": [
-    "어젯밤(19일) 미국은 나스닥 +1.11%(26,431), S&P 500 +0.41%(7,691)로 올랐고 다우는 약보합(-0.07%)이었습니다. 지난주 AI 투자 회의론으로 크게 빠졌던 기술주에 저가 매수가 들어왔습니다. 필라델피아 반도체 지수는 +1.61%(11,316)로 8일 연속 하락을 끊었고, 마이크론·샌디스크 등 메모리주가 강했습니다. 공포지수 VIX는 18.4(-7.8%)로 내려왔습니다.",
-    "한국은 어제 코스피 +1.76%(5,768.01), 코스닥 +1.78%(808.89)로 이틀째 반등했습니다. 장 초반 3% 넘게 빠졌다가 기관(약 5,741억 원 순매수, 연기금 포함)이 받치며 돌아섰습니다. 외국인은 359억 원 순매도로 지난주(하루 평균 약 2.2조 원 매도)보다 파는 힘이 크게 줄었습니다. 오늘은 미국 반도체 반등이 삼성전자·SK하이닉스에 힘이 될 수 있습니다. 오를 요인은 반도체 반등과 외국인 매도 진정, 내릴 요인은 AI 수익성 의구심과 3분기 실적 발표를 앞둔 경계감입니다.",
-    "원/달러 환율은 1,331원으로 전날(1,334원)보다 조금 내렸습니다(원화 강세). 미국 10년 금리는 5.14%로 다시 올랐고, 중동 긴장으로 WTI 유가가 배럴당 100달러를 넘는 수준이라 물가·금리 부담은 남아 있습니다. 미 연준은 28일 회의를 앞두고 발언을 멈춘 기간이라, 이번 주는 빅테크 실적이 시장 방향을 정할 가능성이 큽니다."
+    "어젯밤(20일) 미국은 다우 +1.02%(52,496), S&P 500 +0.28%(7,713)로 올랐고 나스닥은 보합(-0.02%, 26,425)이었습니다. 주택 지표가 부진하게 나오자 금리가 내려가면서 헬스케어·리츠·유틸리티·금융 같은 업종과 중소형주(러셀 2000 +1.65%)로 돈이 옮겨 갔습니다. 반면 AI 투자 부담과 높은 금리 걱정에 대형 기술주는 쉬었고, 필라델피아 반도체 지수는 -0.29%(11,284)였습니다.",
+    "장 마감 뒤에는 스페이스X가 매출 146억 달러(+161%)로 예상을 크게 넘겨 시간외에서 올랐고, 넷플릭스는 4분기 전망이 기대에 못 미쳐 시간외에서 약 6% 빠졌습니다. 오늘 밤(한국 22일 새벽)에는 테슬라·메타 실적이 나와 AI 관련주 방향을 가를 시험대가 됩니다.",
+    "한국은 어제 코스피가 -3.73%(5,552.74), 코스닥이 -3.33%(781.97)로 크게 빠지며 이틀 반등분을 모두 반납했습니다. 외국인(약 5,300억 원)과 기관(약 1조 원)이 함께 팔았고 개인이 약 9,000억 원을 샀습니다. 방산주가 3분기 실적 우려와 수주 지연 걱정으로 10% 넘게 급락했고, 반도체도 미국 반등을 따라가지 못했습니다. 오늘은 미국 다우·중소형주 반등과 금리 하락이 반등 재료이고, AI 수익성 의구심과 외국인 매도가 이어지는지가 부담 요인입니다.",
+    "원/달러 환율은 1,327원 안팎으로 전날(약 1,333원)보다 내려 원화가 강해졌습니다. 원화 강세는 수입 물가에는 좋지만 수출 기업 실적에는 부담으로 해석되고 있습니다. 미국 10년 금리는 5.12%로 조금 내렸고, WTI 유가는 101.79달러(-1.8%)로 내려왔지만 호르무즈 해협 긴장은 여전합니다. VIX는 17.3(-6.1%)으로 낮아졌고, 연준은 27~28일 회의를 앞두고 발언을 멈춘 기간입니다."
   ],
   "stocks": [
     {
-      "code": "SPCX",
-      "tone": "neutral",
-      "text": "오늘 장 마감 뒤(한국 21일 새벽) 3분기 실적을 발표합니다. 시장 예상 매출은 약 129억 달러이고, 옵션 시장은 위아래 약 7.8% 움직임을 반영하고 있어 AI 투자 비용과 매출 성장 속도가 관건입니다. 어제 주가는 +1.3%(147.96달러)."
-    },
-    {
-      "code": "TSLA",
-      "tone": "up",
-      "text": "어제 +3.8%(368.06달러)로 기술주 반등을 이끌었습니다. 21일 장 마감 뒤(한국 22일 오전 6시 30분 콜) 3분기 실적을 내며, 마진과 로보택시·옵티머스 일정이 주목받습니다."
+      "code": "012450",
+      "tone": "down",
+      "text": "3분기 영업이익이 시장 예상(약 1.18조 원)에 못 미칠 수 있다는 증권사 분석이 나오며 -11.7%(799,000원)로 급락했습니다. DS투자증권·한국투자증권·현대차증권이 목표주가를 낮췄고(투자의견은 유지), 원화 강세와 해외 수주 지연 우려가 방산주 전체를 눌렀습니다."
     },
     {
       "code": "042660",
       "tone": "down",
-      "text": "한화시스템이 남은 한화오션 지분 7.24%(약 1.38조 원)를 주가수익스와프(PRS) 방식으로 넘겼습니다. 계약이 끝날 때 물량이 시장에 나올 수 있다는 부담이 생겨 장중 5% 넘게 빠졌다가 -1.2%(64,200원)로 마감했습니다."
+      "text": "방산·조선주 동반 약세 속에 -8.3%(58,900원)로 마감해 6만 원 아래로 내려왔습니다. 회사 고유의 새 악재보다는 시장 전체 매도 영향이 컸습니다."
     },
     {
-      "code": "012450",
+      "code": "SPCX",
+      "tone": "up",
+      "text": "3분기 매출 146억 달러(+161%), 주당순이익 0.35달러로 예상(매출 약 127억 달러, 0.12달러)을 크게 넘었습니다. AI 부문 매출이 76억 달러로 늘었고 스타링크 가입자는 1,360만 명입니다. 정규장은 147.79달러(-0.1%)였고 시간외에서 올랐습니다."
+    },
+    {
+      "code": "TSLA",
       "tone": "neutral",
-      "text": "증권사들이 방산주 3분기 실적이 기대에 못 미칠 수 있다고 보며(원화 강세, 수출 매출 인식 지연) 장 초반 3%대 하락했지만, 오후에 회복해 +1.9%(905,000원)로 마감했습니다."
+      "text": "어제 +1.5%(373.71달러). 오늘 장 마감 뒤(한국 22일 오전 6시 30분 콜) 3분기 실적을 냅니다. 시장 예상은 매출 약 281억 달러(작년과 비슷), 주당순이익 0.45달러(약 10% 감소)이고, 자동차 마진과 사이버캡·자율주행 일정이 관심입니다."
     },
     {
       "code": "000660",
-      "tone": "up",
-      "text": "29일 3분기 실적 발표 예정이며, 시장 예상 영업이익은 약 77조 원으로 또 최대치가 예상됩니다. 어제 외국인은 약 2,181억 원 팔았고 주가는 +0.4%(1,277,000원)."
+      "tone": "neutral",
+      "text": "어제 -4.2%(1,223,000원)로 미국 반도체 반등을 따라가지 못했습니다. 28일(수) 오전 9시 3분기 실적을 발표할 예정이라, 그 전까지 AI 메모리 수요에 대한 시장 시각에 따라 흔들릴 수 있습니다."
     },
     {
-      "code": "005930",
+      "code": "O",
       "tone": "up",
-      "text": "어제 +1.2%(218,000원). 미국 메모리주 반등으로 오늘도 반도체 투자 심리 회복 여부가 관건입니다."
-    },
-    {
-      "code": "BAC",
-      "tone": "down",
-      "text": "의심 거래 보고 누락과 관련된 12억 달러 제재를 바로잡는 중이라고 CEO가 밝힌 가운데, 주가는 -1.6%(50.39달러)로 내렸습니다."
+      "text": "미국 금리가 내려가며 리츠 업종이 +1.7% 오른 가운데 +1.5%(56.34달러)로 마감했습니다. 같은 이유로 OHI(+1.5%)도 올랐습니다."
     }
   ],
   "watch": [
-    {
-      "date": "10-20",
-      "text": "스페이스X·넷플릭스 3분기 실적(미국 장 마감 뒤), 미국 9월 주택착공"
-    },
-    {
-      "date": "10-21",
-      "text": "테슬라·메타·텍사스인스트루먼트·IBM 실적(장 마감 뒤), 미국 20년물 국채 입찰"
-    },
-    {
-      "date": "10-22",
-      "text": "미국 주간 신규 실업수당 청구, 웨스턴디지털 실적"
-    },
-    {
-      "date": "10-23",
-      "text": "미국 10월 S&P 제조업·서비스업 PMI 속보치, 미시간대 기대인플레이션"
-    }
+    {"date": "10-22", "text": "테슬라·메타·IBM·램리서치 3분기 실적 (미국 21일 장 마감 뒤, 한국 22일 새벽)"},
+    {"date": "10-22", "text": "미국 신규 실업수당 청구 건수 (한국 밤 9시 30분)"},
+    {"date": "10-23", "text": "미국 10월 S&P 글로벌 제조업·서비스업 PMI, 미시간대 기대인플레이션"},
+    {"date": "10-28", "text": "SK하이닉스 3분기 실적 발표 (오전 9시)"},
+    {"date": "10-28", "text": "미국 FOMC 회의 마지막 날 (결과는 한국 29일 새벽)"}
   ],
   "sources": [
-    {
-      "title": "Stock Market Today (Oct. 19, 2026): Nasdaq climbs as tech rebounds from sell-off - TheStreet",
-      "url": "https://www.thestreet.com/stock-market-today/stock-market-today-oct-19-2026-nasdaq-futures-climb-as-tech-rebound-from-sell-off"
-    },
-    {
-      "title": "Stock Market Midday, Oct. 19: Tech Stocks Rebound as AI Confidence Returns - Motley Fool",
-      "url": "https://www.fool.com/coverage/stock-market-today/2026/10/19/stock-market-midday-oct-19-tech-stocks-rebound-as-ai-confidence-returns/"
-    },
-    {
-      "title": "코스피, 저가매수에 반등 '선방'…반도체주 투심 여전히 '신중'(종합) - 파이낸셜뉴스",
-      "url": "https://www.fnnews.com/news/202610191611463049"
-    },
-    {
-      "title": "'3분기 실적 우려'에…방산株 일제히 하락 - 파이낸셜뉴스",
-      "url": "https://www.fnnews.com/news/202610190928246411"
-    },
-    {
-      "title": "한화시스템 '3조 베팅'…한화오션 주가 1만원에 3500억 출렁 - 머니투데이방송",
-      "url": "https://news.mtn.co.kr/article/2026101909244184637"
-    },
-    {
-      "title": "[마감분석] 한화에어로스페이스 1.91% 상승 90만5000원 마감 - 재경일보",
-      "url": "https://news.jkn.co.kr/post/1033873"
-    },
-    {
-      "title": "영업익 '76.9조' 6번째 신기록 쓰나…SK하이닉스 4Q도 질주 - 머니투데이",
-      "url": "https://www.mt.co.kr/industry/2026/10/19/2026101913371799572"
-    },
-    {
-      "title": "SpaceX Q3 Earnings Preview: Options Market Signals 7.8% Move - TipRanks",
-      "url": "https://www.tipranks.com/news/spacex-q3-earnings-preview-options-market-signals-7-8-move-as-analysts-forecast-12-9b-revenue"
-    },
-    {
-      "title": "Tesla Q3 2026 Earnings Call: 5 Details That Matter - Basenor",
-      "url": "https://basenor.com/blogs/news/tesla-q3-2026-earnings-call-5-details-that-matter"
-    },
-    {
-      "title": "U.S. economic calendar preview: week of Oct 19–23, 2026 - Investing.com",
-      "url": "https://www.investing.com/news/stock-market-news/us-economic-calendar-preview-key-releases-for-the-week-of-oct-1923-2026-93CH-4958178"
-    },
-    {
-      "title": "Fundies Cheat Sheet: Oct. 19 - BabyPips",
-      "url": "https://babypips.com/analysis/fundies-cheat-sheet-2026-10-19-oil-ai-earnings-yields"
-    }
+    {"title": "[마감시황]코스피 3.73% 급락 마감…기관·외국인 동반 매도에 5552.74 (서울신문)", "url": "https://www.seoul.co.kr/news/economy/securities/2026/10/20/20261020500235"},
+    {"title": "반등 이틀 만에 꺾인 코스피, 하루 만에 3.7%↓ (더퍼블릭)", "url": "https://www.thepublic.kr/news/articleView.html?idxno=322977"},
+    {"title": "반도체보다 더 빠진 방산株…실적 우려에 목표가도 ‘뚝’ (서울경제)", "url": "https://m.sedaily.com/article/20103870"},
+    {"title": "한화에어로스페이스 11% 넘게 하락…DS증권, 목표주가 165만원으로 낮춰 (CBC뉴스)", "url": "https://www.cbci.co.kr/news/articleView.html?idxno=617318"},
+    {"title": "Closing Look — Tuesday, October 20, 2026", "url": "https://cappnotes.substack.com/p/closing-look-tuesday-october-20-2026"},
+    {"title": "Market Review: October 20, 2026 (Investrade)", "url": "https://investrade.com/market-review-october-20-2026/"},
+    {"title": "SpaceX Delivers Q3 Double Beat as AI Revenue Soars (Benzinga)", "url": "https://www.benzinga.com/markets/earnings/26/10/62482628/spacex-delivers-q3-double-beat-as-ai-revenue-soars"},
+    {"title": "Tesla (TSLA) Q3 2026 earnings preview (Electrek)", "url": "https://electrek.co/2026/10/20/tesla-tsla-q3-2026-earnings-preview/"},
+    {"title": "U.S. economic calendar preview: week of Oct 19–23, 2026 (Investing.com)", "url": "https://investing.com/news/stock-market-news/us-economic-calendar-preview-key-releases-for-the-week-of-oct-1923-2026-93CH-4958178"},
+    {"title": "SK하이닉스 3분기 실적 발표일 2026 — 10월 28일(수) 오전 9시", "url": "https://bamsise.co.kr/guide/sk-hynix-q3-2026-earnings-date"}
   ]
 }
