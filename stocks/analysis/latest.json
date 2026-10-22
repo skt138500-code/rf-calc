@@ -1,112 +1,108 @@
 {
-  "date": "2026-10-22",
-  "made": "2026-10-22T07:28:28+09:00",
-  "title": "美 기술주 반등·테슬라 실적 무난…코스피 5,700선 지킬까",
-  "mood": "up",
+  "date": "2026-10-23",
+  "made": "2026-10-23T07:23:12+09:00",
+  "title": "AI 투자 걱정에 美 반도체 -6.7%…한국 반도체 또 시험대",
+  "mood": "down",
   "market": [
-    "어젯밤(21일) 미국은 나스닥 +1.05%(26,703), S&P 500 +0.59%(7,757), 다우 +0.69%(52,857)로 올랐습니다. 슈퍼마이크로가 매출 전망을 올리고 스페이스X 실적이 좋게 나오면서 AI 관련 기술주로 돈이 몰렸고, 필라델피아 반도체 지수도 +2.0%(11,506) 올랐습니다. 반면 넷플릭스는 약한 전망에 -5% 넘게 빠졌고, 헬스케어·필수소비재·유틸리티 같은 방어 업종은 뒤처졌습니다.",
-    "장 마감 뒤 나온 실적은 엇갈렸습니다. 테슬라는 매출이 예상 수준, 주당순이익은 예상보다 조금 높아 시간외에서 소폭 올랐습니다. 메타와 IBM은 시간외에서 올랐고, 반도체 장비주 램리서치는 예상을 넘었지만 시간외에서 내렸습니다. 램리서치 흐름이 오늘 한국 반도체주에 부담이 될지 지켜볼 점입니다.",
-    "한국은 어제 코스피가 +3.29%(5,735.66)로 하루 전 급락(-3.73%)분을 대부분 되찾았고, 장중 4.75%까지 올라 매수 사이드카가 걸렸습니다. 외국인이 약 6,600억 원을 사며 삼성전자(+5.7%)·SK하이닉스(+5.8%)를 끌어올렸고, 개인은 약 1조 1,300억 원을 팔았습니다. 10월 1~20일 수출이 1년 전보다 2배 넘게(반도체 +222%) 늘었다는 발표도 힘이 됐습니다. 코스닥은 +1.38%(792.76)였습니다. 오늘은 미국 기술주 반등이 이어지는 재료이고, 이틀 사이 큰 폭으로 오르내린 만큼 차익 매물과 외국인 수급이 이어지는지가 변수입니다.",
-    "원/달러 환율은 어제 1,325.2원으로 2.9원 내려 약 2년 만에 가장 낮은 수준이고, 지금은 1,327원 안팎입니다. 미국 10년 금리는 5.15%로 조금 올랐고 VIX는 16.7로 내려왔습니다. WTI 유가는 97달러 안팎으로 내렸지만 걸프 지역 대사관 철수 준비 보도 등 중동 긴장은 아직 남아 있습니다. 연준은 27~28일 회의를 앞두고 있습니다."
+    "어젯밤(22일) 미국은 나스닥 -2.60%(26,009), S&P 500 -1.21%(7,663)로 크게 내렸고 다우는 보합(+0.02%, 52,868)이었습니다. 메타가 실적은 좋았지만 데이터센터 투자가 벌어들인 현금보다 많다는 점이 드러나 -7% 빠졌고, AI 투자 부담에 대한 걱정이 반도체로 번졌습니다. 램리서치가 -11.8%로 가장 많이 내렸고 필라델피아 반도체 지수는 -6.7%(10,732)였습니다.",
+    "미국·이스라엘이 이란 공격을 다시 준비한다는 보도로 브렌트유가 배럴당 113달러로 약 4% 올라 5월 이후 가장 높아졌고, WTI도 99달러대로 올랐습니다. 불안이 커지며 VIX는 19.0으로 14% 뛰었습니다. 실업수당 신규 청구는 19만 4천 건으로 석 달 만에 가장 적어 고용은 아직 탄탄합니다.",
+    "한국은 어제 코스피가 -3.52%(5,533.77), 코스닥이 -3.62%(764.10)로 전날 반등분을 거의 다 되돌렸습니다. 기관이 약 4,600억 원을 팔았고 외국인은 소폭(약 600억 원) 순매수, 개인은 약 3,800억 원을 샀습니다. 반도체·2차전지 대형주가 하락을 이끌었습니다. 오늘은 밤사이 미국 반도체 급락이 다시 부담이고, 최근 하루씩 3%대로 오르내리는 큰 변동이 이어질지가 관건입니다. 오를 요인은 탄탄한 반도체 수출과 다음 주 실적 기대, 내릴 요인은 AI 투자 부담 논란과 유가 급등입니다.",
+    "원/달러 환율은 어제 1,324.2원으로 1원 내려 5거래일 연속 하락(약 2년 만의 낮은 수준)했고 지금은 1,325원 안팎입니다. 돈이 채권으로 몰리며 미국 10년 금리는 5% 근처(앱 기준 4.95%)로 0.1%p 넘게 내렸습니다. 비트코인은 -3.2%(약 81,400달러)입니다. 연준은 27~28일 회의를 엽니다."
   ],
   "stocks": [
     {
       "code": "000660",
-      "tone": "up",
-      "text": "외국인 매수와 반도체 수출 급증 소식에 +5.8%(1,294,000원)로 마감했습니다. 다음 주(28일 전후) 3분기 실적 발표를 앞두고 있어, 오늘은 램리서치 시간외 약세가 부담이 될지가 관심입니다."
+      "tone": "down",
+      "text": "어제 -5.5%(1,223,000원). 밤사이 램리서치(-11.8%) 등 미국 반도체가 크게 빠져 오늘도 부담입니다. 28일 3분기 실적 발표에서 영업이익률 78% 안팎(시장 예상)을 넘길지가 다음 고비입니다."
     },
     {
       "code": "005930",
-      "tone": "up",
-      "text": "+5.7%(223,500원)로 하루 전 급락을 대부분 되돌렸습니다. 반도체 수출이 1년 전보다 3배 넘게 늘었다는 발표와 외국인 순매수가 힘이 됐습니다."
+      "tone": "down",
+      "text": "어제 -4.0%(214,500원)로 전날 반등분을 상당 부분 내줬습니다. 미국 반도체 급락이 부담이고, 29일 오전 8시 3분기 실적 발표가 예정돼 있습니다."
     },
     {
       "code": "SPCX",
-      "tone": "up",
-      "text": "3분기 매출 146억 달러(+161%)로 예상을 크게 넘은 효과로 +7.8%(159.31달러) 올랐습니다. 머스크가 자기 다른 회사와의 합병이 '좋은 생각'이라고 말한 점도 화제가 됐습니다."
+      "tone": "down",
+      "text": "실적 다음 날 -9.1%(144.75달러)로 전날 상승분을 넘게 되돌렸습니다. 4분기 설비투자를 350억~400억 달러로 크게 늘리겠다는 계획과 테슬라 합병 논의의 불확실성이 부담이 됐습니다. 반대로 JP모건·BofA 등은 목표가를 올렸습니다."
     },
     {
       "code": "TSLA",
-      "tone": "neutral",
-      "text": "정규장 +3.4%(386.47달러). 3분기 매출 281억 달러(예상 수준), 주당순이익 0.48달러(예상 0.45달러)였고 매출총이익률은 19.6%로 올랐지만, 연구개발비가 크게 늘어 영업이익은 56% 줄었습니다. 시간외에서는 소폭 올랐습니다."
-    },
-    {
-      "code": "042660",
-      "tone": "neutral",
-      "text": "+0.8%(59,400원). 21일 한화시스템이 보유하던 한화오션 주식 약 2,217만 주를 시간외 대량매매로 모두 팔아, 최대주주 쪽 지분율이 37.68%에서 30.44%로 낮아졌습니다."
+      "tone": "down",
+      "text": "-3.1%(374.58달러). 주당순이익은 예상보다 높았지만 매출(280.5억 달러)이 예상에 조금 못 미쳤고, 내년 이후 투자 계획과 기술주 매도세가 겹쳤습니다."
     },
     {
       "code": "OHI",
-      "tone": "down",
-      "text": "미국 금리가 조금 오르고 방어 업종이 뒤처지면서 -2.4%(44.45달러)로 내렸습니다. 같은 흐름으로 리얼티인컴(O)도 -1.8%(55.35달러)였습니다."
+      "tone": "up",
+      "text": "미국 금리가 내린 날 +4.2%(46.30달러)로 올랐습니다. 리얼티인컴(O)도 +3.1%(57.06달러)로 같은 흐름이었습니다."
     },
     {
       "code": "BITX",
-      "tone": "up",
-      "text": "비트코인이 2% 넘게 올라 8만 5천 달러 가까이 가면서, 2배 추종 ETF인 BITX는 +4.7%(19.82달러)였습니다."
+      "tone": "down",
+      "text": "비트코인이 -3.2% 내리며 2배 상품인 BITX는 -7.4%(18.35달러)였습니다."
+    },
+    {
+      "code": "042660",
+      "tone": "down",
+      "text": "어제 -3.7%(57,200원). 특별한 새 소식보다는 시장 전체 약세의 영향이 컸습니다."
     }
   ],
   "watch": [
     {
-      "date": "10-22",
-      "text": "미국 신규 실업수당 청구 건수 (한국 밤 9시 30분, 예상 20만 건)"
-    },
-    {
-      "date": "10-23",
-      "text": "미국 10월 S&P 글로벌 제조업·서비스업 PMI 속보치 (한국 밤 10시 45분)"
-    },
-    {
-      "date": "10-28",
-      "text": "SK하이닉스 3분기 실적 발표 예정 (28~29일, 영업이익 예상 약 78조 원)"
-    },
-    {
-      "date": "10-28",
-      "text": "미국 FOMC 회의 마지막 날 (결과는 한국 29일 새벽)"
-    },
-    {
       "date": "10-27",
-      "text": "FOMC 주간(27~30일)에 미국 3분기 GDP·PCE 물가 발표도 몰려 있음"
+      "text": "미국 연준(FOMC) 회의 시작 (현재 금리 3.75~4.00%)"
+    },
+    {
+      "date": "10-28",
+      "text": "SK하이닉스 3분기 실적 발표"
+    },
+    {
+      "date": "10-29",
+      "text": "새벽 3시(한국) FOMC 금리 결정·의장 회견"
+    },
+    {
+      "date": "10-29",
+      "text": "삼성전자 3분기 실적 발표 (오전 8시)"
+    },
+    {
+      "date": "10-29",
+      "text": "29~30일 미국 3분기 GDP·PCE 물가 발표 예정"
     }
   ],
   "sources": [
     {
-      "title": "Market Review: October 21, 2026 (Investrade)",
-      "url": "https://investrade.com/market-review-october-21-2026/"
+      "title": "Stock market today: S&P 500, Nasdaq tank as tech stocks sink amid AI trade worries, Meta shares plummet (Yahoo Finance)",
+      "url": "https://finance.yahoo.com/markets/article/stock-market-today-thursday-october-22-dow-sp-500-nasdaq-tesla-meta-112217857.html"
     },
     {
-      "title": "investingLive Americas FX news wrap 21 Oct: Nasdaq leads as AI optimism offsets Gulf oil risks",
-      "url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-21-oct-nasdaq-leads-as-ai-optimism-offsets-gulf-oil-risks/"
+      "title": "Stock Market Today: AI and Chip Stocks Made Up 93% of the Value the Nasdaq-100 Lost (StockTitan)",
+      "url": "https://www.stocktitan.net/articles/why-is-nasdaq-down-today-october-22-2026-ai-chip-stocks"
     },
     {
-      "title": "외인 귀환·반도체 훈풍…코스피, 급락 딛고 5700선 회복 (파이낸셜뉴스)",
-      "url": "https://www.fnnews.com/news/202610211605537952"
+      "title": "[마감시황]코스피 5,533.77로 3.52% 급락 마감 (서울신문)",
+      "url": "https://www.seoul.co.kr/news/economy/securities/2026/10/22/20261022500246"
     },
     {
-      "title": "'외인이 사면 오른다' 코스피 5700선 탈환…삼전·닉스 급등 (헤럴드경제)",
-      "url": "https://biz.heraldcorp.com/article/10909541"
+      "title": "[마감 시황] 반등 하루 만에 얼어붙은 증시…코스피 5,500선 턱걸이 (Businesskorea)",
+      "url": "https://www.businesskorea.co.kr/news/articleView.html?idxno=279469"
     },
     {
-      "title": "Tesla (TSLA) releases Q3 2026 financial results: margins rebound, profit still falls (Electrek)",
-      "url": "https://electrek.co/2026/10/21/tesla-tsla-q3-2026-financial-results/"
+      "title": "SK하이닉스, 28일 3Q 경영실적 발표…영업이익률 80% 달성 주목 (뉴스1)",
+      "url": "https://www.news1.kr/industry/general-industry/6320317"
     },
     {
-      "title": "Tesla (TSLA) Posts Steady Q3 Revenue, EPS Beats Consensus, Shares Rise Slightly After Hours (GuruFocus)",
-      "url": "https://www.gurufocus.com/news/9135034/tesla-tsla-posts-steady-q3-revenue-eps-beats-consensus-shares-rise-slightly-after-hours"
+      "title": "SpaceX stock slides as tech trade tumbles (Yahoo Finance)",
+      "url": "https://finance.yahoo.com/markets/stocks/article/spacex-stock-slides-as-tech-trade-tumbles-191751177.html"
     },
     {
-      "title": "한화오션, 최대주주 등 지분율 30.44%…한화시스템 2216만9660주 시간외매매 (CBC뉴스)",
-      "url": "https://www.cbci.co.kr/news/articleView.html?idxno=617836"
+      "title": "FOMC Meeting Schedule — October 2026",
+      "url": "https://fedratecalc.com/fomc-meeting-schedule/october-2026/"
     },
     {
-      "title": "SK하이닉스·삼성전자 3분기 실적 전망 (이코노미스트)",
-      "url": "https://economist.co.kr/article/view/ecn202610090003"
+      "title": "삼성전자 실적 발표 일정 (노잉에셋)",
+      "url": "https://www.knowingasset.com/app/calendar/8226"
     },
     {
-      "title": "TD Economics: upcoming economic releases (Oct 19–23, 2026)",
-      "url": "https://economics.td.com/domains/economics.td.com/documents/reports/bottom-line/tables/2026-10-16/upcoming.htm"
-    },
-    {
-      "title": "Economic calendar preview: week of Oct 26, 2026 (Thrive in Markets)",
+      "title": "Next week's calendar: FOMC, Q3 GDP and PCE (Thrive in Markets)",
       "url": "https://thriveinmarkets.com/calendar/2026-10-26/"
     }
   ]
