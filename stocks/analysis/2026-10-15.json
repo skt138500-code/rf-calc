@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-15",
+  "made": "2026-10-15T07:45:00+09:00",
+  "title": "美 물가 충격에 나스닥 -1.9%, 반도체 6일째 약세",
+  "mood": "down",
+  "market": [
+    "밤사이(14일) 미국은 S&P 500 -1.11%(7,719), 나스닥 -1.88%(26,693)로 빠졌고, 다우는 헬스케어주 덕에 -0.09%로 버텼습니다. 9월 소비자물가(CPI)가 전년보다 3.7% 올라 예상(3.6%)을 넘었고, 근원 CPI도 2.6%로 예상(2.5%)보다 높았습니다. 이 때문에 이달 말 금리 인상 가능성이 커졌다는 해석이 나왔습니다.",
+    "AI 투자에 돈을 빌려 쓴 기업들의 부담이 다시 부각되며 오라클(약 -9%), 코어위브(약 -15%) 등 AI 인프라주가 크게 밀렸습니다. 필라델피아 반도체 지수는 -4.30%(11,684)로 6거래일 연속 하락했고, 마이크론 -4.1%, SK하이닉스 미국 예탁증서(ADR) -6.1%였습니다. 대형 은행 실적도 엇갈려 뱅크오브아메리카가 크게 떨어졌습니다.",
+    "한국은 14일 코스피가 장중 6,190까지 올랐다가 외국인이 약 1.36조 원을 팔면서 -0.44%(6,008.81)로 밀려 6거래일 연속 하락했습니다. 코스닥은 -1.57%(823.88)입니다. 기관은 약 9,700억 원을 샀고, 2차전지주는 올랐지만 금융주는 약했습니다. 오늘은 미국 반도체 급락의 영향이 부담이고, 6,000선을 지키는지와 외국인 매도 속도가 관건입니다. 오를 요인은 며칠째 이어진 하락에 따른 반발 매수, 내릴 요인은 금리 인상 우려와 반도체 약세입니다.",
+    "원/달러 환율은 14일 서울 마감 1,338.3원(-6.8원)으로 내렸고, 지금은 1,341원 안팎입니다. 미국 10년 금리는 장중 5.3%를 넘었다가 5.19% 근처로 내려왔고, 2년 금리는 4.89%로 크게 올랐습니다. VIX는 16.9로 올랐고, 비트코인은 약 81,700달러(-1.7%)입니다. WTI 유가는 배럴당 약 95달러로 1% 올라 물가 부담을 더했습니다."
+  ],
+  "stocks": [
+    {"code": "000660", "tone": "down", "text": "14일 -1.66%(1,419,000). 장중 3% 넘게 올랐다가 밀렸고, 밤사이 미국 예탁증서(ADR)가 -6.1%로 떨어져 오늘도 부담입니다."},
+    {"code": "BAC", "tone": "down", "text": "3분기 실적 발표 뒤 14일 -4.76%(51.39). 매출 약 300억 달러로 예상에 못 미쳤고, 자금세탁방지·제재 위반 합의로 12억 달러 비용이 생겨 순이익은 69억 달러로 1년 전보다 17% 줄었습니다. 이자수익은 8% 늘었습니다."},
+    {"code": "005930", "tone": "down", "text": "14일 보합(232,000). 장중 4% 넘게 올랐다가 상승분을 모두 내줬고, 밤사이 미국 반도체 지수가 4% 넘게 빠진 점이 오늘 부담입니다."},
+    {"code": "SPCX", "tone": "down", "text": "14일 -2.80%(152.16). 기술·고평가 성장주 매도에 휩쓸렸고, 상장 뒤 보호예수가 풀린 물량이 나오는 점도 부담으로 꼽힙니다."},
+    {"code": "TSLA", "tone": "neutral", "text": "14일 -2.15%(367.16). 3분기 실적은 21일 미국 장 마감 뒤 발표(한국 시간 22일 아침)로 확정됐습니다."}
+  ],
+  "watch": [
+    {"date": "10-15", "text": "미국 9월 소매판매·생산자물가(PPI)·실업수당 청구 (한국 시간 21:30, 소매판매 예상 +0.3%)"},
+    {"date": "10-15", "text": "TSMC 3분기 실적 (미국 개장 전) — 반도체 분위기 가늠"},
+    {"date": "10-16", "text": "미국 9월 산업생산"},
+    {"date": "10-19", "text": "QYLD 월 배당락 예상 (지난달 9-21, 이달 날짜 미발표)"},
+    {"date": "10-21", "text": "테슬라 3분기 실적 (미국 장 마감 후, 한국 시간 22일 06:30 설명회)"},
+    {"date": "10-28", "text": "FOMC 금리 결정 (한국 시간 29일 새벽) — CPI 뒤 인상 확률 약 46%로 올라"}
+  ],
+  "sources": [
+    {"title": "[뉴욕증시] 끈적한 물가에 AI 빚더미 경고...나스닥 1.88% 급락 - 글로벌이코노믹", "url": "https://www.g-enews.com/article/Securities/2026/10/202610150530032223e250e8e188_1"},
+    {"title": "미국증시 나스닥 1.88% 급락…물가 충격에 AI·반도체 투매, SK하이닉스 6%↓ - 톱스타뉴스", "url": "https://www.topstarnews.net/news/articleView.html?idxno=16247466"},
+    {"title": "'Hot' CPI Data Sends Yields, Rate Hike Odds Higher - Charles Schwab", "url": "https://www.schwab.com/learn/story/stock-market-update-open"},
+    {"title": "기술적 반등도 없었다...코스피, 빛 바랜 6008 [fn마감시황] - 파이낸셜뉴스", "url": "https://www.fnnews.com/news/202610141600435929"},
+    {"title": "원·달러 환율 6.8원 내린 1338.3원 - 파이낸셜뉴스", "url": "https://www.fnnews.com/news/202610141540451756"},
+    {"title": "Bank of America Stock Plunges After $1.2 Billion Fine and Q3 Earnings Miss - GuruFocus", "url": "https://www.gurufocus.com/news/9123726/bank-of-america-stock-plunges-after-12-billion-fine-and-q3-earnings-miss"},
+    {"title": "SpaceX Stock (SPCX) Moved Down by 3.28% on Oct 14: Drivers Behind the Movement - TradingKey", "url": "https://www.tradingkey.com/news/market-movers/262216939-market-movers-spcx-20261014"},
+    {"title": "Tesla Q3 2026 Earnings Call: 5 Details That Matter - Basenor", "url": "https://basenor.com/blogs/news/tesla-q3-2026-earnings-call-5-details-that-matter"},
+    {"title": "Week Ahead: US CPI, Big Bank Earnings and TSMC in Focus - Gotrade", "url": "https://heygotrade.com/en/news/weekly-economic-outlook-2026-10-12"}
+  ]
+}
