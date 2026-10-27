@@ -1,39 +1,37 @@
 {
-  "date": "2026-10-27",
-  "made": "2026-10-27T07:45:00+09:00",
-  "title": "미국 기술주 반등, 코스피는 7개월 최저…하이닉스 내일 실적",
-  "mood": "mixed",
+  "date": "2026-10-28",
+  "made": "2026-10-28T07:50:00+09:00",
+  "title": "AI 훈풍 이틀째, 반도체 강세…오늘 SK하이닉스 실적",
+  "mood": "up",
   "market": [
-    "밤사이 미국은 지난주 하락을 일부 되돌렸습니다. 다우 +0.28%(52,362), S&P 500 +0.70%(7,677), 나스닥 +0.82%(26,169)로 기술주가 앞장섰습니다. 앤트로픽이 나스닥 상장(티커 ANT)을 신청하면서 AI 투자 기대가 다시 살아났고, 필라델피아 반도체 지수는 +2.8% 올랐습니다. 미국과 이란의 긴장이 누그러질 수 있다는 기대에 유가는 내렸습니다(WTI 101.4달러, 브렌트 115.2달러, 각각 약 -1.5%).",
-    "한국은 어제(26일) 코스피가 -1.46%(5,469.47)로 4월 이후 약 7개월 만에 가장 낮게 마감했습니다. 코스닥은 -3.26%(727.21)로 더 크게 빠졌고, 반도체 장비·바이오주가 약했습니다. 외국인은 코스피에서 약 7,500억 원을 팔아 이틀 연속 순매도했고 기관이 약 6,200억 원을 사서 받쳤습니다. 거래대금이 줄고 외국인 매도를 받아줄 매수세가 부족하다는 평가가 나옵니다.",
-    "오늘은 밤사이 반도체 지수 반등이 국내 반도체주에 힘이 될지가 첫 관심입니다. 오를 요인은 28일 SK하이닉스, 29일 삼성전자 실적과 주주환원 발표, 그리고 미국 빅테크 실적이 AI 투자 걱정을 덜어 주는 경우입니다. 내릴 요인은 외국인 매도가 이어지는 것, 중동 긴장으로 유가가 다시 오르는 것, 다음 주 미국 중간선거를 앞둔 불확실성입니다.",
-    "미국 10년 금리는 4.99%로 5% 바로 아래에 머물렀고, 2년 금리는 4.71%로 올랐습니다. 연준은 한국 시간 29일 새벽 금리를 발표하는데, 시장은 동결을 예상하면서도 12월 인상 신호가 나올지 지켜봅니다. 원/달러 환율은 1,323~1,325원으로 원화 강세가 이어지고, VIX는 18.4로 내려왔습니다. 비트코인은 약 79,700달러로 소폭 내렸습니다."
+    "밤사이 미국은 기술주가 이틀째 끌어올렸습니다. S&P 500 +0.60%(7,722.60), 나스닥 +1.18%(26,477.81), 다우는 +0.03%(52,377.57)로 거의 그대로였습니다. 앤트로픽의 상장 신청서 공개로 AI 매출 기대가 커졌고, 필라델피아 반도체 지수는 +3.6% 올랐습니다. 반면 보잉은 실적 부진과 인도 목표 하향으로 약 10% 빠졌습니다.",
+    "한국은 어제(27일) 코스피가 +3.09%(5,638.34)로 하루 만에 크게 반등했고, 장 초반 매수 사이드카도 나왔습니다. 외국인(약 8,360억 원)과 기관(약 4,180억 원)이 사고 개인이 팔았습니다. 코스닥도 +2.29%(743.83)였습니다. 오늘은 SK하이닉스 실적과 주주환원 발표, 미국 반도체 지수 강세가 반도체주에 이어질지가 관심입니다.",
+    "오를 요인은 하이닉스·삼성전자 실적과 주주환원이 기대를 넘거나, 이번 주 마이크로소프트·알파벳·아마존 실적이 AI 투자 걱정을 덜어 주는 경우입니다. 내릴 요인은 이미 기대가 많이 반영돼 '발표 후 차익 실현'이 나오거나, 내일 새벽 FOMC에서 추가 인상 가능성을 강하게 내비치는 경우입니다. 시장은 금리 동결을 예상하지만, 물가가 높아 '매파적 동결'을 점치는 시각이 많습니다.",
+    "원/달러 환율은 약 1,326원으로 큰 변화가 없습니다. 미국 10년 금리는 4.99%로 5% 바로 아래에 머물렀고, VIX는 17.6으로 낮아졌습니다. 유가는 중동 긴장 완화 기대에 WTI가 약 100달러로 내렸고, 비트코인은 약 8만 달러대입니다."
   ],
   "stocks": [
-    {"code": "000660", "tone": "up", "text": "어제 -0.2%(1,275,000원)로 버텼고 연기금이 많이 샀습니다. 28일 3분기 실적(시장 예상 영업이익 약 77조 원)과 함께 추가 주주환원을 발표하는데, 키옥시아 투자 이익으로 약 16조 원 특별배당을 검토한다는 보도가 있으나 회사는 '확정된 것 없다'는 입장입니다."},
-    {"code": "TSLA", "tone": "up", "text": "어제 +5.2%(391.62달러)로 7월 이후 최고 수준입니다. 바클레이즈가 투자의견을 '비중확대'로 올리고 목표가 450달러를 제시했는데, 내년 자동차 사업 회복과 자율주행 소프트웨어·에너지 수요를 이유로 들었습니다."},
-    {"code": "042660", "tone": "neutral", "text": "오늘(27일) 3분기 실적을 발표합니다. 증권사 예상(약 5,050억 원)이 시장 평균(약 5,633억 원)보다 낮아 실망 우려가 있고, 원화 강세도 부담입니다. 어제 -4.2%(53,000원), 미국 조선 재건의 핵심 파트너로 꼽힌 점은 긍정적입니다."},
-    {"code": "005930", "tone": "neutral", "text": "어제 -1.2%(213,000원). 이미 3분기 잠정 영업이익 107.4조 원을 발표했고, 29일 컨퍼런스콜에서 사업별 실적과 주주환원 계획을 확인하는 자리가 남았습니다."},
-    {"code": "SPCX", "tone": "neutral", "text": "어제 -0.4%(146.9달러). AI 칩을 사기 위한 약 400억 달러 규모 차입 계획(아폴로 주도, 2027년 마무리 예상)이 다시 주목받으며 빚 부담에 대한 시선이 엇갈립니다."}
+    {"code": "000660", "tone": "up", "text": "어제 +5.2%(1,341,000원). 오늘 3분기 실적(시장 예상 영업이익 약 77조 원, 매출 약 98조 원)과 함께 추가 주주환원을 발표합니다. 배당 규모가 매우 클 수 있다는 관측이 기대를 키웠지만, 기대가 높은 만큼 발표 내용에 따라 주가가 크게 흔들릴 수 있습니다."},
+    {"code": "TSLA", "tone": "up", "text": "어제 +4.0%(407.46달러)로 이틀째 강세입니다. 바클레이즈 상향(목표 450달러), 스페이스X와의 합병 기대, 라트비아 FSD 승인 등이 이유로 꼽혔지만 합병 조건은 발표된 것이 없습니다."},
+    {"code": "005930", "tone": "up", "text": "어제 +4.2%(222,000원)로 반도체 반등을 함께 이끌었습니다. 29일 실적 컨퍼런스콜에서 사업별 실적과 주주환원 계획이 나옵니다."},
+    {"code": "SPCX", "tone": "up", "text": "어제 +1.1%(148.58달러). 앤트로픽이 2029년까지 스페이스X에 AI 컴퓨팅 비용으로 최대 1,205억 달러를 내기로 한 사실이 알려졌고, 테슬라와의 합병 이야기도 함께 주목받고 있습니다."},
+    {"code": "042660", "tone": "neutral", "text": "3분기 영업이익 4,857억 원(전년 대비 +68%), 매출 3.41조 원(+13%)으로 고가 LNG선 효과가 컸습니다. 다만 시장 예상에는 못 미쳤다는 평가가 있고, 회사는 4분기에 일회성 비용으로 이익이 줄 수 있다고 했습니다. 어제 주가는 53,000원 보합입니다."}
   ],
   "watch": [
-    {"date": "10-27", "text": "한화오션 3분기 실적 발표"},
     {"date": "10-28", "text": "SK하이닉스 3분기 실적 + 추가 주주환원 발표"},
-    {"date": "10-29", "text": "새벽 미국 FOMC 금리 결정·3분기 GDP 속보치, 아침 마이크로소프트·알파벳 실적 / 삼성전자 실적 컨퍼런스콜"},
-    {"date": "10-30", "text": "아침 아마존 실적 발표"},
+    {"date": "10-29", "text": "새벽 미국 FOMC 금리 결정, 아침 마이크로소프트·알파벳 실적 / 삼성전자 실적 컨퍼런스콜"},
+    {"date": "10-30", "text": "아침 아마존·애플 실적 발표, 이번 주 후반 유럽·일본 중앙은행 회의"},
     {"date": "11-02", "text": "JEPI 배당락 예상(매월 첫 영업일 패턴), 리얼티인컴은 월말 배당락 패턴"},
-    {"date": "11-03", "text": "아침 리얼티인컴 3분기 실적 / 미국 중간선거(현지 3일)"}
+    {"date": "11-03", "text": "아침 리얼티인컴 3분기 실적(현지 2일 장 마감 후) / 미국 중간선거(현지 3일)"}
   ],
   "sources": [
-    {"title": "Stock Market Today (Oct. 26, 2026): Nasdaq, S&P 500 jump after Anthropic IPO announcement - TheStreet", "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-26-2026"},
-    {"title": "[마감시황] '우울한 월요일' 코스피 5469선 후퇴…7개월 만 '최저' - 뉴스핌", "url": "https://www.newspim.com/news/view/20261026000894"},
-    {"title": "움츠린 외국인 매도세…'슈퍼위크' 실적 확인 후 대규모 매매 '긴장' - 뉴스1", "url": "https://www.news1.kr/finance/market-exr/6332338"},
-    {"title": "SK하이닉스, 28일 추가 주주환원안 발표…16조 배당 꺼내나 - 뉴스핌", "url": "https://www.newspim.com/news/view/20261026000355"},
-    {"title": "Barclays Upgrades Tesla (TSLA) to Overweight, Shares Reach Highest Since July - GuruFocus", "url": "https://www.gurufocus.com/news/9142666/barclays-upgrades-tesla-tsla-to-overweight-shares-reach-highest-since-july"},
-    {"title": "“한화오션, 트럼프 핵심 파트너” 콕 집었는데…주가는 왜 이래? - 서울신문", "url": "https://www.seoul.co.kr/news/international/2026/10/26/20261026500084"},
-    {"title": "SpaceX Plans $40 Billion Financing Deal Led by Apollo to Buy Nvidia AI Chips - TIKR", "url": "https://www.tikr.com/blog/spacex-spcx-stock-40-billion-apollo-financing-nvidia-chips"},
-    {"title": "Microsoft, Alphabet and Amazon Lead the Earnings Week of October 26 - StockTitan", "url": "https://www.stocktitan.net/articles/earnings-calendar-week-of-october-26-2026"},
-    {"title": "삼성전자, 107조 원 벌고도 면치 못한 주가 하락세", "url": "https://www.mydailybyte.com/post/삼전-3분기-실적-2610"},
+    {"title": "Stock Market Today (Oct. 27, 2026): Nasdaq and Russell 2000 gain as Anthropic lifts tech sector - TheStreet", "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-27-2026"},
+    {"title": "Stock market today: Dow, S&P 500, Nasdaq rise as tech gains for second day, chip stocks rally - Yahoo Finance", "url": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-october-27-dow-sp-500-nasdaq-081901995.html"},
+    {"title": "땡큐 앤트로픽…사이드카 울린 코스피 3%대 상승 마감 - 한국경제", "url": "https://www.hankyung.com/article/2026102781896"},
+    {"title": "코스피 3% 급등 '돌아온 외인' 어디로…'슈퍼위크' AI 지속성 확인돼야 - 뉴스1", "url": "https://www.news1.kr/finance/market-exr/6333691"},
+    {"title": "코스피, 앤트로픽發 훈풍에 5700선 회복…장 초반 4%대 급등 - 뉴시스", "url": "https://www.newsis.com/view/NISX20261027_0003842382"},
+    {"title": "3분기 성적 받는 SK하이닉스…50조 원 대 주주환원 주목 - OBS경인TV", "url": "https://www.obsnews.co.kr/news/articleView.html?idxno=1541838"},
+    {"title": "한화오션, 고선가 LNG선 효과…3분기 영업익 4857억원·68%↑ - 뉴스핌", "url": "https://www.newspim.com/news/view/20261027000952"},
+    {"title": "Tesla (NASDAQ:TSLA) Shares Climb 4% - Here's What Happened - MarketBeat", "url": "https://www.marketbeat.com/instant-alerts/price-tesla-nasdaq-tsla-shares-climb-4-heres-what-happened-2026-10-27/"},
     {"title": "Realty Income Announces Third Quarter 2026 Earnings Release Date", "url": "https://www.webull.com/news/15674772122977280"}
   ]
 }
