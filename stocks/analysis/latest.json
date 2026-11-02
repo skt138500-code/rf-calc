@@ -1,125 +1,41 @@
 {
-  "date": "2026-11-02",
-  "made": "2026-11-02T07:24:39+09:00",
-  "title": "인텔 쇼크에 美 반도체 -7%…주말 뒤 코스피 시험대",
-  "mood": "down",
+  "date": "2026-11-03",
+  "made": "2026-11-03T07:45:00+09:00",
+  "title": "美 기술주 또 약세, 유가는 급락…선거 앞 숨고르기",
+  "mood": "mixed",
   "market": [
-    "주말을 보내고 여는 월요일 장입니다. 지난 금요일(30일) 미국 3대 지수는 크게 내렸습니다. 다우 -1.09%(51,770.31), S&P 500 -1.82%(7,580.07), 나스닥 -2.86%(25,437.00)로 S&P와 나스닥은 6월 이후 가장 큰 하루 낙폭입니다. 인텔이 4분기 매출 전망(150억~160억 달러)을 시장 기대(171억 달러)보다 낮게 내놓자 -28.6%로 1974년 이후 최악의 하루를 보냈고, 필라델피아 반도체 지수도 -7.2%였습니다. AMD -10.9%, 마이크론 -5.3%, 엔비디아 -4.2%로 AI 투자 수익을 걱정하는 매도가 이어졌고, 변동성 지수(VIX)는 19.42로 올랐습니다.",
-    "한국은 금요일 코스피가 -3.48%(5,730.74), 코스닥이 -3.83%(724.38)로 마감했습니다. 장중 매도 사이드카가 걸렸고 외국인이 코스피에서 약 1조 6,170억 원을 팔았습니다(개인·기관은 순매수). 다만 한국 장이 끝난 뒤 나온 인텔 급락과 미국 반도체 지수 -7%는 아직 반영되지 않아 오늘 반도체 대형주 출발이 약할 수 있습니다. 증권가는 10월 26일 종가 5,469선을 1차 지지선으로 봅니다.",
-    "버팀목도 있습니다. 1일 나온 10월 수출은 1,152억 8,000만 달러로 1년 전보다 93.7% 늘었고, 반도체 수출은 564억 4,000만 달러로 259% 늘어 두 달 연속 500억 달러를 넘었습니다. 메모리 경기 자체는 아직 좋다는 신호입니다.",
-    "원/달러는 금요일 서울 마감 1,334.3원, 지금 1,333원 안팎으로 조금 내려왔습니다. 미국 10년 금리는 4.93%로 5% 아래에 머물러 있습니다. 비트코인은 바이낸스가 약 63억 달러 해킹을 당했다는 소식에 한때 6주 최저(76,368달러)까지 밀렸다가 지금은 약 77,900달러입니다. 이번 주는 애플·AMD·퀄컴 실적이 AI 걱정을 키울지 덜어줄지, 3일 미국 중간선거와 6일 고용지표가 변동성을 키울지가 관건입니다. 참고로 미국 서머타임이 끝나 오늘부터 미국장은 한국 시간 밤 11시 30분에 열립니다."
+    "밤사이 미국장은 엇갈렸습니다. 다우는 +0.41%(51,983.98)로 올랐지만 S&P 500은 -0.51%(7,541.40), 나스닥은 -1.07%(25,164.32)로 내렸고, 장 초반 오름세를 지키지 못했습니다. 돈이 반도체·기술주에서 빠져나가 필라델피아 반도체 지수가 -3.4%였고, 오라클은 200억 달러 자금 조달 계획에 빚 부담 걱정이 커져 크게 밀렸습니다. 반대로 미국·이란이 외교로 풀어 보려 한다는 보도에 국제유가가 7~8% 급락해 브렌트유가 105달러 아래로 내려왔습니다.",
+    "경제지표는 나쁘지 않았습니다. 10월 ISM 제조업 지수가 55.5로 예상(54.6)보다 높았고, 가격 지수는 75.2로 조금 낮아졌습니다. 장 마감 뒤 애플은 매출 1,145억 달러(+12%)로 예상을 넘었지만 중국 매출이 기대에 못 미쳐 시간외에서 약 1% 내렸습니다. 리얼티인컴도 3분기 실적을 내고 올해 전망을 올렸습니다.",
+    "어제 코스피는 -1.6% 급락 출발했다가 기관이 1조 2,330억 원을 사들이며 +2.24%(5,859.08)로 뒤집었고, 코스닥도 +1.38%(734.36)였습니다. 외국인은 약 3,700억 원을 팔아 매도가 이어졌습니다. 건설·운송·조선 쪽이 강했고, 반도체 대형주도 반등했습니다. 다만 밤사이 미국 반도체가 다시 -3.4% 내려 오늘 반도체주 출발은 부담이 있습니다.",
+    "원/달러는 어제 서울 마감 1,343.8원(+9.5원)으로 약 2주 만에 가장 높았고, 지금은 1,345원 안팎입니다. 미국 10년 금리는 4.89%로 조금 내렸고, 변동성 지수(VIX)는 21.5로 올라 경계심이 커졌습니다. 오늘(현지 3일) 미국 중간선거가 있어 결과가 나오는 내일 오전까지 흔들림이 클 수 있습니다. 오를 요인은 유가 하락·좋은 제조업 지표, 내릴 요인은 AI 투자 걱정과 외국인 매도입니다."
   ],
   "stocks": [
-    {
-      "code": "000660",
-      "tone": "down",
-      "text": "금요일 -7.08%(1,418,000원). 밤사이 미국 반도체 지수 -7.2%, 마이크론 -5.3%가 오늘 추가 부담입니다. 반면 10월 반도체 수출이 1년 전보다 259% 늘어난 점은 메모리 수요가 아직 강하다는 근거입니다."
-    },
-    {
-      "code": "005930",
-      "tone": "down",
-      "text": "금요일 -3.02%(225,000원). 외국인 대량 매도와 주주환원 실망이 겹쳤고, 미국 반도체 급락으로 오늘도 출발이 약할 수 있습니다."
-    },
-    {
-      "code": "012450",
-      "tone": "down",
-      "text": "금요일 -8.42%(696,000원). 3분기 영업이익(4,520억 원)이 시장 예상을 크게 밑돌아 신한·삼성·한국투자 등 6곳이 목표주가를 낮췄습니다. 한편 자회사 한화디펜스USA가 미 해군 중형 상륙함 1척(2억 6,900만 달러, 3척 추가 옵션)을 따내 첫 미 해군 함정 계약을 맺었습니다."
-    },
-    {
-      "code": "SPCX",
-      "tone": "down",
-      "text": "금요일 -6.37%(134.72달러). 인텔과의 협력을 호재로 보던 시각이 인텔 실적 전망 부진으로 약해졌습니다. 테슬라와의 합병설에 대해 중국 당국이 막을 수 있다는 BofA의 경고도 나왔습니다."
-    },
-    {
-      "code": "BITX",
-      "tone": "down",
-      "text": "금요일 -10.2%(16.19달러). 비트코인 2배 ETF로, 바이낸스 약 63억 달러 해킹 소식에 비트코인이 6주 최저까지 떨어진 영향을 크게 받았습니다. 바이낸스는 회사 돈으로 손실을 메우겠다고 밝혔습니다."
-    },
-    {
-      "code": "O",
-      "tone": "neutral",
-      "text": "한국 시간 3일 아침(미국 2일 장 마감 뒤) 3분기 실적을 발표합니다. 금요일 시장 급락 속에도 주가는 56.93달러로 보합이었습니다."
-    },
-    {
-      "code": "OHI",
-      "tone": "neutral",
-      "text": "한국 시간 4일 아침(미국 3일 장 마감 뒤) 3분기 실적을 발표합니다. 금요일 +0.3%(46.98달러)로 하락장에서 버텼습니다."
-    }
+    {"code": "042660", "tone": "up", "text": "어제 +9.8%(54,900원) 급등했습니다. 버뮤다 선주에서 초대형 원유운반선 2척(3,568억 원)을 따냈고, 미국 자회사의 미 해군 상륙함 수주와 잠수함 어뢰 발사 장치 개발 완료 소식이 겹쳤습니다."},
+    {"code": "012450", "tone": "up", "text": "방산 수출 기대에 어제 +6.3%(740,000원) 올랐습니다. 지난주 실적 발표 뒤 빠졌던 주가를 상당 부분 되찾았습니다."},
+    {"code": "O", "tone": "up", "text": "3분기 AFFO가 주당 1.12달러로 1년 전보다 3.7% 늘었고, 올해 AFFO 전망을 주당 4.45~4.46달러로 조금 올렸습니다. 정규장은 +1.2%(57.62달러)."},
+    {"code": "000660", "tone": "down", "text": "어제 +3.8%(147만 2,000원)로 반등했지만, 밤사이 미국 반도체 지수가 -3.4%라 오늘은 그 영향을 받을 수 있습니다."},
+    {"code": "005930", "tone": "down", "text": "어제 +1.8%(229,000원). 하이닉스와 마찬가지로 미국 반도체 약세가 오늘 부담입니다."},
+    {"code": "SPCX", "tone": "up", "text": "에코스타의 부스트 모바일을 사거나 그 통신망을 쓰는 방안을 논의 중이라는 보도가 나왔습니다. 스타링크를 지상 통신망과 묶으려는 움직임으로 보이며, 어제 +1.2%(136.37달러)."}
   ],
   "watch": [
-    {
-      "date": "11-03",
-      "text": "0시 미국 10월 ISM 제조업 지수 / 아침 애플·리얼티인컴 실적"
-    },
-    {
-      "date": "11-03",
-      "text": "미국 중간선거(현지 3일) — 결과는 한국 시간 4일 오전부터"
-    },
-    {
-      "date": "11-04",
-      "text": "아침 AMD·오메가헬스케어(OHI) 실적"
-    },
-    {
-      "date": "11-05",
-      "text": "아침 Arm·퀄컴 실적 / 0시(6일) 미국 ISM 서비스업 지수"
-    },
-    {
-      "date": "11-06",
-      "text": "밤 10시 30분 미국 10월 고용보고서"
-    },
-    {
-      "date": "12-09",
-      "text": "다음 FOMC 금리 결정(참고)"
-    }
+    {"date": "11-03", "text": "미국 중간선거(현지 3일) — 결과는 한국 시간 4일 오전부터"},
+    {"date": "11-04", "text": "0시 미국 9월 구인(JOLTS) / 아침 AMD·오메가헬스케어(OHI) 실적"},
+    {"date": "11-06", "text": "밤 10시 30분 미국 10월 고용보고서"},
+    {"date": "11-06", "text": "MAIN·TLTW 11월 배당락 예상(작년엔 4~7일, 공지 확인)"},
+    {"date": "11-10", "text": "밤 10시 30분 미국 10월 소비자물가(CPI)"}
   ],
   "sources": [
-    {
-      "title": "Stock Market Today October 30, 2026: Tech Stocks Fall as Intel Has Its Worst Day in Decades",
-      "url": "https://www.stocktitan.net/articles/stock-market-today-live-october-30-2026"
-    },
-    {
-      "title": "Markets News, Oct. 30, 2026: Tech Sell-Off Sends Nasdaq, S&P 500 Reeling",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/stock-market-today-nasdaq-p-123540419.html"
-    },
-    {
-      "title": "인텔 30% 폭락에 개미들 '개장 공포' - 파이낸셜뉴스",
-      "url": "https://www.fnnews.com/news/202611020643077973"
-    },
-    {
-      "title": "빅테크 흔들리자 반도체 울상…3% 하락 코스피, 5730선 마감 - 데일리안",
-      "url": "https://www.dailian.co.kr/news/view/1708887/%EB%B9%85%ED%85%8C%ED%81%AC-%ED%9D%94%EB%93%A4%EB%A6%AC%EC%9E%90-%EB%B0%98%EB%8F%84%EC%B2%B4-%EC%9A%B8%EC%83%813-%ED%95%98%EB%9D%BD-2026"
-    },
-    {
-      "title": "10월 수출 1153억 달러, 두 달 연속 1100억 돌파 - 한국일보",
-      "url": "https://www.hankookilbo.com/news/article/A2026110108520005142"
-    },
-    {
-      "title": "[특징주] 한화에어로스페이스 10% 급락…실적 충격에 목표가 줄하향 - 뉴스핌",
-      "url": "https://www.newspim.com/news/view/20261030000268"
-    },
-    {
-      "title": "Hanwha Defense USA wins $269 million U.S. Navy shipbuilding contract - Korea JoongAng Daily",
-      "url": "https://www.koreajoongangdaily.com/business/hanwha-defense-usa-wins-269-million-us-navy-shipbuilding-contract/12948089"
-    },
-    {
-      "title": "Why SpaceX Stock Dropped Today - The Motley Fool",
-      "url": "https://www.fool.com/investing/2026/10/30/why-spacex-stock-dropped-today/"
-    },
-    {
-      "title": "Hackers steal $6.3 bil. from Binance - The Korea Times",
-      "url": "https://www.koreatimes.co.kr/world/20261030/hackers-steal-63-bil-from-binance-in-record-heist-blamed-on-north-korea"
-    },
-    {
-      "title": "Realty Income Announces Third Quarter 2026 Earnings Release Date",
-      "url": "https://finviz.com/news/397989/realty-income-announces-third-quarter-2026-earnings-release-date"
-    },
-    {
-      "title": "Omega Announces Third Quarter Earnings Release Date and Conference Call",
-      "url": "https://finviz.com/news/393574/omega-announces-third-quarter-earnings-release-date-and-conference-call"
-    },
-    {
-      "title": "2026년 11월 미국 경제 캘린더 (한국시간)",
-      "url": "https://www.simianx.ai/ko/stories/us-economic-calendar-this-month-in-your-time-zone"
-    }
+    {"title": "Stock market today: S&P 500 and Nasdaq extend tech sell-off, Dow gains as oil prices plunge (Yahoo Finance)", "url": "https://finance.yahoo.com/markets/live/stock-market-today-monday-november-2-dow-sp-500-nasdaq-091835095.html"},
+    {"title": "Stock Market Today (Nov. 2, 2026) (TheStreet)", "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-02-2026"},
+    {"title": "Apple reports Q4 2026 earnings: $114.5 billion in revenue (9to5Mac)", "url": "https://9to5mac.com/2026/11/02/apple-reports-q4-2026-earnings/"},
+    {"title": "Apple Beats Earnings in Ternus' First Quarter, Stock Still Falls (KuCoin)", "url": "https://www.kucoin.com/news/flash/apple-beats-earnings-in-ternus-first-quarter-stock-still-falls"},
+    {"title": "[마감시황] 기관 1.2조 매수에 코스피 2.24% 반등 (폴리뉴스)", "url": "https://www.polinews.co.kr/news/articleView.html?idxno=747480"},
+    {"title": "한화오션, 고점서 69% 추락 뒤 9% 급등 (매일일보)", "url": "https://www.m-i.kr/news/articleView.html?idxno=2013342"},
+    {"title": "한화에어로스페이스 방산 수출 기대에 6.18% 상승 (잡포스트)", "url": "https://www.job-post.co.kr/news/articleView.html?idxno=235927"},
+    {"title": "Realty Income raises 2026 AFFO guidance to $4.45-$4.46 (StockTitan)", "url": "https://www.stocktitan.net/news/O/realty-income-announces-operating-results-for-the-three-and-nine-evdte8w302a9.html"},
+    {"title": "SpaceX reportedly wants to buy Boost Mobile (TechCrunch)", "url": "https://techcrunch.com/2026/11/02/spacex-reportedly-wants-to-buy-boost-mobile-to-compete-with-att-t-mobile-and-verizon/"},
+    {"title": "AMD to Report Fiscal Third Quarter 2026 Financial Results (AMD IR)", "url": "https://ir.amd.com/news-events/press-releases/detail/1300/amd-to-report-fiscal-third-quarter-2026-financial-results"},
+    {"title": "Omega Announces Third Quarter Earnings Release Date (Finviz)", "url": "https://finviz.com/news/393574/omega-announces-third-quarter-earnings-release-date-and-conference-call"},
+    {"title": "US Economic Calendar November 2026", "url": "https://fedratecalc.com/us-economic-calendar/november-2026/"}
   ]
 }
