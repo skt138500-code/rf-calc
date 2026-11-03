@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-04",
+  "made": "2026-11-04T07:50:00+09:00",
+  "title": "美 반도체 반등·AMD 호실적…어제 급락한 코스피 되돌림 주목",
+  "mood": "mixed",
+  "market": [
+    "밤사이 미국장은 중간선거 투표일에 기술주가 살아났습니다. 나스닥 +0.83%(25,372.01), S&P 500 +0.36%(7,568.92)로 3일 연속 하락을 끊었고, 다우는 -0.38%(51,786.72)로 혼자 내렸습니다. 전날 크게 빠졌던 메모리·장비 중심으로 반도체가 반등해 필라델피아 반도체 지수가 +2.6%였습니다. 애플·팔란티어는 실적 뒤 약세였습니다.",
+    "장 마감 뒤 AMD는 3분기 매출 133.8억 달러, 주당순이익 2.09달러로 예상을 넘었고, 4분기 매출 전망도 약 170억 달러로 시장 예상(약 163억 달러)보다 높게 내놓아 주가가 시간외에서 크게 올랐습니다. 다만 'AI 투자로 돈을 제대로 벌 수 있나'라는 걱정은 아직 남아 있습니다.",
+    "어제 코스피는 -3.59%(5,648.79), 코스닥은 -4.08%(704.39)로 급락했습니다. 외국인이 약 1조 5,000억 원, 기관이 약 5,000억 원을 팔았고, 개인이 약 1조 6,600억 원을 사들였습니다. 반도체·IT 하드웨어에 매도가 몰렸습니다. 오늘은 미국 반도체 반등과 AMD 실적이 되돌림 요인, 계속되는 외국인 매도와 중간선거 결과(한국 시간 오늘 낮부터 윤곽)가 불확실성입니다.",
+    "원/달러는 어제 서울 마감 1,341.0원(-2.8원)이었고 지금은 1,344원 안팎입니다. 미국 10년 금리는 4.95%로 다시 올라 기술주에는 부담입니다. VIX는 20.7로 조금 내렸고, 유가는 미국·이란 대화 기대에 이틀째 내려 브렌트유가 103~104달러 근처입니다. 비트코인은 7만 7,800달러 안팎(+1.5%)입니다."
+  ],
+  "stocks": [
+    {"code": "000660", "tone": "down", "text": "어제 -5.03%(139만 8,000원) 급락했고, 외국인 순매도 1위(약 6,376억 원)였습니다. 밤사이 미국 메모리주 반등과 AMD 호실적은 오늘 되돌림 요인입니다."},
+    {"code": "005930", "tone": "down", "text": "AI 투자 수익성 걱정에 어제 -4.15%(219,500원). 외국인이 약 2,062억 원을 팔았습니다. 미국 반도체 반등이 이어질지가 관건입니다."},
+    {"code": "OHI", "tone": "up", "text": "3분기 AFFO가 주당 0.82달러로 1년 전(0.79달러)보다 늘었고, 올해 AFFO 전망을 3.28~3.30달러로 올렸습니다. 분기 배당 0.68달러, 기준일은 11월 5일입니다. 어제 +1.3%(47.62달러)."},
+    {"code": "SPCX", "tone": "up", "text": "에코스타(부스트 모바일)와 통신망 이용·인수를 논의 중이라는 보도 뒤 이틀째 올라 어제 +3.6%(141.31달러)였습니다. 다만 부스트는 자체 기지국이 없어 실현 방식은 지켜봐야 합니다."},
+    {"code": "TSLA", "tone": "neutral", "text": "어제 -1.3%(398.50달러). 스페이스X와의 합병 검토가 이어지는 가운데, 연례 주주총회는 12월 3일(현지)이고 현장 참석 신청은 11월 6일까지입니다."},
+    {"code": "012450", "tone": "neutral", "text": "어제 시장 급락에도 보합(740,000원)으로 버텼습니다. 3분기 영업이익이 약 4,520억 원으로 줄었는데, 지상 방산 인도가 4분기(폴란드·루마니아)에 몰려 있어서라는 설명입니다."},
+    {"code": "MAIN", "tone": "neutral", "text": "11월 월배당 주당 0.265달러, 배당락(기준일)은 11월 6일, 지급은 13일입니다."}
+  ],
+  "watch": [
+    {"date": "11-04", "text": "미국 중간선거 결과 — 한국 시간 오늘 낮부터 윤곽"},
+    {"date": "11-04", "text": "밤 10시 30분 미국 9월 무역수지"},
+    {"date": "11-05", "text": "OHI 분기 배당 기준일(주당 0.68달러, 16일 지급)"},
+    {"date": "11-05", "text": "밤 10시 30분 미국 주간 실업수당 청구"},
+    {"date": "11-06", "text": "MAIN 11월 배당락(0.265달러) / 밤 10시 30분 미국 10월 고용보고서"},
+    {"date": "11-10", "text": "밤 10시 30분 미국 10월 소비자물가(CPI)"}
+  ],
+  "sources": [
+    {"title": "Stock market today: Dow slips, S&P and Nasdaq gain as chip stocks rally, focus shifts to midterm elections (Yahoo Finance)", "url": "https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-3-dow-sp-500-nasdaq-midterms-amd-earnings-141143244.html"},
+    {"title": "Stock Market Today (Nov. 3, 2026): Nasdaq, Russell 2000 finish higher (TheStreet)", "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-03-2026"},
+    {"title": "AMD surprises with Q3 sales, stock soars (StockStory)", "url": "https://markets.financialcontent.com/stocks/article/stockstory-2026-11-3-amd-nasdaqamd-surprises-with-q3-sales-stock-soars"},
+    {"title": "[마감시황] 코스피, 외국인·기관 '팔자'에 3%대 하락…5700선 아래로 (뉴스핌)", "url": "https://www.newspim.com/news/view/20261103001168"},
+    {"title": "AI 과잉투자 경계감…삼전·닉스, 외인 '팔자'에 4~5%대 급락 (글로벌이코노믹)", "url": "https://www.g-enews.com/article/Securities/2026/11/202611031633567443923c501012_1"},
+    {"title": "한화에어로스페이스 74만원 보합…4분기 방산 인도 일정에 시선 (잡포스트)", "url": "https://www.job-post.co.kr/news/articleView.html?idxno=236208"},
+    {"title": "Omega Reports Third Quarter 2026 Results and Recent Developments", "url": "https://www.stocktitan.net/news/OHI/omega-reports-third-quarter-2026-results-and-recent-rc1qrx8a1td3.html"},
+    {"title": "Why SpaceX stock is rising today (Yahoo Finance)", "url": "https://finance.yahoo.com/markets/stocks/articles/why-spacex-stock-rising-today-182202451.html"},
+    {"title": "TSLA Stock Slips Overnight: Trump Vows To Shield Musk (Yahoo Finance)", "url": "https://finance.yahoo.com/markets/stocks/articles/tsla-stock-slips-overnight-trump-081508085.html"},
+    {"title": "Tesla stock faces November 6 deadline before annual meeting", "url": "https://www.ad-hoc-news.de/boerse/news/corporate-news/tesla-stock-faces-november-6-deadline-before-annual-meeting/70450774"},
+    {"title": "Main Street Announces Fourth Quarter 2026 Regular Monthly Dividends", "url": "https://www.mainstcapital.com/investors/news-events/press-releases/detail/2768"},
+    {"title": "Economic Calendar: US Economic Releases This Week and Next", "url": "https://www.thetrading.tools/economic-calendar"}
+  ]
+}
