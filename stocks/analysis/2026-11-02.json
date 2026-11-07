@@ -1,0 +1,125 @@
+{
+  "date": "2026-11-02",
+  "made": "2026-11-02T07:24:39+09:00",
+  "title": "인텔 쇼크에 美 반도체 -7%…주말 뒤 코스피 시험대",
+  "mood": "down",
+  "market": [
+    "주말을 보내고 여는 월요일 장입니다. 지난 금요일(30일) 미국 3대 지수는 크게 내렸습니다. 다우 -1.09%(51,770.31), S&P 500 -1.82%(7,580.07), 나스닥 -2.86%(25,437.00)로 S&P와 나스닥은 6월 이후 가장 큰 하루 낙폭입니다. 인텔이 4분기 매출 전망(150억~160억 달러)을 시장 기대(171억 달러)보다 낮게 내놓자 -28.6%로 1974년 이후 최악의 하루를 보냈고, 필라델피아 반도체 지수도 -7.2%였습니다. AMD -10.9%, 마이크론 -5.3%, 엔비디아 -4.2%로 AI 투자 수익을 걱정하는 매도가 이어졌고, 변동성 지수(VIX)는 19.42로 올랐습니다.",
+    "한국은 금요일 코스피가 -3.48%(5,730.74), 코스닥이 -3.83%(724.38)로 마감했습니다. 장중 매도 사이드카가 걸렸고 외국인이 코스피에서 약 1조 6,170억 원을 팔았습니다(개인·기관은 순매수). 다만 한국 장이 끝난 뒤 나온 인텔 급락과 미국 반도체 지수 -7%는 아직 반영되지 않아 오늘 반도체 대형주 출발이 약할 수 있습니다. 증권가는 10월 26일 종가 5,469선을 1차 지지선으로 봅니다.",
+    "버팀목도 있습니다. 1일 나온 10월 수출은 1,152억 8,000만 달러로 1년 전보다 93.7% 늘었고, 반도체 수출은 564억 4,000만 달러로 259% 늘어 두 달 연속 500억 달러를 넘었습니다. 메모리 경기 자체는 아직 좋다는 신호입니다.",
+    "원/달러는 금요일 서울 마감 1,334.3원, 지금 1,333원 안팎으로 조금 내려왔습니다. 미국 10년 금리는 4.93%로 5% 아래에 머물러 있습니다. 비트코인은 바이낸스가 약 63억 달러 해킹을 당했다는 소식에 한때 6주 최저(76,368달러)까지 밀렸다가 지금은 약 77,900달러입니다. 이번 주는 애플·AMD·퀄컴 실적이 AI 걱정을 키울지 덜어줄지, 3일 미국 중간선거와 6일 고용지표가 변동성을 키울지가 관건입니다. 참고로 미국 서머타임이 끝나 오늘부터 미국장은 한국 시간 밤 11시 30분에 열립니다."
+  ],
+  "stocks": [
+    {
+      "code": "000660",
+      "tone": "down",
+      "text": "금요일 -7.08%(1,418,000원). 밤사이 미국 반도체 지수 -7.2%, 마이크론 -5.3%가 오늘 추가 부담입니다. 반면 10월 반도체 수출이 1년 전보다 259% 늘어난 점은 메모리 수요가 아직 강하다는 근거입니다."
+    },
+    {
+      "code": "005930",
+      "tone": "down",
+      "text": "금요일 -3.02%(225,000원). 외국인 대량 매도와 주주환원 실망이 겹쳤고, 미국 반도체 급락으로 오늘도 출발이 약할 수 있습니다."
+    },
+    {
+      "code": "012450",
+      "tone": "down",
+      "text": "금요일 -8.42%(696,000원). 3분기 영업이익(4,520억 원)이 시장 예상을 크게 밑돌아 신한·삼성·한국투자 등 6곳이 목표주가를 낮췄습니다. 한편 자회사 한화디펜스USA가 미 해군 중형 상륙함 1척(2억 6,900만 달러, 3척 추가 옵션)을 따내 첫 미 해군 함정 계약을 맺었습니다."
+    },
+    {
+      "code": "SPCX",
+      "tone": "down",
+      "text": "금요일 -6.37%(134.72달러). 인텔과의 협력을 호재로 보던 시각이 인텔 실적 전망 부진으로 약해졌습니다. 테슬라와의 합병설에 대해 중국 당국이 막을 수 있다는 BofA의 경고도 나왔습니다."
+    },
+    {
+      "code": "BITX",
+      "tone": "down",
+      "text": "금요일 -10.2%(16.19달러). 비트코인 2배 ETF로, 바이낸스 약 63억 달러 해킹 소식에 비트코인이 6주 최저까지 떨어진 영향을 크게 받았습니다. 바이낸스는 회사 돈으로 손실을 메우겠다고 밝혔습니다."
+    },
+    {
+      "code": "O",
+      "tone": "neutral",
+      "text": "한국 시간 3일 아침(미국 2일 장 마감 뒤) 3분기 실적을 발표합니다. 금요일 시장 급락 속에도 주가는 56.93달러로 보합이었습니다."
+    },
+    {
+      "code": "OHI",
+      "tone": "neutral",
+      "text": "한국 시간 4일 아침(미국 3일 장 마감 뒤) 3분기 실적을 발표합니다. 금요일 +0.3%(46.98달러)로 하락장에서 버텼습니다."
+    }
+  ],
+  "watch": [
+    {
+      "date": "11-03",
+      "text": "0시 미국 10월 ISM 제조업 지수 / 아침 애플·리얼티인컴 실적"
+    },
+    {
+      "date": "11-03",
+      "text": "미국 중간선거(현지 3일) — 결과는 한국 시간 4일 오전부터"
+    },
+    {
+      "date": "11-04",
+      "text": "아침 AMD·오메가헬스케어(OHI) 실적"
+    },
+    {
+      "date": "11-05",
+      "text": "아침 Arm·퀄컴 실적 / 0시(6일) 미국 ISM 서비스업 지수"
+    },
+    {
+      "date": "11-06",
+      "text": "밤 10시 30분 미국 10월 고용보고서"
+    },
+    {
+      "date": "12-09",
+      "text": "다음 FOMC 금리 결정(참고)"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Stock Market Today October 30, 2026: Tech Stocks Fall as Intel Has Its Worst Day in Decades",
+      "url": "https://www.stocktitan.net/articles/stock-market-today-live-october-30-2026"
+    },
+    {
+      "title": "Markets News, Oct. 30, 2026: Tech Sell-Off Sends Nasdaq, S&P 500 Reeling",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/stock-market-today-nasdaq-p-123540419.html"
+    },
+    {
+      "title": "인텔 30% 폭락에 개미들 '개장 공포' - 파이낸셜뉴스",
+      "url": "https://www.fnnews.com/news/202611020643077973"
+    },
+    {
+      "title": "빅테크 흔들리자 반도체 울상…3% 하락 코스피, 5730선 마감 - 데일리안",
+      "url": "https://www.dailian.co.kr/news/view/1708887/%EB%B9%85%ED%85%8C%ED%81%AC-%ED%9D%94%EB%93%A4%EB%A6%AC%EC%9E%90-%EB%B0%98%EB%8F%84%EC%B2%B4-%EC%9A%B8%EC%83%813-%ED%95%98%EB%9D%BD-2026"
+    },
+    {
+      "title": "10월 수출 1153억 달러, 두 달 연속 1100억 돌파 - 한국일보",
+      "url": "https://www.hankookilbo.com/news/article/A2026110108520005142"
+    },
+    {
+      "title": "[특징주] 한화에어로스페이스 10% 급락…실적 충격에 목표가 줄하향 - 뉴스핌",
+      "url": "https://www.newspim.com/news/view/20261030000268"
+    },
+    {
+      "title": "Hanwha Defense USA wins $269 million U.S. Navy shipbuilding contract - Korea JoongAng Daily",
+      "url": "https://www.koreajoongangdaily.com/business/hanwha-defense-usa-wins-269-million-us-navy-shipbuilding-contract/12948089"
+    },
+    {
+      "title": "Why SpaceX Stock Dropped Today - The Motley Fool",
+      "url": "https://www.fool.com/investing/2026/10/30/why-spacex-stock-dropped-today/"
+    },
+    {
+      "title": "Hackers steal $6.3 bil. from Binance - The Korea Times",
+      "url": "https://www.koreatimes.co.kr/world/20261030/hackers-steal-63-bil-from-binance-in-record-heist-blamed-on-north-korea"
+    },
+    {
+      "title": "Realty Income Announces Third Quarter 2026 Earnings Release Date",
+      "url": "https://finviz.com/news/397989/realty-income-announces-third-quarter-2026-earnings-release-date"
+    },
+    {
+      "title": "Omega Announces Third Quarter Earnings Release Date and Conference Call",
+      "url": "https://finviz.com/news/393574/omega-announces-third-quarter-earnings-release-date-and-conference-call"
+    },
+    {
+      "title": "2026년 11월 미국 경제 캘린더 (한국시간)",
+      "url": "https://www.simianx.ai/ko/stories/us-economic-calendar-this-month-in-your-time-zone"
+    }
+  ]
+}

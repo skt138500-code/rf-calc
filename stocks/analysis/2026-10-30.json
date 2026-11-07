@@ -1,0 +1,125 @@
+{
+  "date": "2026-10-30",
+  "made": "2026-10-30T07:50:00+09:00",
+  "title": "빅테크 실적 실망에 나스닥 -1.4%…아마존 시간외 급락",
+  "mood": "down",
+  "market": [
+    "밤사이 미국 3대 지수는 내렸습니다. 다우 -0.25%(52,342.56), S&P 500 -0.30%(7,720.39), 나스닥 -1.38%(26,184.73)입니다. 알파벳이 실적 부진으로 장중 12% 넘게 빠지며 기술주 전반에 AI 투자 수익을 걱정하는 매도가 번졌고, 필라델피아 반도체 지수도 -1.42%였습니다. 장 마감 뒤 아마존은 이익이 예상에 못 미쳐 시간외에서 한때 9~10% 떨어졌습니다.",
+    "경제지표는 엇갈렸습니다. 3분기 GDP는 연율 3.4%로 예상(3.1%)보다 강했지만, 9월 PCE 물가는 1년 전보다 3.6% 올라 8월(3.4%)보다 높아졌습니다. 근원 PCE는 3.1%로 예상과 같았습니다.",
+    "한국은 어제(29일) 코스피가 -1.24%(5,937.66)로 하루 만에 6,000선을 내줬습니다. 삼성전자가 3분기 약 30조 원 현금배당을 확정했지만 추가 주주환원 계획을 내년 1월 말로 미루자 실망 매물이 나왔습니다. 기관이 약 4,400억 원을 팔았고, 외국인은 소폭 순매수였습니다. 코스닥은 -2.34%(753.23)입니다.",
+    "오늘은 미국 빅테크 약세와 아마존 시간외 급락이 반도체·AI 관련주에 부담이 될 수 있습니다. 반대로 미국 10년 금리가 4.99%로 다시 5% 아래로 내려온 점과 SK하이닉스의 자사주 매입은 버팀목이 될 수 있습니다. 원/달러는 밤사이 1,339원 안팎으로 조금 내려왔고, 비트코인은 -1.8%(약 79,800달러)입니다."
+  ],
+  "stocks": [
+    {
+      "code": "005930",
+      "tone": "down",
+      "text": "어제 -4.13%(232,000원). 3분기 영업이익은 107조 원대로 사상 최대였고 약 30조 원 배당도 확정했지만, 남은 55~75조 원 주주환원의 구체안이 내년 1월 말로 미뤄져 실망이 컸습니다."
+    },
+    {
+      "code": "000660",
+      "tone": "up",
+      "text": "어제 +2.62%(1,526,000원). 시장이 약한 가운데 사상 최대 실적과 확대된 주주환원, 자사주 매입 재개가 주가를 받쳤습니다. 다만 밤사이 미국 반도체 약세는 오늘 부담입니다."
+    },
+    {
+      "code": "012450",
+      "tone": "down",
+      "text": "어제 -3.43%(760,000원). 3분기 영업이익 4,520억 원으로 1년 전보다 46% 줄고 순손실로 돌아섰습니다. 폴란드 K9·천무 납품이 4분기에 몰려 회사는 4분기 회복을 예상합니다."
+    },
+    {
+      "code": "042660",
+      "tone": "neutral",
+      "text": "어제 -3.81%(50,500원). 27일 발표한 3분기 영업이익은 4,857억 원으로 1년 전보다 약 68% 늘었지만(고가 LNG선 효과), 시장 약세 속에 주가는 이틀째 밀렸습니다."
+    },
+    {
+      "code": "MAIN",
+      "tone": "up",
+      "text": "어제 +2.36%(55.90달러). 미리 낸 3분기 추정치에서 주당 순자산이 34.18~34.26달러로 늘었고, 정식 실적은 11월 5일(현지) 장 마감 뒤 나옵니다."
+    },
+    {
+      "code": "O",
+      "tone": "neutral",
+      "text": "어제 +1.73%(57.20달러). 금리가 내린 날 리츠가 함께 올랐습니다. 3분기 실적은 11월 2일(현지) 장 마감 뒤 발표합니다."
+    },
+    {
+      "code": "SPCX",
+      "tone": "down",
+      "text": "어제 -0.92%(143.89달러). 보호예수 해제 뒤 약세가 이어지며 기술주 매도 분위기에 함께 밀렸습니다."
+    }
+  ],
+  "watch": [
+    {
+      "date": "10-30",
+      "text": "오늘 장중 아마존 실적 반응 / 밤 미국 개장 후 빅테크 흐름"
+    },
+    {
+      "date": "11-02",
+      "text": "JEPI 배당락 예상(매월 첫 영업일 패턴)"
+    },
+    {
+      "date": "11-03",
+      "text": "아침 애플·리얼티인컴 3분기 실적(현지 2일 장 마감 후) / 밤 미국 9월 구인(JOLTS)·미국 중간선거"
+    },
+    {
+      "date": "11-04",
+      "text": "아침 OHI 3분기 실적(현지 3일 장 마감 후)"
+    },
+    {
+      "date": "11-05",
+      "text": "OHI 분기 배당 0.68달러 배당락"
+    },
+    {
+      "date": "11-06",
+      "text": "아침 MAIN 3분기 실적(현지 5일 장 마감 후) / 밤 9시 30분 미국 10월 고용보고서"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Stock market today: Dow, S&P 500, Nasdaq slip as Alphabet stock sinks 12% and AI jitters return (Yahoo Finance)",
+      "url": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-29-dow-sp-500-nasdaq-alphabet-microsoft-earnings-130305714.html"
+    },
+    {
+      "title": "Stock Market Today (Oct. 29, 2026): S&P 500 falls after Alphabet and Microsoft issue divergent earnings (TheStreet)",
+      "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-29-2026"
+    },
+    {
+      "title": "Amazon Shares Fall On Q3 Earnings Miss As Big Tech Market Rout Continues (Yahoo Finance UK)",
+      "url": "https://uk.finance.yahoo.com/news/amazon-shares-fall-q3-earnings-202746508.html"
+    },
+    {
+      "title": "코스피 하루 만에 6000선 반납…삼성전자 주주환원 실망 속 1.24%↓ (전자신문)",
+      "url": "https://www.etnews.com/20261029000409"
+    },
+    {
+      "title": "코스피, 삼성전자 호실적에도 하락…6000선 아래로 후퇴 (글로벌이코노믹)",
+      "url": "https://www.g-enews.com/article/Securities/2026/10/202610291553189899923c501012_1"
+    },
+    {
+      "title": "삼성전자 '역대급 실적'에도… 코스피 하루 만에 6000선 반납 (한국일보)",
+      "url": "https://www.hankookilbo.com/news/article/A2026102916580005679"
+    },
+    {
+      "title": "한화에어로스페이스, 3분기 영업익 4520억원…전년比 46% 감소 (뉴스핌)",
+      "url": "https://www.newspim.com/news/view/20261029001105"
+    },
+    {
+      "title": "한화오션, 3분기 영업익 4857억 전년비 68%↑…매출 3.4조 (SBS Biz)",
+      "url": "https://biz.sbs.co.kr/article/20000342411"
+    },
+    {
+      "title": "Main Street Announces Preliminary Estimate of Third Quarter 2026 Operating Results",
+      "url": "https://www.itiger.com/hans/news/2675586160"
+    },
+    {
+      "title": "Realty Income Announces Third Quarter 2026 Earnings Release Date",
+      "url": "https://finviz.com/news/397989/realty-income-announces-third-quarter-2026-earnings-release-date"
+    },
+    {
+      "title": "Apple to Report Q4 2026 Earnings on November 2 (MacRumors)",
+      "url": "https://macrumors.com/2026/10/06/apple-q4-2026-earnings-nov-2"
+    },
+    {
+      "title": "US Economic Calendar November 2026",
+      "url": "https://fedratecalc.com/us-economic-calendar/november-2026/"
+    }
+  ]
+}
