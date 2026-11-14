@@ -1,0 +1,108 @@
+{
+  "date": "2026-11-13",
+  "made": "2026-11-13T07:23:26+09:00",
+  "title": "젠슨 황 사임 충격에 美 소폭 하락…10년 금리 5.1%",
+  "mood": "down",
+  "market": [
+    "밤사이 미국 3대 지수가 모두 조금 내렸습니다. 다우 -0.36%(52,297), S&P 500 -0.35%(7,592), 나스닥 -0.39%(25,366)로 마쳤습니다. 엔비디아가 젠슨 황 CEO의 즉시 사임을 발표해 장 초반 13% 가까이 빠졌다가 -4.34%(166.19달러)로 낙폭을 줄였습니다. 콜레트 크레스 CFO가 임시 CEO를 맡고, 17일 실적 발표는 예정대로 합니다.",
+    "금리가 부담을 더했습니다. 트럼프 대통령이 이란과 합의가 필요 없다는 글을 올리자 유가가 오르고(브렌트 약 96달러) 물가 걱정이 커져 미국 10년 금리가 5.10%로 올랐습니다. 시장은 12월 금리 인상 가능성을 더 높게 보고 있습니다. 공포지수 VIX는 18.9로 올랐고, 필라델피아 반도체 지수는 -0.54%(10,507)로 선방했습니다.",
+    "어제 코스피는 -0.61%(5,342.73), 코스닥은 -1.22%(696.53)로 700선을 다시 내줬습니다. 이틀 동안 7% 가까이 오른 뒤라 차익 매물이 나왔고, 엔비디아 CEO 교체 보도가 겹쳤습니다. 기관이 7천억 원 안팎을 팔았고, 외국인은 사흘째 순매수였습니다. 오늘은 장 마감 뒤 시스코(AI 매출 전망 상향)와 어플라이드 머티어리얼즈(매출 104억 달러, 전망 상향)의 좋은 실적이 오를 요인, 엔비디아 경영 공백과 미국 금리 5% 위 고착이 내릴 요인입니다.",
+    "원/달러 환율은 어제 1,330.7원으로 2.9원 내려 나흘째 하락(원화 강세)했습니다. 반도체 수출 호조로 달러 공급이 많았던 덕분입니다. 지금 역외 환율은 1,335원 안팎입니다. 비트코인은 약 3.5% 내려 71,300달러 근처입니다."
+  ],
+  "stocks": [
+    {
+      "code": "000660",
+      "tone": "down",
+      "text": "어제 -1.80%(1,254,000). 최대 고객사 엔비디아의 CEO 사임으로 불확실성이 커졌습니다. 다만 밤사이 어플라이드 머티어리얼즈·시스코가 AI 수요로 전망을 올린 점은 버팀목입니다."
+    },
+    {
+      "code": "TSLA",
+      "tone": "up",
+      "text": "+1.70%(397.45). 스페이스X와의 합병 협상이 가격·지배권 논의 단계까지 진전됐다는 보도가 나왔습니다. 발표는 빠르면 12월로 거론되고, 12월 3일 주주총회가 있습니다. 중국 사업 분리가 걸림돌로 꼽힙니다."
+    },
+    {
+      "code": "SPCX",
+      "tone": "neutral",
+      "text": "+0.14%(139.94). 테슬라 합병 협상 진전 보도(스페이스X가 테슬라를 흡수하는 구조)와 함께, 스타십 15차 시험 비행을 한국 시간 14일 아침 7시 45분에 목표로 합니다. 승인과 날씨에 따라 바뀔 수 있습니다."
+    },
+    {
+      "code": "BITX",
+      "tone": "down",
+      "text": "-8.66%(13.87). 금리 상승 속에 비트코인이 약 3.5% 내려 71,300달러 근처까지 밀렸습니다. 2배 레버리지라 낙폭이 컸습니다."
+    },
+    {
+      "code": "TLTW",
+      "tone": "down",
+      "text": "-1.44%(20.56). 미국 10년 금리가 5.00%에서 5.10%로 뛰며 장기채 값이 내렸습니다. 오늘 밤 생산자물가가 다음 고비입니다."
+    },
+    {
+      "code": "005930",
+      "tone": "neutral",
+      "text": "어제 +0.97%(208,000). 지수가 내린 날에도 외국인 매수로 오름세를 지켰습니다. 반도체 장비주 실적 호조와 엔비디아 리더십 공백이 엇갈립니다."
+    }
+  ],
+  "watch": [
+    {
+      "date": "11-13",
+      "text": "미국 10월 생산자물가(PPI) (한국 시간 밤 10시 30분)"
+    },
+    {
+      "date": "11-14",
+      "text": "스페이스X 스타십 15차 시험 비행 목표 (한국 시간 아침 7시 45분)"
+    },
+    {
+      "date": "11-17",
+      "text": "미국 10월 소매판매 (한국 시간 밤 10시 30분)"
+    },
+    {
+      "date": "11-18",
+      "text": "엔비디아 3분기 실적 (한국 시간 아침 7시) — CEO 사임 뒤 첫 발표"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Stock market today: Dow, S&P 500, Nasdaq slip as Nvidia stock falls on CEO exit, bond yields rise - Yahoo Finance",
+      "url": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-12-sp-500-nasdaq-dow-nvidia-invest-110027430.html"
+    },
+    {
+      "title": "Nvidia Drops Over 4% as Jensen Huang Resigns as CEO; Nasdaq Falls 0.39% - TradingKey",
+      "url": "https://www.tradingkey.com/analysis/stocks/us-stocks/262303336-us-stock-nvidia-ceo-jensen-huang-resigns-nasdaq-falls-tradingkey"
+    },
+    {
+      "title": "Stock Market Today, November 12, 2026 - Stock Titan",
+      "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-12-2026"
+    },
+    {
+      "title": "코스피, 기관 7642억원 순매도에 5342.73 마감…코스닥 700선 하회 - 굿모닝경제",
+      "url": "https://www.goodkyung.com/news/articleView.html?idxno=293397"
+    },
+    {
+      "title": "[e마켓클로징] 코스피 5340선으로 후퇴···기관 6910억 순매도 - 시사저널e",
+      "url": "https://www.sisajournal-e.com/news/articleView.html?idxno=424992"
+    },
+    {
+      "title": "美 긴축 우려에도 환율 2.9원↓…1330.7원 마감(종합) - 뉴스1",
+      "url": "https://www.news1.kr/finance/market-exr/6352275"
+    },
+    {
+      "title": "Cisco Reports First Quarter Earnings - Stock Titan",
+      "url": "https://www.stocktitan.net/news/CSCO/cisco-reports-first-quarter-42972jcsdwos.html"
+    },
+    {
+      "title": "Applied Materials shares gain on Q4 beat - Investing.com",
+      "url": "https://ca.investing.com/news/earnings/applied-materials-shares-gain-on-q4-beat-4954214"
+    },
+    {
+      "title": "SpaceX could announce $1.5 trillion Tesla merger in December: report - Electrek",
+      "url": "https://electrek.co/2026/11/12/spacex-tesla-merger-announcement-december-report/"
+    },
+    {
+      "title": "Starship Flight 15: One launch, two historic catches - The Week",
+      "url": "https://www.theweek.in/news/sci-tech/2026/11/11/spacex-starship-flight-15-launch.html"
+    },
+    {
+      "title": "US Retail Sales 2026-11-17 - Forex Fundamentals",
+      "url": "https://forexfundamentals.com/economic-calendar/us-retail-sales/2026-11-17"
+    }
+  ]
+}

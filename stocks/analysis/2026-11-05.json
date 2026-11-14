@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-05",
+  "made": "2026-11-05T07:40:00+09:00",
+  "title": "美 중간선거 민주당 압승에 다우 3% 급등…반도체는 약세",
+  "mood": "mixed",
+  "market": [
+    "밤사이 미국장은 민주당이 상·하원을 모두 가져간 중간선거 결과에 크게 올랐습니다. 다우는 +3.03%(53,356.12)로 올해 가장 큰 상승을 기록했고, S&P 500 +1.58%(7,688.62), 나스닥 +1.44%(25,736.51)였습니다. 시장은 '나뉜 정부'로 정책 급변 가능성이 줄었다고 받아들였습니다.",
+    "다만 돈은 반도체에서 빠져 애플·마이크로소프트·아마존 같은 대형주로 옮겨갔습니다. 마이크론이 -6.6%, 엔비디아도 내려 필라델피아 반도체 지수는 -3.13%(10,268.65)였습니다. AI·데이터센터 규제가 세질 수 있다는 걱정이 반도체에 부담입니다. 유가는 이란 전쟁이 끝날 수 있다는 기대에 약 8% 급락해 WTI가 90달러 아래로 내려갔고, 에너지주가 크게 빠졌습니다.",
+    "어제 코스피는 장중 400포인트 넘게 오르내린 끝에 +0.62%(5,683.80), 코스닥은 +1.50%(714.95)로 마쳤습니다. 외국인이 약 2조 5,000억 원을 팔았지만 개인(약 1조 1,400억 원)과 기관(약 1조 100억 원)이 받아냈습니다. 2차전지·친환경주는 민주당 수혜 기대로 크게 올랐습니다. 오늘은 미국 증시 강세·유가 하락이 오를 요인, 미국 반도체 약세와 이어지는 외국인 매도가 내릴 요인입니다.",
+    "원/달러는 어제 서울 마감 1,341.5원(+0.5원)이었고 지금은 1,341원 안팎입니다. 미국 10년 금리는 4.89%로 내려 부담을 덜었고, VIX는 16.9로 약 19% 떨어져 불안감이 크게 줄었습니다. 비트코인은 8만 달러 안팎(+3.7%)으로 올랐습니다."
+  ],
+  "stocks": [
+    {"code": "000660", "tone": "down", "text": "어제 장중 130만 3,000원까지 밀렸다가 -0.14%(139만 6,000원)로 마쳤습니다. 밤사이 마이크론 -6.6% 등 미국 메모리주 약세는 오늘 부담입니다."},
+    {"code": "005930", "tone": "down", "text": "어제 장중 20만 8,000원까지 빠졌다가 -0.68%(218,000원)로 마감했습니다. 외국인 대량 매도가 반도체에 몰렸고, 미국 반도체 지수 -3.1%가 부담입니다."},
+    {"code": "TSLA", "tone": "down", "text": "선거 결과에 -3.34%(385.19달러). 머스크가 이번 선거에 큰돈을 쓴 것으로 알려져 정치적 부담이 거론됩니다."},
+    {"code": "SPCX", "tone": "down", "text": "-3.81%(135.92달러)로 공모가(135달러) 근처입니다. 11월에 약 13억 주의 보호예수 해제가 3분기 실적과 함께 예정돼 있어 물량 부담이 관심입니다."},
+    {"code": "O", "tone": "up", "text": "11월 2일 3분기 AFFO가 주당 1.12달러로 1년 전보다 3.7% 늘었고 올해 전망을 4.45~4.46달러로 조금 올렸습니다. 금리 하락과 부동산주 강세에 +2.98%(59.22달러)."},
+    {"code": "BAC", "tone": "up", "text": "금융주가 함께 오르며 +3.96%(51.63달러)."}
+  ],
+  "watch": [
+    {"date": "11-06", "text": "미국 10월 고용보고서 (한국 시간 금요일 밤 22:30)"},
+    {"date": "11-10", "text": "미국 10월 소비자물가(CPI) (한국 시간 밤 22:30)"},
+    {"date": "11월", "text": "스페이스X 3분기 실적·약 13억 주 보호예수 해제 예정"}
+  ],
+  "sources": [
+    {"title": "Stock market today: Dow surges 1,500 points in best day of 2026 (Yahoo Finance)", "url": "https://finance.yahoo.com/markets/live/stock-market-today-dow-rallies-1500-points-sp-500-nasdaq-midterm-elections-democrats-sweep-201207340.html"},
+    {"title": "Stock Market Today (Nov. 4, 2026): Stocks rise, oil collapses after Dems sweep midterm elections (TheStreet)", "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-04-2026"},
+    {"title": "[마감시황] 코스피, 외국인 2.5조 매도에도 반등 (아주경제)", "url": "https://www.ajunews.com/view/20261104155547584"},
+    {"title": "[마감 시황] 코스피, 장중 400P 넘나든 '롤러코스터' 속 소폭 상승 마감 (Businesskorea)", "url": "https://www.businesskorea.co.kr/news/articleView.html?idxno=280482"},
+    {"title": "상승→하락→반등… 美 중간선거에 요동친 코스피 (세계일보)", "url": "https://www.segye.com/newsView/20261104517843"},
+    {"title": "미국 선거 끝나도 코스피는 오르락내리락 (헤럴드경제)", "url": "https://biz.heraldcorp.com/article/10925745"},
+    {"title": "Realty Income Q3 2026 results (SEC 8-K)", "url": "https://www.sec.gov/Archives/edgar/data/0000726728/000072672826000056/o-991q32026.htm"},
+    {"title": "SpaceX (SPCX) stock dips under IPO price following second share unlock (Parameter)", "url": "https://parameter.io/spacex-spcx-stock-dips-under-ipo-price-following-second-share-unlock/"},
+    {"title": "US economic calendar November 2026 (fedratecalc)", "url": "https://fedratecalc.com/us-economic-calendar/november-2026/"}
+  ]
+}
