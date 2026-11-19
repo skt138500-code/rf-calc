@@ -1,38 +1,39 @@
 {
-  "date": "2026-11-19",
-  "made": "2026-11-19T07:23:18+09:00",
-  "title": "다우 1%↓·나스닥↑ 혼조…수능일 10시 개장, 앤트로픽 상장",
-  "mood": "mixed",
+  "date": "2026-11-20",
+  "made": "2026-11-20T07:45:00+09:00",
+  "title": "뉴욕 2% 급락·앤트로픽 데뷔…반도체 약세 경계",
+  "mood": "down",
   "market": [
-    "밤사이 미국장은 엇갈렸습니다. 다우 -1.12%(50,193), S&P 500 -0.23%(7,324)로 내렸고 나스닥은 +0.42%(24,430)로 올랐습니다. 엔비디아는 실적과 전망이 예상을 넘었지만 젠슨 황 퇴임 뒤 경영 공백 걱정에 주가는 오히려 내렸습니다. 필라델피아 반도체 지수는 +0.1%로 거의 제자리였습니다.",
-    "연준 10월 회의록에서는 물가 걱정이 컸고, 몇몇 위원은 물가가 나쁘게 나오면 0.5%p 인상도 거론했습니다. 월러 이사도 더 강하게 대응해야 한다고 말했고, 시장은 12월 0.25%p 인상을 거의 확실하게 보고 있습니다. 장 마감 뒤 앤트로픽은 공모가를 희망 범위(70~78달러)보다 높은 83달러로 정해 오늘 나스닥에 상장합니다.",
-    "어제 코스피는 +1.99%(5,067.44)로 하루 만에 5,000선을 되찾았고 코스닥도 +1.96%(662.81)였습니다. 엔비디아 호실적에 SK하이닉스(+4.19%)·삼성전자(+2.31%)가 반등을 이끌었습니다. 다만 외국인은 약 3,300억 원을 팔아 나흘째 순매도였고, 기관이 약 5,100억 원을 사들였습니다. 오늘은 수능일이라 장이 1시간 늦은 오전 10시에 열려 오후 4시 30분에 닫힙니다.",
-    "오늘 볼 점은 앤트로픽 상장 첫날 분위기가 AI·반도체 심리를 살릴지, 외국인 매도가 멈추는지입니다. 오를 요인은 엔비디아 실적과 메모리 수요, 내릴 요인은 미국 금리 인상 경계와 다우 약세입니다. 원/달러 환율은 어제 1,333.0원(-5.2원)으로 내렸고 지금 1,332원 근처입니다. 미국 10년 금리는 5.07%로 조금 내렸고, VIX는 24.6, 비트코인은 약 6만 2,500달러로 3.7% 빠졌습니다."
+    "밤사이 미국 3대 지수가 모두 2% 넘게 빠졌습니다. 다우 -2.19%(49,097, -1,101포인트), S&P 500 -2.02%(7,176), 나스닥 -2.25%(23,879)였습니다. 오전에는 올랐지만 연준 인사들의 추가 금리 인상 이야기가 나오면서 상승분을 모두 잃었습니다. 앤트로픽은 공모가 83달러보다 34% 높은 111.5달러에 첫 거래를 시작했고 97.17달러(+17%)로 마쳤는데, 투자자들이 기존 AI주를 팔아 이 종목으로 옮겨 가며 기술주가 눌렸습니다.",
+    "반도체가 특히 약했습니다. 필라델피아 반도체 지수는 -2.4%였고, AMD는 한 헤지펀드가 공매도 보고서를 내면서 7% 넘게 떨어졌습니다. 공포지수 VIX는 28로 14% 뛰었습니다. 여기에 FT 보도로 삼성전자·TSMC가 미국 수출통제 강화(16일 발표) 때문에 중국 고객사에 일부 칩 출하를 멈췄다는 소식도 나왔습니다.",
+    "어제 코스피는 +1.39%(5,137.89)로 이틀 연속 올랐고 코스닥은 +3.32%(684.81)로 크게 뛰었습니다. 한중 정상회담 뒤 한한령 완화 기대로 화장품·엔터·여행주가 강했고, 반도체 소부장·로봇주도 올랐습니다. 다만 외국인은 코스피에서 약 4,000억 원 넘게 팔아 닷새째 순매도였고 기관이 받쳤습니다. 오늘은 미국 급락과 반도체 약세 영향으로 출발이 무거울 수 있습니다.",
+    "볼 점은 외국인 매도가 커지는지, 반도체 대형주가 5,000선 지지를 지킬 수 있는지입니다. 오를 요인은 메모리 수요와 수출 호조(연간 수출 1조 달러 돌파), 내릴 요인은 미국 금리 인상 경계와 대중 수출통제입니다. 원/달러 환율은 어제 1,330.0원(-3.0원)에 마감했고 지금 1,334원 근처입니다. 미국 10년 금리는 5.05%로 거의 그대로였고, 비트코인은 약 6만 1,900달러로 1.8% 내렸습니다."
   ],
   "stocks": [
-    {"code": "000660", "tone": "up", "text": "어제 +4.19%(1,144,000)로 110만 원대를 되찾았습니다. 엔비디아가 실적에서 공급 약정이 크게 늘었고 주로 여러 해짜리 메모리 구매 때문이라고 밝혀 HBM 수요 기대가 커졌습니다."},
-    {"code": "005930", "tone": "up", "text": "어제 +2.31%(194,700). 장 초반 약세였다가 엔비디아 효과로 올랐습니다. 다만 외국인은 삼성전자를 약 1,590억 원 팔아 매도 1순위였습니다."},
-    {"code": "BITX", "tone": "down", "text": "비트코인이 3.7% 빠지면서 2배 상품인 BITX는 -4.51%(10.53달러)였습니다. 비트코인 값 변화가 두 배로 반영되는 점에 유의할 만합니다."},
-    {"code": "TSLA", "tone": "up", "text": "어제 +0.95%(383.72달러). 마이애미 로보택시 서비스 구역을 약 59제곱마일로 거의 두 배 넓혔고, 오스틴에 이어 확장 속도를 내고 있습니다."},
-    {"code": "BAC", "tone": "neutral", "text": "어제 -1.09%(48.90달러). 연준 금리 인상 경계로 다우가 1% 넘게 내린 흐름을 따랐고, 주택담보대출 금리 상승과 주택 지표 부진도 은행주에 부담이었습니다."},
-    {"code": "TLTW", "tone": "neutral", "text": "미국 10년 금리가 5.10%→5.07%로 내려 +0.66%(20.68달러). 12월 인상 전망이 굳어 금리 방향은 아직 불안합니다."}
+    {"code": "005930", "tone": "down", "text": "어제 +1.13%(196,900). FT 보도로 미국 수출통제 강화에 따라 중국 고객사(바이트댄스 등)에 일부 칩 출하를 멈추고 허가를 신청 중이라는 소식이 나왔고, 밤사이 미국 반도체도 2% 넘게 내렸습니다."},
+    {"code": "000660", "tone": "down", "text": "어제 +3.41%(1,183,000)로 이틀째 올랐지만, 밤사이 필라델피아 반도체 지수 -2.4%, AMD -7.7%로 반도체 투자심리가 식었습니다."},
+    {"code": "042660", "tone": "up", "text": "어제 오세아니아 선주와 초대형 원유운반선(VLCC) 2척, 3,642억 원 계약을 공시했습니다. 올해 누적 수주는 47척, 약 85억 달러가 됐습니다. 주가는 +0.67%(45,000)."},
+    {"code": "SPCX", "tone": "down", "text": "-3.5%(138.43달러). 앤트로픽 상장 첫날 기술·AI주에서 돈이 빠지는 흐름 속에 함께 내렸습니다."},
+    {"code": "TSLA", "tone": "down", "text": "-2.4%(374.41달러). 개별 큰 소식은 없었고 기술주 전체 급락을 따라 내렸습니다."},
+    {"code": "BITX", "tone": "down", "text": "-1.7%(10.36달러). 비트코인이 약 6만 1,900달러로 1.8% 내렸습니다."}
   ],
   "watch": [
-    {"date": "11-19", "text": "수능일: 코스피·코스닥 10:00 개장, 16:30 마감 (넥스트레이드 프리마켓 쉼)"},
-    {"date": "11-19", "text": "앤트로픽 나스닥 상장 첫 거래 (공모가 83달러)"},
-    {"date": "11-19", "text": "월마트 실적 발표 (미국 시간)"},
-    {"date": "11-24", "text": "QYLD 11월 배당락 예상 (작년 11-24 기준)"},
-    {"date": "11-25", "text": "미국 3분기 GDP(2차)·10월 PCE 물가 발표 (한국 밤 10시 30분), BITX 배당락 예상(작년 기준)"},
-    {"date": "11-26", "text": "미국 추수감사절 휴장, 27일은 단축 거래"}
+    {"date": "11-20", "text": "미국 미시간대 소비심리(예비, 한국 21일 0시)"},
+    {"date": "11-24", "text": "미국 콘퍼런스보드 소비자신뢰지수 / 델·HP·워크데이 실적"},
+    {"date": "11-25", "text": "미국 3분기 GDP 수정치·10월 PCE 물가·내구재 주문·주간 실업수당(하루 앞당김)"},
+    {"date": "11-26", "text": "미국 추수감사절 휴장"},
+    {"date": "11-27", "text": "미국 블랙프라이데이, 오후 1시(ET) 조기 마감"}
   ],
   "sources": [
-    {"title": "Wall Street ends mixed after Nvidia earnings, Fed minutes (Reuters)", "url": "https://lufkindailynews.com/news_reuters/business/wall-street-ends-mixed-after-nvidia-earnings-fed-minutes/article_757d7e1e-451b-5fc3-914c-44086229e225.html"},
-    {"title": "Markets mixed in a Nvidia, Anthropic and Fed minutes swirl", "url": "https://rallies.ai/news/markets-mixed-in-a-nvidia-anthropic-and-fed-minutes-swirl-81860380435d6c77"},
-    {"title": "[e마켓클로징] 기관 5118억 순매수···코스피 5067로 반등 마감 - 시사저널e", "url": "https://www.sisajournal-e.com/news/articleView.html?idxno=425137"},
-    {"title": "엔비디아가 되돌린 '오천피'…반등 지속 가를 외국인 수급·앤트로픽 공모가 - 이투데이", "url": "https://www.etoday.co.kr/news/view/2649940"},
-    {"title": "엔비디아 호실적에 투심 일부 회복…코스피 하루 만에 '오천피' 탈환 - 헤럴드경제", "url": "https://biz.heraldcorp.com/article/10941630"},
-    {"title": "수능일(11월 19일) 증시 운영 시간 총정리 - 뉴닉", "url": "https://newneek.co/@newneek/article/48417"},
-    {"title": "US Economic Calendar November 2026", "url": "https://fedratecalc.com/us-economic-calendar/november-2026/"},
-    {"title": "Tesla Miami Robotaxi service area nearly doubles - Tesla North", "url": "https://teslanorth.com/2026/11/16/tesla-miami-robotaxi-service-area-nearly-doubles/"}
+    {"title": "Stock market today: Dow drops 1,100 points, S&P 500 and Nasdaq tank as Anthropic stock surges in public debut (Yahoo Finance)", "url": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-19-dow-sp-500-nasdaq-anthropic-ipo-live-141306032.html"},
+    {"title": "Nasdaq Drops 2.2%, Anthropic Slips to Close at $97 After Higher Open; Tech Stocks Slump as AMD Falls Over 7% (TradingKey)", "url": "https://www.tradingkey.com/analysis/stocks/us-stocks/262313953-us-stock-nasdaq-falls-anthropic-ipo-debut-amd-short-report-tradingkey"},
+    {"title": "S&P 500 Drops Nearly 2% at the Close as Rate Hike Talk Hits Markets (24/7 Wall St.)", "url": "https://247wallst.com/cards/the-dow-s-1-091-point-drop-came-alongside-declines-in-both-t-gspc-market-bell-01m7tszafyfeyqr7mh8p14494j"},
+    {"title": "[마감시황] '수능 한파' 비껴간 코스피…앤스로픽 상장 앞두고 1.4% 상승 마감 (뉴스핌)", "url": "https://www.newspim.com/news/view/20261119001168"},
+    {"title": "[e마켓클로징] 외국인 4054억 팔았지만…코스피·코스닥 동반 반등 (시사저널e)", "url": "https://www.sisajournal-e.com/news/articleView.html?idxno=425165"},
+    {"title": "[마감시황] 코스피, 기관 자금 유입에 1%대 상승…코스닥 3% 넘게 급등 (아주경제)", "url": "https://www.ajunews.com/view/20261119171646085"},
+    {"title": "美, 중국 반도체 숨통 더 조인다…삼성·TSMC도 출하 중단 (한국경제)", "url": "https://www.hankyung.com/article/2026112088337"},
+    {"title": "한화오션, VLCC 2척 수주…3642억 규모 (이투데이)", "url": "https://www.etoday.co.kr/news/view/2650250"},
+    {"title": "Is the Stock Market Open on Black Friday 2026? Hours (Admirals)", "url": "https://admiralmarkets.com/analytics/traders-blog/stock-market-hours-thanksgiving-black-friday-2026"},
+    {"title": "US Economic Calendar November 2026: Jobs, CPI, PCE, PPI (Helious)", "url": "https://helious.io/calendar/2026-11"}
   ]
 }
