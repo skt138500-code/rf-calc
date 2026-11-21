@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-06",
+  "made": "2026-11-06T07:40:00+09:00",
+  "title": "AI 반도체 투매에 나스닥 5.5%·반도체지수 12% 폭락",
+  "mood": "down",
+  "market": [
+    "밤사이 미국장은 AI·반도체 매도가 몰리며 크게 빠졌습니다. 다우 -3.44%(51,523.06), S&P 500 -4.36%(7,353.73), 나스닥 -5.52%(24,315.00)로 나스닥은 조정 구간에 들어갔고, 필라델피아 반도체 지수는 -12.25%였습니다. 엔비디아 -9.26%, AMD -17.26%였고, 공포 지수 VIX는 16.61에서 27.17로 뛰었습니다.",
+    "민주당이 의회를 가져가면서 AI 데이터센터 규제가 세질 수 있다는 걱정에, 올해 많이 오른 반도체 수익을 헤지펀드가 확정하려는 매도가 겹쳤다는 해석이 많습니다. 개인 투자자도 2020년 이후 가장 크게 순매도했습니다. AI 투자가 줄었다기보다 이미 높은 기대가 주가에 반영됐는지 다시 따지는 과정이라는 시각도 있습니다.",
+    "어제(5일) 코스피는 -5.28%(5,383.80), 코스닥은 -5.11%(678.41)로 마쳤고 두 시장 모두 매도 사이드카가 걸렸습니다. 외국인이 코스피에서 약 3조 3,900억 원을 팔았고 개인(약 2조 2,700억 원)과 기관(약 8,500억 원)이 받았습니다. 전기·전자 업종이 크게 빠진 반면 제약·음식료·통신은 올랐습니다. 오늘은 밤사이 미국 반도체 추가 급락과 외국인 매도 지속이 내릴 요인, 이틀 연속 급락 뒤 저가 매수와 방어 업종으로의 순환이 버틸 요인입니다.",
+    "원/달러는 어제 서울에서 1,342.1원에 마쳤지만 밤사이 1,356원대로 올라 원화가 약해졌습니다. 미국 10년 금리는 4.837%로 내려 안전자산 선호를 보여 줬고, 비트코인은 -5.7% 내린 약 7만 5,800달러입니다. 오늘 밤(한국 시간 22:30) 미국 10월 고용 지표가 다음 방향을 정할 변수입니다."
+  ],
+  "stocks": [
+    {"code": "000660", "tone": "down", "text": "어제 -9.46%(1,264,000)로 크게 밀렸고, 밤사이 미국 반도체 지수가 12% 더 빠져 오늘도 부담입니다. HBM 고평가 논란과 외국인의 반도체 비중 축소가 하락 이유로 꼽힙니다."},
+    {"code": "005930", "tone": "down", "text": "어제 -7.57%(201,500)로 마감했습니다. 엔비디아·AMD 급락으로 반도체 투자 심리가 더 나빠진 상태라 외국인 매매를 지켜봐야 합니다."},
+    {"code": "TSLA", "tone": "down", "text": "-10.77%(343.69달러) 급락했습니다. 민주당 의회와 텍사스 정치 변화로 스페이스X와의 합병, AI 인프라 계획이 어려워질 수 있다는 걱정이 커졌습니다."},
+    {"code": "SPCX", "tone": "down", "text": "테슬라와 같은 합병 불확실성에 -9.05%(123.62달러) 내렸습니다."},
+    {"code": "BITX", "tone": "down", "text": "비트코인이 하루 만에 8만 달러 아래로 밀리며 -10.06%(15.83달러). 가상자산 법안(Clarity Act)이 연내 통과되기 어렵다는 전망도 부담입니다."},
+    {"code": "QYLD", "tone": "down", "text": "나스닥 100 급락을 따라 -6.12%(16.88달러) 내렸습니다. 변동성이 커지면 옵션 프리미엄(분배금 재원)은 늘 수 있지만 원금 하락이 더 큽니다."},
+    {"code": "MAIN", "tone": "up", "text": "어제 장 마감 뒤 3분기 실적 발표: 주당 순투자이익 0.89달러, 순자산가치 34.22달러(직전 분기보다 0.30달러 증가). 4분기 월 배당 0.265달러씩과 12월 특별배당 0.30달러를 정했습니다."},
+    {"code": "O", "tone": "up", "text": "급락장에서도 +0.46%(59.50달러)로 버텼습니다. 2일 발표한 3분기 AFFO가 주당 1.12달러로 1년 전보다 3.7% 늘었고, 올해 AFFO 전망을 4.45~4.46달러로 조금 올렸습니다."}
+  ],
+  "watch": [
+    {"date": "11-06", "text": "미국 10월 고용 지표 (한국 시간 오늘 22:30)"},
+    {"date": "11-06", "text": "메인스트리트캐피털(MAIN) 실적 설명회 (한국 시간 7일 0:00)"},
+    {"date": "11-10", "text": "미국 10월 소비자물가(CPI) (한국 시간 22:30)"},
+    {"date": "11-12", "text": "국내 옵션 만기일"},
+    {"date": "11-13", "text": "미국 10월 생산자물가(PPI)"}
+  ],
+  "sources": [
+    {"title": "Stock market today: Dow plunges 1,800 points, Nasdaq enters correction in AI trade meltdown (Yahoo Finance)", "url": "https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-5-dow-sp-500-nasdaq-oil-rises-chip-stocks-141439950.html"},
+    {"title": "Stock Market Today, Nov. 5: Nasdaq Suffers Worst Day in 18 Months as AI Trade Comes Under Fire (Motley Fool)", "url": "https://www.fool.com/coverage/stock-market-today/2026/11/05/stock-market-today-nov-5-nasdaq-suffers-worst-day-in-18-months-as-ai-trade-comes-under-fire/"},
+    {"title": "[마감 시황] 미국발 '블루웨이브' AI규제 공포에 코스피 5,400선 무너져 (비즈니스코리아)", "url": "https://www.businesskorea.co.kr/news/articleView.html?idxno=280605"},
+    {"title": "코스피, 장중 다시 5%대 하락…외국인 3.3조 순매도 (파이낸셜뉴스)", "url": "https://www.fnnews.com/news/202611051448316164"},
+    {"title": "Main Street Announces Third Quarter 2026 Results (PR Newswire)", "url": "https://www.prnewswire.com/news-releases/main-street-announces-third-quarter-2026-results-302931214.html"},
+    {"title": "Realty Income Q3 2026 실적 발표 (SEC 8-K)", "url": "https://www.sec.gov/Archives/edgar/data/0000726728/000072672826000056/o-991q32026.htm"},
+    {"title": "US Economic Calendar November 2026", "url": "https://fedratecalc.com/us-economic-calendar/november-2026/"}
+  ]
+}
