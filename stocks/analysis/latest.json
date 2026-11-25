@@ -1,38 +1,40 @@
 {
-  "date": "2026-11-25",
-  "made": "2026-11-25T07:45:00+09:00",
-  "title": "코스피 5000 회복 뒤 미국 반도체 -7.9%…숨 고르기",
+  "date": "2026-11-26",
+  "made": "2026-11-26T07:22:46+09:00",
+  "title": "코스피 -6% 급락 뒤 금통위…미국은 추수감사절 휴장",
   "mood": "down",
   "market": [
-    "밤사이 미국장은 하루 만에 다시 기술주가 밀렸습니다. 나스닥 -1.5%(23,734), S&P 500 -0.5%(7,201)로 마쳤고 다우는 올랐습니다. 전날 31% 뛰었던 엔비디아가 약 6% 내렸고 마이크론 -11%, AMD -9% 등 반도체가 크게 빠지며 필라델피아 반도체 지수는 -7.9%(8,833)였습니다. 실적 뒤 아날로그디바이스(-17%)와 HPE(-16%)도 급락했습니다.",
-    "한국장은 어제 젠슨 황 복귀 효과로 코스피 +6.32%(5,006.03), 코스닥 +4.79%(665.88)로 급등해 3거래일 만에 5000선을 되찾았습니다. 장 초반 두 시장 모두 매수 사이드카가 걸렸고, 외국인이 8거래일 만에 순매수(약 6,100억 원)로 돌아섰습니다. 오늘은 미국 반도체 되돌림이 삼성전자·SK하이닉스에 얼마나 반영되는지, 외국인 매수가 이어지는지가 관건입니다.",
-    "원/달러는 1,341원 안팎으로 어제와 비슷합니다. 미국 10년 금리는 4.90%로 높은 수준이고, VIX는 26으로 여전히 불안한 편입니다. 시장은 12월 연준의 0.25%p 인상을 사실상 다 반영했고, 내일(26일) 한국은행도 3.00%→3.25% 인상 가능성이 거론됩니다(채권 전문가 54%가 인상 예상).",
-    "오를 요인은 외국인 순매수 전환, 자사주 매수 한도 완화 같은 증시 대책, 저가 매수입니다. 내릴 요인은 미국 반도체의 큰 변동, 오늘 밤 PCE 물가 결과에 따른 연준 인상 폭 우려, 내일 금통위 인상입니다."
+    "밤사이 미국장은 장 초반 크게 밀렸다가 대부분 회복했습니다. 나스닥은 한때 4% 넘게 빠졌지만 -0.6%(23,586), S&P 500은 -0.3%(7,183)로 마쳤고 다우는 소폭 올랐습니다. 엔비디아는 장중 -8%까지 밀린 뒤 -3.9%로 마감했고, 필라델피아 반도체 지수는 -0.7%로 낙폭을 줄였습니다. 10월 PCE 물가가 예상보다 높게 나왔고(근원 3.3%), 미국 정부의 새 관세 제안도 부담이었습니다. 오늘 밤(26일) 미국장은 추수감사절로 쉬고, 27일은 반나절만 열립니다.",
+    "어제 한국장은 하루 만에 전날 급등분을 모두 반납했습니다. 코스피 -6.16%(4,697.51), 코스닥 -2.29%(650.64)였고, 외국인이 유가증권시장에서 약 1조9천억 원을 팔았습니다. 삼성전자(-9.9%)는 시가총액 1천조 원 아래로 내려왔고 SK하이닉스는 -11%였습니다. 정부는 증시안정펀드 규모를 늘리려고 금융회사들에 추가 출자 가능액을 묻고 있다는 보도가 나왔습니다. 오늘은 미국 반도체가 장중 낙폭을 줄인 점이 반등 계기가 될지, 외국인 매도가 멈추는지가 관건입니다.",
+    "한국은행 금통위가 오늘 오전 9시에 열리고 결과는 9시 50분쯤 나옵니다. 현재 3.00%에서 3.25%로 올릴 것이란 전망이 많지만, 채권 전문가 설문에서는 동결 예상도 46%였습니다. 원/달러는 1,343원으로 어제와 비슷하고, 미국 10년 금리는 4.85%로 소폭 내렸습니다. VIX는 27~28로 불안이 여전히 큰 편이고, 미국 12월 금리 인상(0.25%p)은 시장이 거의 확실하게 보고 있습니다.",
+    "오를 요인은 미국 기술주가 장중 급락을 대부분 만회한 점, 증안펀드 확대 같은 정부 대책, 이틀 새 크게 빠진 반도체의 저가 매수입니다. 내릴 요인은 외국인의 연속 매도, 금통위 인상에 따른 부담, AI 기업 수익성 우려와 미국 관세 이슈입니다. 미국 휴장으로 오늘 밤 해외 신호가 없다는 점도 기억하세요."
   ],
   "stocks": [
-    {"code": "SPCX", "tone": "down", "text": "-5.7%($125.81)로 공모가($135) 아래로 내려왔습니다. 테슬라와 주식 교환 방식 합병을 논의할 이사 위원회가 꾸려졌다는 보도에 합병 비율을 앞둔 매도가 나왔습니다. JP모건은 합병 시 S&P 500 편입이 앞당겨질 수 있다고 봤습니다."},
-    {"code": "TSLA", "tone": "neutral", "text": "-0.2%($384.68)로 전날 급등 뒤 숨을 골랐습니다. 스페이스X 합병 논의는 연말을 목표로 진행 중이지만 아직 합의는 멀다는 보도이고, 성사되면 주주총회 승인이 필요합니다."},
-    {"code": "000660", "tone": "down", "text": "어제 +6.7%(115만8,000원)로 마쳤지만 외국인은 약 1,400억 원 순매도했습니다. 밤사이 마이크론 -11% 등 메모리주가 크게 빠져 오늘은 되돌림 압력이 있습니다."},
-    {"code": "005930", "tone": "down", "text": "어제 +6.7%(18만9,400원)로 18만 원 선을 되찾았고 외국인이 약 4,200억 원 순매수했습니다. 다만 미국 반도체 지수 -7.9%가 오늘 부담입니다."},
-    {"code": "012450", "tone": "neutral", "text": "어제 +9.2%(62만8,000원). 운송장비·부품 업종(+9.4%)이 시장 반등을 이끈 흐름에 함께 올랐고, 종목 자체의 새 소식은 확인되지 않았습니다."}
+    {"code": "000660", "tone": "down", "text": "어제 -11.05%(103만 원)로 마감, 장중 100만 원 선이 위협받았습니다. BNP파리바가 2028년 메모리 공급 과잉 가능성을 언급하며 마이크론 목표가를 크게 낮춘 것이 반도체 전반에 부담이 됐습니다."},
+    {"code": "005930", "tone": "down", "text": "어제 -9.87%(17만700원)로 3월 말 이후 가장 낮은 종가입니다. 시가총액이 약 998조 원으로 8개월 만에 1천조 원 아래로 내려왔고, 외국인 매도가 집중됐습니다."},
+    {"code": "SPCX", "tone": "up", "text": "장중 -9%까지 밀렸다가 FCC가 우주 데이터센터 위성을 최대 100만 기까지 띄우도록 허가했다는 소식에 낙폭을 거의 다 회복해 +1.3%($127.44)로 마쳤습니다. 다만 신용부도스와프(CDS) 금리가 사상 최고로 오른 점은 부담으로 꼽힙니다."},
+    {"code": "TSLA", "tone": "neutral", "text": "-1.2%($380.14)로 기술주 약세를 따라갔습니다. 스페이스X와의 합병 논의는 아직 결론이 나지 않았습니다."}
   ],
   "watch": [
-    {"date": "11-25", "text": "미국 3분기 GDP·10월 PCE 물가 (한국 시간 오늘 밤 22:30) — 12월 연준 전 마지막 큰 지표"},
-    {"date": "11-26", "text": "한국은행 금통위 기준금리 결정 (3.00%, 인상 여부)"},
-    {"date": "11-26", "text": "미국 추수감사절 휴장"},
-    {"date": "11-27", "text": "미국장 오후 1시(ET) 조기 마감"}
+    {"date": "11-26", "text": "한국은행 금통위 기준금리 결정 (09:50쯤 발표, 3.00% → 3.25% 인상 여부) · 미국 추수감사절 휴장"},
+    {"date": "11-27", "text": "미국장 반나절 거래 (오후 1시 ET 조기 마감)"},
+    {"date": "11-27", "text": "SK하이닉스 분기 배당락 가능성 (작년엔 11-27, 올해 날짜는 공시 확인)"},
+    {"date": "11-28", "text": "리얼티인컴 월 배당락 무렵 (작년 기준 예상)"},
+    {"date": "12-01", "text": "미국 ISM 제조업 지수 · JEPI 월 배당락 무렵(작년 기준)"},
+    {"date": "12-02", "text": "미국 ADP 민간 고용 · TLTW 월 배당락 무렵(작년 기준)"},
+    {"date": "12-03", "text": "미국 ISM 서비스업 지수"},
+    {"date": "12-04", "text": "미국 11월 고용보고서 (한국 시간 밤 22:30) — 12월 연준 결정 전 핵심 지표"}
   ],
   "sources": [
-    {"title": "Stock Market Today Live, November 24, 2026: Chip Stocks Slide After Monday's Big Rally", "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-24-2026"},
-    {"title": "Nasdaq, S&P 500 fall as Nvidia-driven AI rally unwinds (Reuters)", "url": "https://finance.yahoo.com/markets/stocks/articles/wall-st-futures-dip-chip-105355594.html"},
-    {"title": "코스피, 젠슨 황 복귀에 6.32% 급등…5000선 회복 - 파이낸셜뉴스", "url": "https://www.fnnews.com/news/202611241604048501"},
-    {"title": "외국인도 돌아왔다… 7거래일간 5조 팔다 순매수 전환 - 파이낸셜뉴스", "url": "https://www.fnnews.com/news/202611241817015784"},
-    {"title": "코스피 6.32% 급등, 5000선 탈환…외국인·기관 동반 매수 - 잡포스트", "url": "https://www.job-post.co.kr/news/articleView.html?idxno=240674"},
-    {"title": "코스피 5000 회복…돌아온 외국인, 삼성 사고 하이닉스 팔았다 - 콕스뉴스", "url": "https://www.coxnews.co.kr/news/articleView.html?idxno=6924"},
-    {"title": "Here's Why SpaceX Stock Slumped Today - The Motley Fool", "url": "https://www.fool.com/investing/2026/11/24/here-s-why-spacex-stock-slumped-today-and-why-it-could-come-under-more-pressure-as-tesla-merger-talks-continue/"},
-    {"title": "SpaceX (SPCX) Stock Falls as J.P. Morgan Links Tesla Merger to S&P 500 Entry - Parameter", "url": "https://parameter.io/spacex-spcx-stock-falls-as-j-p-morgan-links-tesla-merger-to-sp-500-entry/"},
-    {"title": "SpaceX and Tesla Directors Hold Talks Over Potential US$3.5 Trillion Merger", "url": "https://finance.yahoo.com/markets/stocks/articles/spacex-tesla-directors-hold-talks-111930850.html"},
-    {"title": "26일 올해 마지막 금통위… 시장은 '금리 인상'에 무게 - 매일신문", "url": "https://www.imaeil.com/page/view/2026112415373565999"},
-    {"title": "채권시장 전문가 54% \"11월 금통위 기준금리 인상 전망\" - 이투데이", "url": "https://www.etoday.co.kr/news/view/2652153"}
+    {"title": "Stock market today: Dow erases losses to end positive, S&P 500 and Nasdaq recover ground amid AI sell-off (Yahoo Finance)", "url": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-25-dow-sp-500-nasdaq-pce-inflation-data-091428237.html"},
+    {"title": "Stocks close mixed after Wall Street erases sharp decline: Nvidia drops 4% - ABC News", "url": "https://abcnews.com/Business/stocks-tumble-tech-sell-off-resumes-nvidia-falls/story?id=138442070"},
+    {"title": "Stock Market Today Live, November 25, 2026: Stocks Win Back Most of Their Morning Losses After a Chip Sell-Off", "url": "https://stocktitan.net/articles/stock-market-today-live-november-25-2026"},
+    {"title": "\"삼전닉스 개미들 또 비명\"…코스피 4700선도 무너졌다 - 파이낸셜뉴스", "url": "https://www.fnnews.com/news/202611252233183012"},
+    {"title": "[단독] 코스피 다시 급락하자…정부 '증안펀드' 확대 나섰다 - 블루밍비트", "url": "https://bloomingbit.io/feed/news/125205"},
+    {"title": "삼성전자 1천조원선 붕괴…반도체 대형주 급락에 코스피 흔들려 - 스페셜타임스", "url": "https://www.specialtimes.co.kr/news/articleView.html?idxno=490161"},
+    {"title": "다시 긴축모드 진입할까⋯한은, 올해 마지막 금통위 오늘 개최 - 이투데이", "url": "https://www.etoday.co.kr/news/view/2652820"},
+    {"title": "SpaceX stock pares losses following FCC approval for data centers in space (Yahoo Finance)", "url": "https://finance.yahoo.com/technology/article/spacex-stock-pares-losses-following-fcc-approval-for-data-centers-in-space-183757039.html"},
+    {"title": "Why SpaceX Stock Is Down Today - The Motley Fool", "url": "https://www.fool.com/investing/2026/11/25/why-spacex-stock-is-down-today/"},
+    {"title": "Weekly Economic Calendar for 30.11.2026–06.12.2026 - LiteFinance", "url": "https://www.litefinance.org/blog/analysts-opinions/weekly-economic-calendar-for-30112026-06122026/"}
   ]
 }
