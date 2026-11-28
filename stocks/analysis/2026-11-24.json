@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-24",
+  "made": "2026-11-24T07:40:00+09:00",
+  "title": "젠슨 황 복귀에 나스닥 +6.5%…코스피 반등 시험",
+  "mood": "up",
+  "market": [
+    "밤사이 미국장은 크게 반등했습니다. 엔비디아 이사회가 물러났던 젠슨 황을 CEO로 다시 앉히자 엔비디아가 약 31% 뛰었고, 나스닥 +6.5%(24,090), S&P 500 +4.7%(7,237), 다우 +3.0%(49,595)로 마쳤습니다. 2025년 4월 이후 가장 큰 하루 상승이며, S&P 500은 조정 구간(고점 대비 -10%)에서 벗어났습니다.",
+    "필라델피아 반도체 지수는 약 14% 올라 9,588이 됐습니다. 마이크론 +19%, TSMC ADR +14% 등 반도체·AI 인프라주가 일제히 올랐고 VIX는 27 수준으로 내려왔습니다. 다만 노무라 등은 공매도 청산과 헤지 되돌리기에 따른 '기계적' 반등이라며 추세 전환으로 보기는 이르다고 봤습니다.",
+    "한국장은 어제 미국 반등 전에 열려 코스피 -3.31%(4,708.54), 코스닥 -1.58%(635.45)로 마쳤습니다. 이틀 연속 매도 사이드카가 걸렸고 외국인은 7거래일 연속 순매도, 이달 누적 약 17조 원어치를 팔았습니다. 오늘은 미국 반도체 급반등이 삼성전자·SK하이닉스에 얼마나 반영되는지, 외국인 매도가 멈추는지가 관건입니다.",
+    "원/달러는 어제 서울 종가 1,345.9원(+9.7원)이었고 지금 1,342원 안팎입니다. 미국 10년 금리는 4.92%로 높은 수준이 이어집니다. 오를 요인은 반도체 반등과 저가 매수, 증시안정펀드 가동이고, 내릴 요인은 외국인 매도 지속, 26일 금통위 금리 인상, 다음 달 9일 미국 연준 인상 가능성(시장 약 90% 반영)입니다."
+  ],
+  "stocks": [
+    {"code": "TSLA", "tone": "up", "text": "+11.5%($385.46). FSD V15 배포와 SpaceX 합병 가능성 기대가 겹쳤고, HSBC가 의견을 '보유'로 올리고 목표가를 크게 높였습니다. 합병 세부 논의는 12월에 나올 수 있다는 보도도 있습니다."},
+    {"code": "000660", "tone": "up", "text": "어제 -2.5%(108만5,000원)로 마쳤지만, 밤사이 마이크론 +19% 등 메모리·반도체가 급반등해 오늘 반등 기대가 큽니다."},
+    {"code": "005930", "tone": "up", "text": "어제 -3.1%(17만7,500원)로 18만 원 선을 내줬습니다. 미국 반도체 반등은 호재지만 외국인이 전기·전자 업종을 계속 팔고 있어 수급 확인이 필요합니다."},
+    {"code": "SPCX", "tone": "up", "text": "+4.4%($133.35). 제프리스가 '매수' 의견으로 분석을 시작했고, 테슬라와의 합병설도 관심을 받고 있습니다."},
+    {"code": "012450", "tone": "down", "text": "어제 -5.0%(57만5,000원). 3분기 영업이익이 전년보다 46% 줄었고, 폴란드 K9·천무 인도가 몰린 4분기 실적과 신규 수주가 변수입니다."},
+    {"code": "042660", "tone": "down", "text": "어제 -5.2%(3만9,900원)로 52주 최저 부근입니다. 하락 이유를 밝힌 개별 소식은 없었고 시장 전체 매도의 영향이 컸습니다."}
+  ],
+  "watch": [
+    {"date": "11-24", "text": "델·HP 실적(미국 장 마감 후), 미국 소비자신뢰지수"},
+    {"date": "11-25", "text": "미국 10월 PCE 물가(한국시각 22:30, 휴장 전으로 앞당김), QYLD·BITX 작년 이맘때 배당락"},
+    {"date": "11-26", "text": "한국은행 금통위(3.00%→3.25% 인상 전망)·수정 경제전망, 미국 추수감사절 휴장"},
+    {"date": "11-27", "text": "미국 증시 조기 폐장(한국시각 28일 03:00)"},
+    {"date": "11-28", "text": "리얼티인컴(O) 작년 이맘때 월배당 배당락"},
+    {"date": "12-01", "text": "JEPI·TLTW 작년 이맘때 배당락(올해도 비슷한 때 예상)"}
+  ],
+  "sources": [
+    {"title": "Stock Market Today, Nov. 23: Markets Rebound From Correction on AI Relief Rally (Motley Fool)", "url": "https://www.fool.com/coverage/stock-market-today/2026/11/23/stock-market-today-nov-23-markets-rebound-from-correction-on-ai-relief-rally/"},
+    {"title": "Stock Market Today: Nasdaq Jumps 6.5% as Huang Returns (FinanceFeeds)", "url": "https://financefeeds.com/stock-market-today-nasdaq-jumps-6-5-percent-as-huang-returns/"},
+    {"title": "Stock market today: Dow, S&P 500, Nasdaq surge as Jensen Huang's reinstatement at Nvidia sparks stunning rally (Yahoo Finance)", "url": "https://finance.yahoo.com/markets/live/stock-market-today-monday-november-23-dow-sp-500-nasdaq-surge-after-nvidia-reinstates-jensen-huang-182039397.html"},
+    {"title": "Why Tesla Stock Stepped on the Gas Today (Motley Fool)", "url": "https://www.fool.com/investing/2026/11/23/why-tesla-stock-stepped-on-the-gas-today/"},
+    {"title": "[마감시황] 코스피, '개인·외국인' 매도에 4700선 턱걸이…3.31% 하락 (뉴스핌)", "url": "https://www.newspim.com/news/view/20261123000978"},
+    {"title": "[마감 시황] 코스피, 외국인·개인 동반 매도에 3.3% 급락하며 4,700선 턱걸이 마감 (비즈니스코리아)", "url": "https://www.businesskorea.co.kr/news/articleView.html?idxno=281954"},
+    {"title": "코스피 급락에 아시아 증시 비상…해외 IB \"정책 대응만으론 반등 한계\" (EBN)", "url": "https://www.ebn.co.kr/news/articleView.html?idxno=1732728"},
+    {"title": "기준금리 3.25%로 올릴 듯… 내년 성장 전망도 상향 유력 (서울신문)", "url": "https://www.seoul.co.kr/news/economy/finance/2026/11/23/20261123031005"},
+    {"title": "한화에어로스페이스 58만원대 하락…방산 인도 일정이 4분기 실적 변수 (잡포스트)", "url": "https://www.job-post.co.kr/news/articleView.html?idxno=240228"},
+    {"title": "한화오션 주가, 11월 23일 애프터마켓 40,100원 4.75% 하락 (중앙이코노미뉴스)", "url": "https://www.joongangenews.com/news/articleView.html?idxno=565954"}
+  ]
+}

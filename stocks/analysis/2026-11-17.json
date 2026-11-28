@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-17",
+  "made": "2026-11-17T07:23:06+09:00",
+  "title": "AI 불안에 美 반도체 5% 급락…오늘 밤 엔비디아 실적 대기",
+  "mood": "down",
+  "market": [
+    "밤사이 미국장은 크게 내렸습니다. 다우 -1.41%(51,608), S&P 500 -1.92%(7,417), 나스닥 -2.49%(24,510)입니다. 필라델피아 반도체 지수는 -5.28%(9,611)로 금요일에 이어 또 급락했고, 엔비디아는 -4.1%(156.14달러)로 마쳤습니다. 이사회가 젠슨 황의 CEO 복귀를 검토하지 않는다는 보도와 대중국 반도체 규제 강화가 부담이었습니다.",
+    "어제 코스피는 -3.59%(5,100.50), 코스닥은 -4.86%(665.65)로 급락했습니다. 외국인이 코스피에서 약 1조 7천억 원을 팔았고, 전기·전자 업종이 -5.65%로 가장 약했습니다. 미국 법원이 삼성전자·SK하이닉스·마이크론의 D램 담합 집단소송을 계속 심리하기로 한 것도 메모리주에 부담이 됐습니다. 반면 음식료·보험·운송 업종과 KB금융은 올랐습니다.",
+    "오늘은 밤사이 미국 반도체 추가 급락이 다시 부담입니다. 다만 내일(18일) 아침 엔비디아 실적이 AI 수요를 확인해 주면 반등 계기가 될 수 있고, 실망스러우면 매도가 더 이어질 수 있습니다. 19일에는 앤트로픽 나스닥 상장도 예정돼 AI 투자 심리를 가를 한 주입니다.",
+    "원/달러 환율은 어제 1,335.7원으로 1원 내렸습니다. 미국 10년 금리는 5.12%로 조금 내렸고, 공포지수 VIX는 23.6으로 20%가량 뛰었습니다. 워시 연준 의장은 연설에서 AI의 성장 효과를 말했지만 금리에 대한 신호는 주지 않았습니다. 비트코인은 65,000달러 근처로, 지난주 고점에서 크게 밀린 상태입니다."
+  ],
+  "stocks": [
+    {"code": "000660", "tone": "down", "text": "어제 -7.89%(1,120,000)로 급락했습니다. 엔비디아 불안과 외국인 매도에 D램 담합 소송이 본안 심리로 넘어간 소식이 겹쳤습니다(담합을 인정한 판결은 아님). 18일 아침 엔비디아 실적이 다음 고비입니다."},
+    {"code": "005930", "tone": "down", "text": "어제 -4.47%(196,800)로 20만 원 선을 다시 내줬습니다. 같은 D램 담합 소송이 계속 진행되며, 피고 답변 기한은 12월 7일입니다."},
+    {"code": "BITX", "tone": "down", "text": "-11.14%(11.45). 비트코인이 지난주 중반부터 크게 밀리며 고점의 절반 수준까지 내려와, 2배로 움직이는 이 ETF의 낙폭이 컸습니다."},
+    {"code": "TSLA", "tone": "down", "text": "-2.69%(379.74). 대형 기술주가 함께 밀린 흐름에 휩쓸렸습니다."},
+    {"code": "BAC", "tone": "down", "text": "-1.78%(50.11). 대형 은행들의 앱 장애 보도 속에 JP모건·씨티 등과 함께 2% 안팎 내렸습니다."},
+    {"code": "SPCX", "tone": "up", "text": "-1.26%(137.36). 주말 스타십 시험비행에서 상단부를 처음으로 붙잡는 데 성공했습니다(부스터 회수는 중단). 기술적 성과지만 어제 주가는 시장 하락을 따랐습니다."},
+    {"code": "012450", "tone": "up", "text": "어제 +1.25%(649,000)로 급락장에서 올랐습니다. 미국 법인 4곳에 1조 원 넘게 출자하며 현지 생산·수주 체계를 넓히고 있다는 보도가 나왔습니다."},
+    {"code": "042660", "tone": "neutral", "text": "어제 -3.21%(46,800). 미국 지주회사에 올해 3,250억 원을 출자해 필리조선소 등 현지 사업을 키우고 있습니다."},
+    {"code": "QYLD", "tone": "down", "text": "-2.65%(17.25). 나스닥 100 급락을 따라 내렸습니다. 작년 이맘때 기준이면 다음 주 초 배당락이 예상됩니다."}
+  ],
+  "watch": [
+    {"date": "11-17", "text": "미국 10월 소매판매 (한국 시간 밤 10시 30분), 산업생산 / 홈디포·디즈니 실적"},
+    {"date": "11-18", "text": "엔비디아 3분기 실적 (한국 시간 아침, 예상 주당순이익 2.49달러) — 젠슨 황 사임 뒤 첫 발표"},
+    {"date": "11-19", "text": "FOMC 10월 회의 의사록 (한국 시간 새벽 4시)"},
+    {"date": "11-19", "text": "월마트 실적, 미국 주간 실업수당 청구·필라델피아 연준 지수 (한국 시간 밤)"},
+    {"date": "11-19", "text": "앤트로픽 나스닥 상장 예정 (미국 19일 거래 시작)"},
+    {"date": "11-20", "text": "미시간대 소비자심리 확정치, 쿡 연준 이사 연설 (미국 20일)"},
+    {"date": "11-23", "text": "QYLD 배당락 예상 (작년 이맘때 기준, 확정 아님)"}
+  ],
+  "sources": [
+    {"title": "Stock market today: Dow and S&P 500 drop, Nasdaq sinks over 2% as Nvidia leads AI trade lower, Anthropic IPO looms - Yahoo Finance", "url": "https://finance.yahoo.com/markets/live/stock-market-today-monday-november-16-dow-sp-500-nasdaq-nvidia-oil-091631084.html"},
+    {"title": "Stock Market Today: Nasdaq-100 Sinks 1% as Nvidia Faces Its First Earnings Without Jensen Huang - 24/7 Wall St.", "url": "https://247wallst.com/investing/2026/11/16/stock-market-today-nasdaq-100-sinks-1-as-nvidia-faces-its-first-earnings-without-jensen-huang/"},
+    {"title": "코스피 3.59% 급락해 5100선…외국인·기관 2조 넘게 팔았다 - 파이낸셜뉴스", "url": "https://www.fnnews.com/news/202611161547327457"},
+    {"title": "하이닉스 7% 급락·코스피 5100 턱걸이...엔비디아 불안 지속 - 비즈워치", "url": "https://news.bizwatch.co.kr/article/market/2026/11/16/0022"},
+    {"title": "코스피, 외국인 '팔자'에 5100선 턱걸이⋯삼전닉스 동반 급락 - 이투데이", "url": "https://www.etoday.co.kr/news/view/2648800"},
+    {"title": "美법원, 삼성·SK 등 메모리 빅3 담합소송 계속 진행 - 아주경제", "url": "https://ajunews.com/view/20261116172302210"},
+    {"title": "한화, 美 법인에 1조5000억 투입…수주 넘어 생산까지 현지화 - 데일리안", "url": "https://www.dailian.co.kr/news/view/1715621/%ED%95%9C%ED%99%94-%E7%BE%8E-%EB%B2%95%EC%9D%B8-1%EC%A1%B05000%EC%96%B5-%ED%88%AC%EC%9E%85%EC%88%98%EC%A3%BC-2026"},
+    {"title": "Warsh grapples with AI's potential economic impact, steers clear of its inflation risk - AP", "url": "https://www.news4jax.com/business/2026/11/16/warsh-grapples-with-ais-potential-economic-impact-steers-clear-of-its-inflation-risk/"},
+    {"title": "US Market Week Ahead: Nvidia Earnings, Retail Sales - Gotrade", "url": "https://www.heygotrade.com/en/news/weekly-economic-outlook-2026-11-16/"}
+  ]
+}
